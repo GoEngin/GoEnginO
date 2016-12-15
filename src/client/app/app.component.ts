@@ -19,11 +19,11 @@ export class AppComponent {
 		private _service: SharedService
 	) {
   	const firebaseConfig = {
-	  apiKey: "AIzaSyCECQbEmLuoaG2yVz9bFRXvKhohsGAQUyw",
-	  authDomain: "inqna-9e610.firebaseapp.com",
-	  databaseURL: "https://inqna-9e610.firebaseio.com",
-	  storageBucket: "inqna-9e610.appspot.com",
-	  messagingSenderId: "780280484040"
+	  	apiKey: "AIzaSyCyZ7hQF_ey2-7AbA-yaXRgarrjlyRZO_w",
+	    authDomain: "goengin-a784e.firebaseapp.com",
+	    databaseURL: "https://goengin-a784e.firebaseio.com",
+	    storageBucket: "goengin-a784e.appspot.com",
+	    messagingSenderId: "487579082978"
 	}
 	firebase.initializeApp(firebaseConfig);
 	_service.sendmsg.subscribe((e: any) => this.onSendMsg(e));
