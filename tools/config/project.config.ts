@@ -32,6 +32,16 @@ export class ProjectConfig extends SeedConfig {
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
     ];
 
+        // Add Firebase configuration to SystemJS
+    this.addPackageBundles({
+      name: 'firebase',
+      path: 'node_modules/firebase/firebase.js',
+      packageMeta: {
+        main: 'firebase.js',
+        defaultExtension: 'js'
+      }
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
