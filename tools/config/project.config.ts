@@ -35,9 +35,9 @@ export class ProjectConfig extends SeedConfig {
         // Add Firebase configuration to SystemJS
     this.addPackageBundles({
       name: 'firebase',
-      path: 'node_modules/firebase/firebase.js',
+      path: 'node_modules/firebase/',
       packageMeta: {
-        main: 'firebase.js',
+        main: 'firebase-browser.js',
         defaultExtension: 'js'
       }
     });

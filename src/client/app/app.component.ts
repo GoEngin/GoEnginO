@@ -4,12 +4,10 @@ import { DrawerComponent } from './shared/component/index';
 import { SharedService } from './shared/shared.service'; 
 import './operators';
 import * as firebase from "firebase";
-//TODO: fix firebase bug
-firebase = firebase.firebase;
 
 @Component({
   moduleId: module.id,
-  selector: 'sd-app',
+  selector: 'mc-app',
   templateUrl: 'app.component.html',
 })
 
