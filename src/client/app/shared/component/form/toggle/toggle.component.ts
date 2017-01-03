@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core';
 import { ListData } from '../../model/listdata';
 import { BaseComponent } from '../../base.component';
+import { SharedService } from '../../../shared.service'; 
 
 @Component({
     selector: 'mc-toggle',
@@ -33,8 +34,8 @@ export class ToggleComponent extends BaseComponent implements OnInit {
 
     @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
     
-    constructor(protected _el: ElementRef) {
-        super(_el);
+    constructor(protected _el: ElementRef, protected _service: SharedService) {
+        super(_el, _service);
     }
 
     ngOnInit() {

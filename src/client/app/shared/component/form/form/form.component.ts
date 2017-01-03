@@ -1,6 +1,5 @@
 import { Component, ContentChildren, QueryList, Input, Output, AfterViewInit, EventEmitter } from '@angular/core';
 import { InputComponent } from '../input/input.component';
-import { Validator } from '../../../util/validator'
 
 @Component({
     selector: 'mc-form',

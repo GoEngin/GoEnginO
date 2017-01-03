@@ -24,8 +24,8 @@ export class CarouselComponent extends BaseComponent {
 
     @ViewChild('children', {read: ViewContainerRef}) container: ViewContainerRef;
 
-    constructor(protected _el: ElementRef, private _service: SharedService ) { 
-        super(_el);
+    constructor(protected _el: ElementRef, protected _service: SharedService ) { 
+        super(_el, _service);
     }
 
     onPress(e: any) {
@@ -35,7 +35,7 @@ export class CarouselComponent extends BaseComponent {
     onResize(e: any) {
         if (!this._timer) {
             this._timer = setTimeout(() => {
-                this._size = this._service.dom().getSize(this._el.nativeElement);
+                this._size = this._service.getDom().getSize(this._el.nativeElement);
                 let w = this._size.width;
                 this._children.forEach(child => child.instance.width = w);
                 this._childrenWidth = (this._children.length * w) + 'px';
@@ -89,7 +89,7 @@ export class CarouselComponent extends BaseComponent {
 
     addNew(cmpType: any, config: any, idx?: number) {
         if (!this._size) {
-            this._size = this._service.dom().getSize(this._el.nativeElement);
+            this._size = this._service.getDom().getSize(this._el.nativeElement);
         }
         //remove existing 
         if (idx >= 0) {

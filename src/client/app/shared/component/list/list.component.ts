@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
 import { BaseComponent } from '../base.component';
-import { Util } from '../../util/util';
+import { SharedService } from '../../shared.service'; 
 
 const IconType = {
     Expand: "expand",
@@ -25,7 +25,6 @@ export class ListComponent extends BaseComponent {
     private _detailHeight: number;
     private _columns: any[];
     private _iconTypeInfo: any = {};
-    private _util: Util;
 
     @Input() cls: string;
     @Input() items: any[];
@@ -48,9 +47,8 @@ export class ListComponent extends BaseComponent {
         return this._columns;
     }
 
-    constructor(protected _el: ElementRef) { 
-        super(_el);
-        this._util = new Util();
+    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+        super(_el, _service);
     }
 
     onPress(e: any) {
@@ -96,7 +94,7 @@ export class ListComponent extends BaseComponent {
     }
 
     updateToggledItems(el: HTMLElement, item: any, iconEl: HTMLElement) {
-        let added = this._util.dom().toggleCls(el,'toggled');
+        let added = this.util.dom().toggleCls(el,'toggled');
         if (!added) {
             let items = this._toggledItems;
             let idx: number = -1;
@@ -118,17 +116,17 @@ export class ListComponent extends BaseComponent {
 
     updateSelectedItem(el: HTMLElement, item: any, iconEl: HTMLElement) {
         if (this._selectedListItem) {
-            this._util.dom().removeCls(this._selectedListItem.el, 'selected');
+            this.util.dom().removeCls(this._selectedListItem.el, 'selected');
         }
-        this._util.dom().addCls(el,'selected');
+        this.util.dom().addCls(el,'selected');
         this._selectedListItem = {el: el, item: item};
     }
 
     updateExpandedItem(el: HTMLElement, iconEl: HTMLElement) {
-        let added = this._util.dom().toggleCls(el, 'expanded');
+        let added = this.util.dom().toggleCls(el, 'expanded');
         let detailEl: any = el.getElementsByClassName('listitem__detail')[0];
         if (!this._detailHeight) {
-            let size = this._util.dom().getSize(detailEl);
+            let size = this.util.dom().getSize(detailEl);
             this._detailHeight = size.height;
         }
         this.updateIcon(IconType.Expand, iconEl, added);
@@ -143,12 +141,12 @@ export class ListComponent extends BaseComponent {
         if (icon.toggled) {
             let newCls = toggled ? icon.toggled : icon.icon;
             let oldCls = toggled ? icon.icon : icon.toggled;
-            this._util.dom().replaceCls(iconEl, 'icon-' + oldCls, 'icon-' + newCls);
+            this.util.dom().replaceCls(iconEl, 'icon-' + oldCls, 'icon-' + newCls);
         }
     }
 
     updateState(iconEl: any, iconType: string) {
-        let el = this._util.dom().findParent(iconEl, 'mc-listitem',10);
+        let el = this.util.dom().findParent(iconEl, 'mc-listitem',10);
         let item = this.getItem(el);
         switch (iconType) {
             case IconType.Toggle:

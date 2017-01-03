@@ -81,7 +81,7 @@ export class LoginComponent {
 	}
 
 	onPress(e: any) {
-		let dom = this._service.dom();
+		let dom = this._service.getDom();
 		if (dom.findParent(e.target,'.button__login__login')) {
 			this.onPressLogin();
 		}

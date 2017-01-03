@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef, EventEmitter, Output } from '@angular/core';
 import { LoginService } from '../login/login.service';
-import { Util } from '../shared/util/util'; 
+import { SharedService } from '../shared/shared.service'; 
 
 @Component({
 	moduleId: module.id,
@@ -13,19 +13,18 @@ import { Util } from '../shared/util/util';
 })
 export class UserMenuComponent {
 
-	private _util: Util;
-
 	@Output() hide: EventEmitter<any> = new EventEmitter();
 
 	constructor(
 		private _el: ViewContainerRef, 
 		private _loginService: LoginService,
+		private _service: SharedService
 	) {
-		this._util = new Util();
+		
 	}
 
 	onPress(e: any) {
-		let dom = this._util.dom();
+		let dom = this._service.getDom();
 		if (dom.findParent(e.target,'.button__login__logout')) {
 			this._loginService.logout();
 			this.hide.emit({target:this});

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base.component';
+import { SharedService } from '../../shared.service'; 
 
 @Component({
     selector: 'mc-listitem',
@@ -22,8 +23,8 @@ export class ListItemComponent extends BaseComponent {
     @Input() hasTable: boolean;
     @Input() isTile: boolean = false;
 
-    constructor(protected _el: ElementRef) { 
-        super(_el);
+    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+        super(_el, _service);
     }
 
 }

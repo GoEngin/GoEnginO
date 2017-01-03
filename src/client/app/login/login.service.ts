@@ -1,6 +1,6 @@
 import { EventEmitter, Output } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { Util } from '../shared/util/util';
+import { SharedService } from '../shared/shared.service';
 import { md5 } from '../shared/util/md5';
 
 const CONS = {
@@ -13,16 +13,16 @@ const CONS = {
 export class LoginService {
 
 	private _da: any;
-	private _util: Util;
+	private _util: any;
 
 	@Output() loggedin: EventEmitter<any> = new EventEmitter();
 	@Output() sendmsg: EventEmitter<any> = new EventEmitter();
 	@Output() createduser: EventEmitter<any> = new EventEmitter();
 	@Output() resetpassword: EventEmitter<any> = new EventEmitter();
 
-	constructor() {
-		this._util = new Util();
-		this._da = this._util.dataAccess();
+	constructor(private _service: SharedService) {
+		this._util = this._service.getUtil();
+		this._da = this._service.getDataAccess();
 	}
 
 	private _setUserInfo(uid: string, userInfo: any, remember: boolean) {

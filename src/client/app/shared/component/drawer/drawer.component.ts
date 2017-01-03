@@ -63,8 +63,8 @@ export class DrawerComponent extends BaseComponent {
 
     @Output() hided: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected _el: ElementRef, private _service: SharedService) { 
-        super(_el);
+    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+        super(_el, _service);
     }
 
     addContent(config: any) {

@@ -5,8 +5,8 @@ import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, 
 import { BaseComponent } from '../../base.component';
 import { TextComponent } from '../text/text.component';
 import { ToggleComponent } from '../toggle/toggle.component';
-import { Validator } from '../../../util/validator';
 import { ListData } from '../../model/listdata';
+import { SharedService } from '../../../shared.service'; 
 
 const CONS: any = {
     dataConfig: {
@@ -94,8 +94,8 @@ export class InputComponent extends BaseComponent implements OnInit {
 
     @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
-    constructor( protected _el: ElementRef) {
-        super(_el);
+    constructor( protected _el: ElementRef, protected _service: SharedService) {
+        super(_el, _service);
     }
 
     ngOnInit() {
@@ -105,7 +105,7 @@ export class InputComponent extends BaseComponent implements OnInit {
     private _initData() {
         switch (this.type) {
             case "boolean":
-                this.listData = new ListData(CONS.dataConfig.YN);
+                this.listData = new ListData(CONS.dataConfig.YN, this._service);
                 break;
         }
     }
@@ -138,7 +138,7 @@ export class InputComponent extends BaseComponent implements OnInit {
     }
 
     private _validate(value: any) {
-        let result: any = Validator.validate(value, this.validators, this.frm);
+        let result: any = this._service.getValidator().validate(value, this.validators, this.frm);
         if (result) {
             //TODO: show an error message by the result. The result has the detail.
             //Error message should get from i18n with params.

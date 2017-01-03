@@ -39,7 +39,7 @@ export class SharedService {
     return cmp;
   }
 
-  util() {
+  getUtil() {
     return this._util;
   }
 
@@ -51,17 +51,17 @@ export class SharedService {
     return this._util.getUserId();
   }
 
-  validator() {
+  getValidator() {
     return this._util.validator();
   }
 
   //data access
-  dataAccess() {
+  getDataAccess() {
     return this._util.dataAccess();
   }
 
   //dom
-  dom() {
+  getDom() {
     return this._util.dom();
   }
 }

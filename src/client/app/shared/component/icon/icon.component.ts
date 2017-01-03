@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, Inject } from '@angular/core';
-import { BaseComponent } from '../base.component'
+import { BaseComponent } from '../base.component';
+import { SharedService } from '../../shared.service'; 
 
 @Component({
     selector: 'mc-icon',
@@ -21,7 +22,7 @@ export class IconComponent extends BaseComponent {
 		this.cls = 'icon-' + value;
 	}
 
-    constructor( protected _el: ElementRef) {
-        super(_el);
+    constructor( protected _el: ElementRef, protected _service: SharedService) {
+        super(_el, _service);
     }
 }

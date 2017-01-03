@@ -24,7 +24,7 @@ export class AppHeaderComponent {
 		private _el: ViewContainerRef,
 		private _service: SharedService
 	) {
-		this._util = this._service.util();
+		this._util = this._service.getUtil();
 		this.checkLoggedIn();
 	}
 

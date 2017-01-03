@@ -1,5 +1,5 @@
 import { Output, EventEmitter } from '@angular/core';
-import { Util } from '../../util/util';
+import { SharedService } from '../../shared.service'; 
 //If you want to pass data by a templete property, you need to define a model for the data. Unless you get "[Object Object]" instead of the data
 //The property is a string type except the model object.
 //A boolean value is from a property is string type. Need to convert it to boolean value.
@@ -15,12 +15,12 @@ export class ListData {
     private _selectedIndexes: any;
     //value will be selected values. if not, selected items will be value.
     private _valueOnly: boolean;
-    private _util: Util;
+    private _util: any;
 
     @Output() selectedItemChange: EventEmitter<any> = new EventEmitter<any>();
 
-	constructor(public config: any) {
-        this._util = new Util();
+	constructor(public config: any, protected _service: SharedService) {
+        this._util = this._service.getUtil();
         this._initConfig(config);
         this._indexing();
         this._selectDefaultValue();

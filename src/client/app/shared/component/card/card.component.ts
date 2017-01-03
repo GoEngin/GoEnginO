@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { BaseComponent } from '../base.component';
-import { Util } from '../../util/util';
+import { SharedService } from '../../shared.service'; 
 
 @Component({
     selector: 'mc-card',
@@ -17,7 +17,6 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
     private _collapsed: boolean;
     private _bodyHeight: number;
     private _afterViewInit: boolean;
-    private _util: Util;
 
     @ViewChild('cardbody') bodyEl: ElementRef;
 
@@ -43,9 +42,8 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
     @Output() pressHeaderRightIcon: EventEmitter<any> = new EventEmitter();
     @Output() pressTitle: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected _el: ElementRef) { 
-        super(_el);
-        this._util = new Util;
+    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+        super(_el, _service);
     }
 
     ngAfterViewInit() {
@@ -72,7 +70,7 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
     expand(expanded: boolean) {
         let el = this.bodyEl.nativeElement;
         if (!this._bodyHeight) {
-            let size = this._util.dom().getSize(el);
+            let size = this.util.dom().getSize(el);
             this._bodyHeight = size.height;
         }
         //for animation, that is needed a delay.

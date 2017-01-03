@@ -1,5 +1,6 @@
 import { Component, Input, Output, Inject, ViewChild, ViewContainerRef, ElementRef } from '@angular/core';
 import { BaseComponent } from '../base.component';
+import { SharedService } from '../../shared.service'; 
 
 @Component({
     moduleId: module.id,
@@ -36,7 +37,7 @@ export class CarouselItemComponent extends BaseComponent {
         }
     }
 
-    constructor(protected _el: ElementRef) { 
-        super(_el);
+    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+        super(_el, _service);
     }
 }
