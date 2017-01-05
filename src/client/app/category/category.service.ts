@@ -8,7 +8,7 @@ export class CategoryService extends BaseService {
 	private _categoryRef: any;
 	private _categoryPath: any;
 	private _tempId: number = 0;
-	items: any[] = [];
+	items:Array<any> = [];
 
 	@Output() additem: EventEmitter<any> = new EventEmitter();
 
@@ -23,8 +23,9 @@ export class CategoryService extends BaseService {
 	Job > Interview > Coding Interview
 	*/
 	getCategories(parentId: string = '') {
-		return this._categoryRef.orderByChild('parentId').equalTo(parentId)
+		return this._categoryRef.orderByChild('parentId').equalTo(parentId).once('value')
 			.then((snapshot: any) => {
+				console.log('snapshot:', snapshot);
 				this.items = snapshot;
 				return snapshot;
 			})

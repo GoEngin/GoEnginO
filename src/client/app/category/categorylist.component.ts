@@ -16,7 +16,7 @@ import { CategoryListItemComponent } from './categorylistitem.component';
 })
 export class CategoryListComponent extends AppBaseComponent {
 
-	private _data:Array<any> = [];
+	private _data:any = {items:[]};
 	private _editable: boolean;
 
 	@ViewChild(ListComponent, {read: ViewContainerRef}) listEl: ViewContainerRef;

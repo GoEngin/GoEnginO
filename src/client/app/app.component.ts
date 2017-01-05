@@ -28,7 +28,7 @@ export class AppComponent {
 		}
 		firebase.initializeApp(firebaseConfig);
 		_service.sendmsg.subscribe((e: any) => this.onSendMsg(e));
-		// this.showCategory();
+		this.showCategory();
 	}
 
 	showCategory() {
