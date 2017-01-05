@@ -1,5 +1,6 @@
-import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormComponent, ButtonComponent, InputComponent } from '../shared/component/index';
+import { AppBaseComponent } from '../appbase.component';
 import { LoginService } from './login.service';
 import { SharedService } from '../shared/shared.service'; 
 
@@ -60,7 +61,7 @@ const CONS: any = {
 	}
 })
 
-export class LoginComponent {
+export class LoginComponent extends AppBaseComponent {
 
 	mode: string = CONS.mode.login; // login, signup
 	validator: any;
@@ -70,18 +71,19 @@ export class LoginComponent {
 	@Output() hide: EventEmitter<any> = new EventEmitter();
 
 	constructor(
-		private _loginService: LoginService,
-		private _service: SharedService
+		protected el: ViewContainerRef,
+		protected service: SharedService,
+		private _loginService: LoginService
 	) {
+		super(el,service);
 		this.validator = CONS.validator;
 		this._loginService.loggedin.subscribe((e: any) => this.close());
-		this._loginService.sendmsg.subscribe((e: any) => this._service.doSendMsg(e.msg));
 		this._loginService.createduser.subscribe((e: any) => this.onCreatedUser(e));
 		this._loginService.resetpassword.subscribe((e: any) => this.onResetPassword(e));
 	}
 
 	onPress(e: any) {
-		let dom = this._service.getDom();
+		let dom = this.service.getDom();
 		if (dom.findParent(e.target,'.button__login__login')) {
 			this.onPressLogin();
 		}

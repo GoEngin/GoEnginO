@@ -31,16 +31,8 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
         return this._collapsed;
     }
 
-    @Input() hasHeader: boolean = true;
-    @Input() headerLeftIcon: string = '';
-    @Input() headerRightIcon: string = '';
-    @Input() title: string = '';
     @Input() cls: string;
     @Input() headerCls: string = 'header__card';
-
-    @Output() pressHeaderLeftIcon: EventEmitter<any> = new EventEmitter();
-    @Output() pressHeaderRightIcon: EventEmitter<any> = new EventEmitter();
-    @Output() pressTitle: EventEmitter<any> = new EventEmitter();
 
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);
@@ -55,16 +47,6 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
         if (this.collapsed) {
             this.bodyEl.nativeElement.style.height = "0px";
         }
-    }
-
-    onPressLeftIcon(e: any) {
-        this.pressHeaderLeftIcon.emit(e);
-    }
-    onPressRightIcon(e: any) {
-        this.pressHeaderRightIcon.emit(e);
-    }
-    onPressTitle(e: any) {
-        this.pressTitle.emit({event:e,cmp:this});
     }
 
     expand(expanded: boolean) {

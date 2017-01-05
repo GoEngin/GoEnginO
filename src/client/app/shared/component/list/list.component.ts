@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { SharedService } from '../../shared.service'; 
 
@@ -29,7 +29,7 @@ export class ListComponent extends BaseComponent {
     @Input() cls: string;
     @Input() items: any[];
     @Input() headerCls: string;
-    @Input() itemsHeader: boolean;
+    @Input() itemsHeader: boolean = false;
     @Input() idField: string = 'id';
     @Input()
     set columns(value: any) {
@@ -160,5 +160,4 @@ export class ListComponent extends BaseComponent {
                 break;
         }
     }
-
 }

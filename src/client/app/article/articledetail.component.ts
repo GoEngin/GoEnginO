@@ -4,14 +4,14 @@ import { SharedService } from '../shared/shared.service';
 
 @Component({
 	moduleId: module.id,
-	selector: 'mc-articlelist',
-	styleUrls: ['articlelist.component.css'],
-	templateUrl: 'articlelist.component.html',
+	selector: 'mc-articledetail',
+	styleUrls: ['articledetail.component.css'],
+	templateUrl: 'articledetail.component.html',
 	host: {
 		'(click)':'onPress($event)'
 	}
 })
-export class ArticleListComponent extends AppBaseComponent {
+export class ArticleDetailComponent extends AppBaseComponent {
 
 	private _columns: any[];
 	private _data: any;

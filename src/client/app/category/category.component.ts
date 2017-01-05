@@ -1,36 +1,27 @@
 import { Component, ViewContainerRef, ViewChild } from '@angular/core';
 import { AppBaseComponent } from '../appbase.component';
 import { SharedService } from '../shared/shared.service';
-import { ArticleService } from './article.service';
+import { CategoryService } from './category.service';
 import { CarouselComponent, CardComponent } from '../shared/component/index';
-import { ArticleListComponent } from './articlelist.component';
-import { ArticleDetailComponent } from './articledetail.component';
-
-const CONS = {
-	dataName: {
-		categories: 'categories',
-		articles: 'articles',
-		article: 'article'
-	}
-};
+import { CategoryListComponent } from './categorylist.component';
 
 @Component({
 	moduleId: module.id,
-	selector: 'mc-article',
-	styleUrls: ['article.component.css'],
-	templateUrl: 'article.component.html',
+	selector: 'mc-category',
+	styleUrls: ['category.component.css'],
+	templateUrl: 'category.component.html',
 	host: {
 		'(click)':'onPress($event)'
 	}
 })
 
-export class ArticleComponent extends AppBaseComponent {
+export class CategoryComponent extends AppBaseComponent {
 
 	private _data: any[] = [];
 	private _title: string;
 	private _prevTitle: string;
-	private _defaultTitle: string = "Categories";
-	private _headerLeftIcon: string;
+	private _defaultTitle: string = 'Category';
+	private _headerLeftIcon: string = 'Category';
 
 	@ViewChild('maincard') cardCmp: CardComponent;
 	@ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
@@ -38,7 +29,7 @@ export class ArticleComponent extends AppBaseComponent {
 	constructor(
 		protected el: ViewContainerRef,
 		protected service: SharedService, 
-		private _articleService: ArticleService
+		private _categoryService: CategoryService
 	) {
 		super(el,service);
 		this.initData();
@@ -49,16 +40,21 @@ export class ArticleComponent extends AppBaseComponent {
 	}
 
 	onPress(e: any) {
-		let listItemEl = this.util.findParent(e.target, 'mc-listitem',10);
-		if (listItemEl) {
-			this.nextList(listItemEl);
-		} else if (this.util.hasCls(e.target,'icon-left') || this.util.hasCls(e.target,'card__title__previous')) {
-			if (this.util.findParent(e.target, '.header__card__content',6)) {
-				this.previousList();
-			}
-		} else if (this.util.hasCls(e.target,'card__title__current')) {
-			if (this.util.findParent(e.target, '.header__card__content',6)) {
-				this.toggleCardCollapsed();
+		let dom = this.dom;
+		if (dom.findParent(e.target, 'button__category__add')) {
+			this._categoryService.addEmptyItem();
+		} else {
+			let listItemEl = dom.findParent(e.target, 'mc-listitem',10);
+			if (listItemEl) {
+				this.nextList(listItemEl);
+			} else if (this.util.hasCls(e.target,'icon-left') || this.util.hasCls(e.target,'card__title__previous')) {
+				if (this.util.findParent(e.target, '.header__card__content',6)) {
+					this.previousList();
+				}
+			} else if (this.util.hasCls(e.target,'card__title__current')) {
+				if (this.util.findParent(e.target, '.header__card__content',6)) {
+					this.toggleCardCollapsed();
+				}
 			}
 		}
 	}
@@ -107,35 +103,16 @@ export class ArticleComponent extends AppBaseComponent {
 	}
 
 	loadData(id: string = '', idx: number = 0) {
-		//Category
-		// if (idx < 3) {
-		// 	this._articleService.getCategories(id)
-		// 		.then((data: any) => {
-		// 			this.addCarouselItem(data,idx);
-		// 		});
-		// } else if (idx === 3) {
-		// 	let articles = this._articleService.getArticles(id);
-		// } else if (idx === 4) {
-		// 	let article = this._articleService.getArticle(id);
-		// }
+		this._categoryService.getCategories(id)
+			.then((data: any) => {
+				this.addCarouselItem(data,idx);
+			});
 	}
 
 	addCarouselItem(data: any, idx: number) {
 		let config = {
 			data: data
 		}
-		// switch (idx) {
-		// 	case 0:
-		// 	case 1:
-		// 	case 2:
-		// 		this.carouselCmp.addNew(CategoryListComponent, config, idx);
-		// 		break;
-		// 	case 3:
-		// 		this.carouselCmp.addNew(ArticleListComponent, config, idx);
-		// 		break;
-		// 	case 4:
-		// 		this.carouselCmp.addNew(ArticleDetailComponent, config, idx);
-		// 		break;
-		// }
+		this.carouselCmp.addNew(CategoryListComponent, config, idx);
 	}
 }

@@ -1,4 +1,5 @@
 import { Component, ViewContainerRef } from '@angular/core';
+import { AppBaseComponent } from '../appbase.component';
 import { LoginComponent } from '../login/login.component';
 import { UserMenuComponent } from '../usermenu/usermenu.component';
 import { DrawerComponent } from '../shared/component/index';
@@ -13,32 +14,31 @@ import { SharedService } from '../shared/shared.service';
 		'(click)':'onPress($event)'
 	}
 })
-export class AppHeaderComponent {
+export class AppHeaderComponent extends AppBaseComponent {
 
-	private _util: any;
 	private _photoURL: string;
 	private _isLoggedIn: boolean;
 	private _userInfo: any;
 
 	constructor(
-		private _el: ViewContainerRef,
-		private _service: SharedService
+		protected el: ViewContainerRef,
+		protected service: SharedService
 	) {
-		this._util = this._service.getUtil();
+		super(el,service);
 		this.checkLoggedIn();
 	}
 
 	checkLoggedIn() {
-		this._isLoggedIn = this._util.isLoggedIn();
+		this._isLoggedIn = this.util.isLoggedIn();
 		if (this._isLoggedIn) {
-			this._userInfo = this._util.getUserInfo();
+			this._userInfo = this.util.getUserInfo();
 			this._photoURL = this._userInfo.photoURL;
 		}
 		return this._isLoggedIn;
 	}
 
 	onPress(e: any) {
-		let dom = this._util.dom();
+		let dom = this.util.dom();
 		if (dom.findParent(e.target,'.button__header__person')) {
 			this.showLoginForm();
 		} else if (dom.findParent(e.target,'.button__header__gravatar')) {
@@ -55,7 +55,7 @@ export class AppHeaderComponent {
 				cmpType: LoginComponent
 			}
 		};
-		let cmp = this._service.showDrawer(DrawerComponent, this._el, config);
+		let cmp = this.service.showDrawer(this.el, config);
 		cmp.instance.hided.subscribe((e: any) => {
 	      cmp.destroy();
 	      this.checkLoggedIn();
@@ -71,7 +71,7 @@ export class AppHeaderComponent {
 				cmpType: UserMenuComponent
 			}
 		};
-		let cmp = this._service.showDrawer(DrawerComponent, this._el, config);
+		let cmp = this.service.showDrawer(this.el, config);
 		cmp.instance.hided.subscribe((e: any) => {
 	      cmp.destroy();
 	    });

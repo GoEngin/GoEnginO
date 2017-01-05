@@ -1,0 +1,3 @@
+<mc-list idField="id" [items]="_data.items">
+    <mc-categorylistitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" class="listitem__{{isEven ? 'even' : 'odd'}}"></mc-categorylistitem>
+</mc-list>

@@ -1,6 +1,6 @@
 <div class="card__container">
 	<div class="card__header">
-		<mc-header *ngIf="hasHeader" cls="{{headerCls}}" (pressLeftIcon)="onPressLeftIcon($event)" (pressRightIcon)="onPressRightIcon($event)" leftIcon="{{headerLeftIcon}}" rightIcon="{{headerRightIcon}}" (pressTitle)="onPressTitle($event)">{{title}}<ng-content select=".card__header__tpl"></ng-content></mc-header>
+		<ng-content select=".card__header__tpl"></ng-content>
 	</div>
 	<div class="card__body" #cardbody>
 		<ng-content></ng-content>

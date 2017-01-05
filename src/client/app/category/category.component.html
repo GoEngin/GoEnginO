@@ -6,6 +6,9 @@
 				<span class="card__title__previous">{{_prevTitle}}</span>
 			</div>
 			<span class="card__title__current">{{_title || _defaultTitle}}</span>
+			<div *ngIf="_editable" class="header__right__tpl">
+				<mc-button icon="add" class="button__category__add"></mc-button>
+			</div>
 		</mc-header>
 	</div>
 	<mc-carousel></mc-carousel>    

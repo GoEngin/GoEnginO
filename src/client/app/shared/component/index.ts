@@ -8,4 +8,6 @@ export * from './header/header.component';
 export * from './list/list.component';
 export * from './listitem/listitem.component';
 export * from './drawer/drawer.component';
+export * from './carousel/carousel.component';
+export * from './card/card.component';
 export * from './model/listdata';
