@@ -1,6 +1,6 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
-import { AppBaseComponent } from '../appbase.component';
 import { SharedService } from '../shared/shared.service';
+import { AppBaseComponent } from '../appbase.component';
 
 @Component({
 	moduleId: module.id,

@@ -1,6 +1,6 @@
 import { Component, Input, Output, Inject, ViewChild, ViewContainerRef, ElementRef } from '@angular/core';
-import { BaseComponent } from '../base.component';
 import { SharedService } from '../../shared.service'; 
+import { BaseComponent } from '../base.component';
 
 @Component({
     moduleId: module.id,

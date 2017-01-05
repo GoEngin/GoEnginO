@@ -2,11 +2,11 @@
 //This component covers all of the form fields
 //The real input field comes from seperated components. This compoment is a container for that.
 import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, OnInit } from '@angular/core';
+import { SharedService } from '../../../shared.service'; 
 import { BaseComponent } from '../../base.component';
 import { TextComponent } from '../text/text.component';
 import { ToggleComponent } from '../toggle/toggle.component';
 import { ListData } from '../../model/listdata';
-import { SharedService } from '../../../shared.service'; 
 
 const CONS: any = {
     dataConfig: {

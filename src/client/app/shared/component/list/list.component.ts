@@ -1,6 +1,6 @@
 import { Component, Input, ElementRef } from '@angular/core';
-import { BaseComponent } from '../base.component';
 import { SharedService } from '../../shared.service'; 
+import { BaseComponent } from '../base.component';
 
 const IconType = {
     Expand: "expand",

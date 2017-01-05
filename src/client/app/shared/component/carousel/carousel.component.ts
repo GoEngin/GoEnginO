@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewContainerRef, ViewChild } from '@angular/core';
+import { SharedService } from '../../shared.service';
 import { BaseComponent } from '../base.component'
 import { CarouselItemComponent } from '../carouselitem/carouselitem.component';
-import { SharedService } from '../../shared.service';
 
 @Component({
     selector: 'mc-carousel',
@@ -100,7 +100,7 @@ export class CarouselComponent extends BaseComponent {
 
         this.anim(idx);
 
-        let cmp: any = this._service.addComponent(CarouselItemComponent, {idx:idx, width:this._size.width}, this.container, idx);
+        let cmp: any = this._service.addComponent(CarouselItemComponent, {idx:idx, width:this._size.width}, this.container);
         this._children.push(cmp);
         this._service.addComponent(cmpType, config, cmp.instance.container);
     }

@@ -1,7 +1,9 @@
 import { Component, ViewContainerRef } from '@angular/core';
+import './operators';
 import * as firebase from "firebase";
 import { SharedService } from './shared/shared.service'; 
-import { CategoryComponent } from './category/category.component';
+import { DrawerComponent } from './shared/component/index';
+import { CategoryComponent } from './category/category.component'; 
 
 @Component({
 	moduleId: module.id,
@@ -26,7 +28,7 @@ export class AppComponent {
 		}
 		firebase.initializeApp(firebaseConfig);
 		_service.sendmsg.subscribe((e: any) => this.onSendMsg(e));
-		this.showCategory();
+		// this.showCategory();
 	}
 
 	showCategory() {
@@ -39,13 +41,13 @@ export class AppComponent {
 					cmpType: CategoryComponent
 				}
 			};
-			this._categoryDrawer = this._service.showDrawer(this._el, config);
+			this._categoryDrawer = this._service.showDrawer(DrawerComponent, this._el, config);
 		} else {
 			this._categoryDrawer.show();
 		}
 	}
 
 	onSendMsg(e: any) {
-	this._service.showMsg(this._el, e.msg);
+		this._service.showMsg(DrawerComponent, this._el, e.msg);
 	}
 }

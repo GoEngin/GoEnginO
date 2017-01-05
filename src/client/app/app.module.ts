@@ -4,18 +4,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { AppComponent } from './app.component';
-
 import { SharedService } from './shared/shared.service';
+
 import { LoginService } from './login/login.service';
 import { ArticleService } from './article/article.service';
 import { CategoryService } from './category/category.service';
 
-import { HeaderComponent, IconComponent, FormComponent, ButtonComponent, InputComponent, TextComponent, DrawerComponent, ToggleComponent, CardComponent, CarouselComponent, ListComponent, ListItemComponent } from './shared/component/index';
+import { HeaderComponent, IconComponent, FormComponent, ButtonComponent, InputComponent, TextComponent, DrawerComponent, ToggleComponent, CardComponent, CarouselComponent, CarouselItemComponent, ListComponent, ListItemComponent } from './shared/component/index';
 import { AppHeaderComponent } from './appheader/appheader.component';
+
+import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoryListComponent } from './category/categorylist.component';
+import { CategoryListItemComponent } from './category/categorylistitem.component';
 import { ArticleListComponent } from './article/articlelist.component';
 import { ArticleDetailComponent } from './article/articledetail.component';
 // for loading components dynamically
@@ -41,11 +43,13 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     UserMenuComponent,
     CardComponent,
     CarouselComponent,
+    CarouselItemComponent,
     ListComponent,
     ListItemComponent,
     ArticleComponent,
     CategoryComponent,
     CategoryListComponent,
+    CategoryListItemComponent,
     ArticleListComponent,
     ArticleDetailComponent
   ],
@@ -57,9 +61,11 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     UserMenuComponent,
     CategoryComponent,
     CategoryListComponent,
+    CategoryListItemComponent,
     ArticleListComponent,
     ArticleDetailComponent,
-    ListItemComponent
+    ListItemComponent,
+    CarouselItemComponent
   ],
   providers: [
     {

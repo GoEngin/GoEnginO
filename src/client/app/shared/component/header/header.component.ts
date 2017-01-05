@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
-import { BaseComponent } from '../base.component';
+import { Component, ElementRef } from '@angular/core';
 import { SharedService } from '../../shared.service'; 
+import { BaseComponent } from '../base.component';
 
 @Component({
     selector: 'mc-header',

@@ -1,6 +1,6 @@
 import { Component, Input, ViewContainerRef, ViewChild } from '@angular/core';
-import { AppBaseComponent } from '../appbase.component';
 import { SharedService } from '../shared/shared.service';
+import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
 import { ListComponent } from '../shared/component/index';
 import { CategoryListItemComponent } from './categorylistitem.component';
@@ -16,7 +16,7 @@ import { CategoryListItemComponent } from './categorylistitem.component';
 })
 export class CategoryListComponent extends AppBaseComponent {
 
-	private _data: any;
+	private _data:Array<any> = [];
 	private _editable: boolean;
 
 	@ViewChild(ListComponent, {read: ViewContainerRef}) listEl: ViewContainerRef;

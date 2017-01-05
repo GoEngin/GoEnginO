@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, ViewContainerRef } from '@angular/core';
-import { BaseComponent } from '../base.component';
 import { SharedService } from '../../shared.service';
+import { BaseComponent } from '../base.component';
 
 const Direction = {
     Left: 'left',

@@ -4,7 +4,8 @@
     	<span *ngIf="_editable" class="listitem__label-edit"><mc-input type="text" name="displayName" placeholder="Category Name" [value]="item['displayName']"></mc-input></span>
     </div>
     <div *ngIf="_editable" class="listitem__tool">
-    	<mc-button class="button__listitem__edit" label="Edit"></mc-button>
-    	<mc-button class="button__listitem__delete" label="Delete"></mc-button>
+    	<mc-button class="button__listitem__edit" label="Edit" [hidden]="_editMode"></mc-button>
+    	<mc-button class="button__listitem__save" label="Save" [hidden]="!_editMode"></mc-button>
+    	<mc-button class="button__listitem__delete" label="Delete" [hidden]="!_editMode"></mc-button>
     </div>
 </mc-listitem>

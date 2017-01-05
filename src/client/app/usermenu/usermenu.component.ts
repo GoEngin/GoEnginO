@@ -1,7 +1,7 @@
 import { Component, ViewContainerRef, EventEmitter, Output } from '@angular/core';
+import { SharedService } from '../shared/shared.service'; 
 import { AppBaseComponent } from '../appbase.component';
 import { LoginService } from '../login/login.service';
-import { SharedService } from '../shared/shared.service'; 
 
 @Component({
 	moduleId: module.id,

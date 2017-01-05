@@ -1,6 +1,6 @@
 import { EventEmitter, Output, Injectable } from '@angular/core';
-import { BaseService } from '../base.service';
 import { SharedService } from '../shared/shared.service';
+import { BaseService } from '../base.service';
 import { md5 } from '../shared/util/md5';
 
 @Injectable()

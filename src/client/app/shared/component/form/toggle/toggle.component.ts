@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef, OnInit } from '@angular/core';
+import { SharedService } from '../../../shared.service'; 
 import { ListData } from '../../model/listdata';
 import { BaseComponent } from '../../base.component';
-import { SharedService } from '../../../shared.service'; 
 
 @Component({
     selector: 'mc-toggle',

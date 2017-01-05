@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef, ViewChild } from '@angular/core';
-import { AppBaseComponent } from '../appbase.component';
 import { SharedService } from '../shared/shared.service';
+import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
 import { CarouselComponent, CardComponent } from '../shared/component/index';
 import { CategoryListComponent } from './categorylist.component';
@@ -71,7 +71,7 @@ export class CategoryComponent extends AppBaseComponent {
 		//current list
 		let data = this._data[idx];
 		data.selectedItem = item;
-		data.title = item.region;
+		data.title = item.displayName;
 		this.updateHeader(idx);
 		this.loadData(el.dataset.id,++idx);
 	}

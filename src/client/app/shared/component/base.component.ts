@@ -7,8 +7,8 @@ import { SharedService } from '../shared.service';
 export class BaseComponent {
 
     private _cls: string;
-    public el: HTMLElement;
-    public util: any;
+    protected el: HTMLElement;
+    protected util: any;
 
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         this.el = this._el.nativeElement;

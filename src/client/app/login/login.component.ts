@@ -1,8 +1,8 @@
 import { Component, ViewContainerRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { SharedService } from '../shared/shared.service'; 
 import { FormComponent, ButtonComponent, InputComponent } from '../shared/component/index';
 import { AppBaseComponent } from '../appbase.component';
 import { LoginService } from './login.service';
-import { SharedService } from '../shared/shared.service'; 
 
 const CONS: any = {
 	validator: {

@@ -1,9 +1,9 @@
 import { Component, ViewContainerRef } from '@angular/core';
+import { SharedService } from '../shared/shared.service'; 
 import { AppBaseComponent } from '../appbase.component';
 import { LoginComponent } from '../login/login.component';
 import { UserMenuComponent } from '../usermenu/usermenu.component';
 import { DrawerComponent } from '../shared/component/index';
-import { SharedService } from '../shared/shared.service'; 
 
 @Component({
 	moduleId: module.id,
@@ -55,7 +55,7 @@ export class AppHeaderComponent extends AppBaseComponent {
 				cmpType: LoginComponent
 			}
 		};
-		let cmp = this.service.showDrawer(this.el, config);
+		let cmp = this.service.showDrawer(DrawerComponent, this.el, config);
 		cmp.instance.hided.subscribe((e: any) => {
 	      cmp.destroy();
 	      this.checkLoggedIn();
@@ -71,7 +71,7 @@ export class AppHeaderComponent extends AppBaseComponent {
 				cmpType: UserMenuComponent
 			}
 		};
-		let cmp = this.service.showDrawer(this.el, config);
+		let cmp = this.service.showDrawer(DrawerComponent, this.el, config);
 		cmp.instance.hided.subscribe((e: any) => {
 	      cmp.destroy();
 	    });
