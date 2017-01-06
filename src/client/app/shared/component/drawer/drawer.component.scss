@@ -24,6 +24,13 @@
         .drawer__content {
             position: relative;
             width: 100%;
+            .drawer__tool {
+                position: absolute;
+                width: 50px;
+                height: 100px;
+                background-color: yellow;
+                right: -50px;
+            }
         }
     }
     &.is-bottom {
@@ -97,12 +104,17 @@
         }
     }
 
-    &.drawer__leftmenu {
+    &.drawer__category {
+        display: block;
         &.is-left {
             .drawer__container {
+                padding-top: 56px;
                 width: 290px;
                 transform: translateX(-290px);
             }
+        }
+        .drawer__mask {
+            display: none !important;
         }
     }
 

@@ -105,6 +105,7 @@ export class CategoryComponent extends AppBaseComponent {
 	loadData(id: string = '', idx: number = 0) {
 		this._categoryService.getCategories(id)
 			.then((data: any) => {
+				console.log('data:',data);
 				data = data ? data : {items:[]};
 				this.addCarouselItem(data,idx);
 			});

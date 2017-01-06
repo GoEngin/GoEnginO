@@ -38,6 +38,7 @@ export class DrawerComponent extends BaseComponent {
     @Input() cls: string;
     @Input() message: string;
     @Input() hasClose: boolean = false;
+    @Input() hasTool: boolean = false;
     @Input()
     set config(config: any) {
         if (config.zIndex) {
@@ -58,6 +59,9 @@ export class DrawerComponent extends BaseComponent {
         }
         if (config.hasClose) {
             this.hasClose = true;
+        }
+        if (config.hasTool) {
+            this.hasTool = true;
         }
     }
 

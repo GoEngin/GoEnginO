@@ -3,8 +3,6 @@
     position: relative;
     width: 100%;
     height: 56px;
-    background-color: #4285f4;
-    color: #f2f2f2;
     font-size: 16px;
     //padding can be controlled for the left/right space for the center element.
     .header__left {
@@ -42,6 +40,8 @@
     }
 
     &.header__app {
+        background-color: #43A047;
+        color: #f2f2f2;
         padding: 0 115px 0 65px;
     }
 
@@ -50,5 +50,13 @@
         background-color: #fff;
         color: #525252;
         font-size: 23px;
+    }
+
+    &.header__category {
+        color: #757575;
+        font-weight: 600;
+        .header__center {
+            text-align: center;
+        }
     }
 }

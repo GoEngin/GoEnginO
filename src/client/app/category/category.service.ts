@@ -25,9 +25,8 @@ export class CategoryService extends BaseService {
 	getCategories(parentId: string = '') {
 		return this._categoryRef.orderByChild('parentId').equalTo(parentId).once('value')
 			.then((snapshot: any) => {
-				console.log('snapshot:', snapshot);
-				this.items = snapshot;
-				return snapshot;
+				this.items = snapshot.val();
+				return this.items;
 			})
 			.catch((error: any) => this.service.doSendMsg(error));
 	}

@@ -101,7 +101,7 @@ mc-icon {
 @media (min-width: 769px) {
   mc-drawer {
     z-index: 100 !important;
-    &.drawer__leftmenu {
+    &.drawer__category {
       z-index: 99 !important;
       display: block !important;
       min-width: 0px !important;
@@ -109,9 +109,6 @@ mc-icon {
         .drawer__container {
           transform: translateX(0px) !important;
         }
-      }
-      .drawer__mask {
-        display: none !important;
       }
     }
   }

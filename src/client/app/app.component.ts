@@ -36,7 +36,7 @@ export class AppComponent {
 			let config = {
 				cls: 'drawer__category',
 				direction: 'left',
-				hasClose: true,
+				hasTool: true,
 				contentInfo: {
 					cmpType: CategoryComponent
 				}
