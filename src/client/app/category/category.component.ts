@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Input } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
@@ -22,9 +22,19 @@ export class CategoryComponent extends AppBaseComponent {
 	private _prevTitle: string;
 	private _defaultTitle: string = 'Category';
 	private _headerLeftIcon: string = 'Category';
+	private _parentCmp: any;
+	private _parentId: string = '';
 
 	@ViewChild('maincard') cardCmp: CardComponent;
 	@ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
+
+	@Input()
+    set config(config: any) {
+        if (config.parentCmp) {
+            this._parentCmp = config.parentCmp;
+            this.updateToolTitle();
+        }
+    }
 
 	constructor(
 		protected el: ViewContainerRef,
@@ -41,22 +51,31 @@ export class CategoryComponent extends AppBaseComponent {
 
 	onPress(e: any) {
 		let dom = this.dom;
-		if (dom.findParent(e.target, 'button__category__add')) {
-			this._categoryService.addEmptyItem();
+		if (dom.hasCls(e.target,'button__tool__add')) {
+			this.onAddItem(e.target);
+		} else if (dom.hasCls(e.target,'button__tool__save')) {
+			this._categoryService.doSave();
 		} else {
 			let listItemEl = dom.findParent(e.target, 'mc-listitem',10);
 			if (listItemEl) {
 				this.nextList(listItemEl);
-			} else if (this.util.hasCls(e.target,'icon-left') || this.util.hasCls(e.target,'card__title__previous')) {
-				if (this.util.findParent(e.target, '.header__card__content',6)) {
+			} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
+				if (this.dom.findParent(e.target, '.header__card__content',6)) {
 					this.previousList();
 				}
-			} else if (this.util.hasCls(e.target,'card__title__current')) {
-				if (this.util.findParent(e.target, '.header__card__content',6)) {
+			} else if (this.dom.hasCls(e.target,'card__title__current')) {
+				if (this.dom.findParent(e.target, '.header__card__content',6)) {
 					this.toggleCardCollapsed();
 				}
 			}
 		}
+	}
+
+	onAddItem(el:any) {
+		let inputEl = this.dom.findParent('add-item').querySelector('.add-item__label__input');
+		let parentId: string = this._parentId;
+		let displayName: string = inputEl.value;
+		this._categoryService.doAddItem(parentId, displayName);
 	}
 
 	toggleCardCollapsed() {
@@ -65,7 +84,7 @@ export class CategoryComponent extends AppBaseComponent {
 
 	nextList(el: any) {
 		let id = parseInt(el.dataset.id);
-		let cItem = this.util.findParent(el, 'mc-carouselitem');
+		let cItem = this.dom.findParent(el, 'mc-carouselitem');
 		let idx = parseInt(cItem.dataset.idx);
 		let item = this.getItem(id, idx);
 		//current list
@@ -87,6 +106,13 @@ export class CategoryComponent extends AppBaseComponent {
 		this._title = idx >= 0 ? this._data[idx].title : this._defaultTitle;
 		this._prevTitle = idx > 0 ? this._data[idx-1].title : idx === 0 ? this._defaultTitle : '';
 		this._headerLeftIcon = idx >= 0 ? 'left' : '';
+		this.updateToolTitle();
+	}
+
+	updateToolTitle() {
+		if (this._parentCmp) {
+			this._parentCmp.toolTitle = this._title || this._defaultTitle;
+		}
 	}
 
 	getItem(id: number, idx?: number) {
@@ -103,6 +129,7 @@ export class CategoryComponent extends AppBaseComponent {
 	}
 
 	loadData(id: string = '', idx: number = 0) {
+		this._parentId = id;
 		this._categoryService.getCategories(id)
 			.then((data: any) => {
 				console.log('data:',data);
@@ -113,7 +140,8 @@ export class CategoryComponent extends AppBaseComponent {
 
 	addCarouselItem(data: any, idx: number) {
 		let config = {
-			data: data
+			data: data,
+			editable: true
 		}
 		this.carouselCmp.addNew(CategoryListComponent, config, idx);
 	}

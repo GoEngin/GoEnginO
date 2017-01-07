@@ -17,13 +17,14 @@ import { CategoryListItemComponent } from './categorylistitem.component';
 export class CategoryListComponent extends AppBaseComponent {
 
 	private _data:any = {items:[]};
-	private _editable: boolean;
 
 	@ViewChild(ListComponent, {read: ViewContainerRef}) listEl: ViewContainerRef;
 
+	@Input() editable: boolean;
 	@Input()
 	set config(config: any) {
 		this._data = config.data;
+		this.editable = config.editable;
 	}
 
 	constructor(

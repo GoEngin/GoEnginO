@@ -39,6 +39,7 @@ export class DrawerComponent extends BaseComponent {
     @Input() message: string;
     @Input() hasClose: boolean = false;
     @Input() hasTool: boolean = false;
+    @Input() toolTitle: string = '';
     @Input()
     set config(config: any) {
         if (config.zIndex) {
@@ -76,7 +77,10 @@ export class DrawerComponent extends BaseComponent {
             this._contentCmp.destroy();
         }
 
-        let cmp: any = this._service.addComponent(config.cmpType, config.config, this.container);
+        let _config = config.config || {}
+        _config.parentCmp = this;
+
+        let cmp: any = this._service.addComponent(config.cmpType, _config, this.container);
         if (cmp.instance.hide) {
             cmp.instance.hide.subscribe((e: any) => this.hide());
         }
@@ -116,6 +120,14 @@ export class DrawerComponent extends BaseComponent {
 
     onPressMask(e: any) {
         this.hide();
+    }
+
+    toggle() {
+        if (this._opened) {
+            this.hide();
+        } else {
+            this.show();
+        }
     }
 
     onClose(e: any) {

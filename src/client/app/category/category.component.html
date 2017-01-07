@@ -3,12 +3,9 @@
 		<mc-header class="header__category">
 			<div *ngIf="_prevTitle" class="header__left__tpl">
 				<mc-button icon="left" class="button__header__previous"></mc-button>
-				<span class="card__title__previous">{{_prevTitle}}</span>
+				<span class="title__previous">{{_prevTitle}}</span>
 			</div>
-			<span class="card__title__current">{{_title || _defaultTitle}}</span>
-			<div *ngIf="_editable" class="header__right__tpl">
-				<mc-button icon="add" class="button__category__add"></mc-button>
-			</div>
+			<span class="title__current">{{_title || _defaultTitle}}</span>
 		</mc-header>
 	</div>
 	<mc-carousel></mc-carousel>    

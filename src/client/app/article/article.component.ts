@@ -49,15 +49,15 @@ export class ArticleComponent extends AppBaseComponent {
 	}
 
 	onPress(e: any) {
-		let listItemEl = this.util.findParent(e.target, 'mc-listitem',10);
+		let listItemEl = this.dom.findParent(e.target, 'mc-listitem',10);
 		if (listItemEl) {
 			this.nextList(listItemEl);
-		} else if (this.util.hasCls(e.target,'icon-left') || this.util.hasCls(e.target,'card__title__previous')) {
-			if (this.util.findParent(e.target, '.header__card__content',6)) {
+		} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
+			if (this.dom.findParent(e.target, '.header__card__content',6)) {
 				this.previousList();
 			}
-		} else if (this.util.hasCls(e.target,'card__title__current')) {
-			if (this.util.findParent(e.target, '.header__card__content',6)) {
+		} else if (this.dom.hasCls(e.target,'card__title__current')) {
+			if (this.dom.findParent(e.target, '.header__card__content',6)) {
 				this.toggleCardCollapsed();
 			}
 		}
@@ -69,7 +69,7 @@ export class ArticleComponent extends AppBaseComponent {
 
 	nextList(el: any) {
 		let id = parseInt(el.dataset.id);
-		let cItem = this.util.findParent(el, 'mc-carouselitem');
+		let cItem = this.dom.findParent(el, 'mc-carouselitem');
 		let idx = parseInt(cItem.dataset.idx);
 		let item = this.getItem(id, idx);
 		//current list

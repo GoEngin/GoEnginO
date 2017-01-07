@@ -1,11 +1,11 @@
 <mc-listitem [item]="item">  
     <div class="listitem__item__container">
     	<span class="listitem__label">{{item['displayName']}}</span>
-    	<span *ngIf="_editable" class="listitem__label-edit"><mc-input type="text" name="displayName" placeholder="Category Name" [value]="item['displayName']"></mc-input></span>
+    	<span *ngIf="editable" class="listitem__label-edit"><input class="listitem__input__label" type="text" [value]="item['displayName']"></span>
     </div>
-    <div *ngIf="_editable" class="listitem__tool">
-    	<mc-button class="button__listitem__edit" label="Edit" [hidden]="_editMode"></mc-button>
-    	<mc-button class="button__listitem__save" label="Save" [hidden]="!_editMode"></mc-button>
-    	<mc-button class="button__listitem__delete" label="Delete" [hidden]="!_editMode"></mc-button>
+    <div *ngIf="editable" class="listitem__tool" [class.is-edit]="_editMode">
+    	<mc-button class="button__listitem__edit" label="Edit"></mc-button>
+    	<mc-button class="button__listitem__save" label="Save"></mc-button>
+    	<mc-button class="button__listitem__delete" label="Delete"></mc-button>
     </div>
 </mc-listitem>

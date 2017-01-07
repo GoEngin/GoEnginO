@@ -8,6 +8,7 @@ export class CategoryService extends BaseService {
 	private _categoryRef: any;
 	private _categoryPath: any;
 	private _tempId: number = 0;
+	private _parentId: string = '';
 	items:Array<any> = [];
 
 	@Output() additem: EventEmitter<any> = new EventEmitter();
@@ -23,6 +24,7 @@ export class CategoryService extends BaseService {
 	Job > Interview > Coding Interview
 	*/
 	getCategories(parentId: string = '') {
+		this._parentId = parentId;
 		return this._categoryRef.orderByChild('parentId').equalTo(parentId).once('value')
 			.then((snapshot: any) => {
 				this.items = snapshot.val();
@@ -31,26 +33,48 @@ export class CategoryService extends BaseService {
 			.catch((error: any) => this.service.doSendMsg(error));
 	}
 
-	addEmptyItem() {
+	doAddItem(parentId: string, displayName: string) {
 		let item = {
 			key: this.getTempId(),
-			parentId: '',
-			displayName: ''
+			parentId: parentId,
+			displayName: displayName,
+			__modified__: {
+				isNew: true
+			}
 		};
 		this.items.push(item);
 		this.additem.emit({item:item});
 	}
 
-	createCategory(parentId: string = '', categoryName: string) {
+	doSave() {
+		this.items.forEach((item:any) => {
+			let m = item.__modified__;
+			if (m) {
+				let parentId = item.parentId;
+				let displayName = item.displayName;
+				let key = item.key;
+				if (m.isNew) {
+					this.createCategory(parentId, displayName);
+				} else if (m.isUpdated) {
+					this.updateCategory(key, parentId, displayName);
+				} else if (m.isDeleted) {
+					this.deleteCategory(key);
+				}
+			}
+		});
+		this.getCategories(this._parentId);
+	}
+
+	createCategory(parentId: string = '', displayName: string) {
 		let item = {
 			parentId: parentId,
-			categoryName: categoryName
+			displayName: displayName
 		};
 		this._categoryRef.push(item)
 	}
 
-	updateCategory(key: string, parentId: string, categoryName: string) {
-		this.da.updateData(this._categoryPath + '/' + key, {parentId: parentId, categoryName: categoryName});
+	updateCategory(key: string, parentId: string, displayName: string) {
+		this.da.updateData(this._categoryPath + '/' + key, {parentId: parentId, displayName: displayName});
 	}
 
 	deleteCategory(key: string) {

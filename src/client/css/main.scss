@@ -7,7 +7,6 @@
 //1st Principle. Separation of Structure from Skin: .btn {structure} .btn--primary {skin}
 //2nd Principle. Separation of Container from Content: 
 
-
 // CSS Resets & Default Styles, HTML only
 html {
   box-sizing: border-box;
@@ -109,6 +108,9 @@ mc-icon {
         .drawer__container {
           transform: translateX(0px) !important;
         }
+      }
+      .drawer__mask {
+        display: none !important;
       }
     }
   }

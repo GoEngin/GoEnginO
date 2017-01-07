@@ -8,9 +8,9 @@ import { Component, Input } from '@angular/core';
 })
 export class CategoryListItemComponent {
 
-	private _editable: boolean;
 	private _editMode: boolean;
 	
+	@Input() editable: boolean;
 	@Input() item: any;
 
 	@Input()

@@ -1,0 +1,32 @@
+/**color**/
+$color__50: #E8F5E9;
+$color__100: #C8E6C9;
+$color__200: #A5D6A7;
+$color__300: #81C784;
+$color__400: #66BB6A;
+$color__500: #4CAF50;
+$color__600: #43A047;
+$color__700: #388E3C;
+$color__800: #2E7D32;
+$color__900: #1B5E20;
+$color__A100: #B9F6CA;
+$color__A200: #69F0AE;
+$color__A400: #00E676;
+$color__A700: #00C853;
+
+$color__font__title0: #757575;
+$color__font__title1: #212121;
+$color__font__app0: #f2f2f2;
+
+@mixin title0 {
+	color: $color__font__title0;
+	font-weight: 600;
+}
+
+@mixin vertical-text {
+	display: inline-block;
+	transform: rotate(90deg);
+    transform-origin: left bottom 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

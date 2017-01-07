@@ -1,3 +1,5 @@
+@import "../../../../css/vars";
+
 :host {
     display: inline-block;
     position: relative;
@@ -13,6 +15,7 @@
         font-weight: bold;
         padding: 8px;
         line-height: 23px;
+        text-align: center;
         mc-icon {
             position: absolute;
             left: 8px;
@@ -66,6 +69,19 @@
         }
         &__forgot-password, &__sign-up-now {
             width: auto;
+        }
+    }
+
+    &.button__tool {
+        background-color: $color__600;
+        color: $color__font__app0;
+        text-transform: uppercase;
+        &.hasLabel {
+            height: 28px;
+            padding: 2px 10px;
+        }
+        &__save {
+            display: block;
         }
     }
 }

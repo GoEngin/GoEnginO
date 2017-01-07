@@ -1,3 +1,5 @@
+@import "../../../../css/vars";
+
 :host {
     display: block;
     position: relative;
@@ -40,23 +42,23 @@
     }
 
     &.header__app {
-        background-color: #43A047;
-        color: #f2f2f2;
+        background-color: $color__600;
+        color: $color__font__app0;
         padding: 0 115px 0 65px;
     }
 
     &.header__login {
         height: 80px;
         background-color: #fff;
-        color: #525252;
+        color: $color__font__title1;
         font-size: 23px;
     }
 
     &.header__category {
-        color: #757575;
-        font-weight: 600;
         .header__center {
+            @include title0;
             text-align: center;
+            font-size: 18px;
         }
     }
 }
