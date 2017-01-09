@@ -18,7 +18,7 @@ export class CategoryListComponent extends AppBaseComponent {
 
 	private _data:any = {items:[]};
 
-	@ViewChild(ListComponent, {read: ViewContainerRef}) listEl: ViewContainerRef;
+	@ViewChild('children', {read: ViewContainerRef}) listContainer: ViewContainerRef;
 
 	@Input() editable: boolean;
 	@Input()
@@ -33,11 +33,11 @@ export class CategoryListComponent extends AppBaseComponent {
 		private _categoryService: CategoryService
 	) {
 		super(el,service);
-		_categoryService.additem.subscribe((e: any) => this.onAddEmptyItem(e.item));
+		_categoryService.additem.subscribe((e: any) => this.onAddItem(e.item));
 	}
 
-	onAddEmptyItem(item: any) {
-		this.service.addComponent(CategoryListItemComponent, {item:item}, this.listEl);
+	onAddItem(item: any) {
+		this.service.addComponent(CategoryListItemComponent, {item:item}, this.listContainer);
 	}
 
 	onPress(e: any) {

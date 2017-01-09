@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild }
 import { SharedService } from '../../shared.service'; 
 import { BaseComponent } from '../base.component';
 
+//TODO: Does this create too much instances that can be caused the poor performance or wasting memory?
+
 @Component({
     selector: 'mc-listitem',
     moduleId: module.id,

@@ -72,7 +72,7 @@ export class CategoryComponent extends AppBaseComponent {
 	}
 
 	onAddItem(el:any) {
-		let inputEl = this.dom.findParent('add-item').querySelector('.add-item__label__input');
+		let inputEl = this.dom.findParent(el,'.add-item').querySelector('.add-item__label__input');
 		let parentId: string = this._parentId;
 		let displayName: string = inputEl.value;
 		this._categoryService.doAddItem(parentId, displayName);
@@ -131,9 +131,10 @@ export class CategoryComponent extends AppBaseComponent {
 	loadData(id: string = '', idx: number = 0) {
 		this._parentId = id;
 		this._categoryService.getCategories(id)
-			.then((data: any) => {
-				console.log('data:',data);
-				data = data ? data : {items:[]};
+			.then((items: any) => {
+				let data: any = {
+					items: items || []
+				};
 				this.addCarouselItem(data,idx);
 			});
 	}

@@ -154,4 +154,16 @@ export class DataAccess {
 	removeData(path: string) {
 		return this.getData(path).remove();
 	}
+
+	//TODO: Firebase doesn't provide an array object?
+	snapshotToArray(s: any) {
+		let item: any;
+		let items: Array<any> = [];
+		s.forEach((sc:any) => {
+			item = sc.val();
+			item.id = sc.key;
+			items.push(item);
+		});
+		return items;
+	}
 }

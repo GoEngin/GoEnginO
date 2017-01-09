@@ -4,6 +4,7 @@ import { AppBaseComponent } from '../appbase.component';
 import { LoginComponent } from '../login/login.component';
 import { UserMenuComponent } from '../usermenu/usermenu.component';
 import { DrawerComponent } from '../shared/component/index';
+import { CategoryComponent } from '../category/category.component'; 
 
 @Component({
 	moduleId: module.id,
@@ -19,6 +20,7 @@ export class AppHeaderComponent extends AppBaseComponent {
 	private _photoURL: string;
 	private _isLoggedIn: boolean;
 	private _userInfo: any;
+	private _categoryDrawer: any;
 
 	constructor(
 		protected el: ViewContainerRef,
@@ -26,6 +28,7 @@ export class AppHeaderComponent extends AppBaseComponent {
 	) {
 		super(el,service);
 		this.checkLoggedIn();
+		this.showCategory();
 	}
 
 	checkLoggedIn() {
@@ -39,7 +42,9 @@ export class AppHeaderComponent extends AppBaseComponent {
 
 	onPress(e: any) {
 		let dom = this.util.dom();
-		if (dom.findParent(e.target,'.button__header__person')) {
+		if (dom.findParent(e.target,'.button__header__logo')) {
+			this._categoryDrawer.toggle();
+		} else if (dom.findParent(e.target,'.button__header__person')) {
 			this.showLoginForm();
 		} else if (dom.findParent(e.target,'.button__header__gravatar')) {
 			this.showUserMenu();
@@ -75,5 +80,21 @@ export class AppHeaderComponent extends AppBaseComponent {
 		cmp.instance.hided.subscribe((e: any) => {
 	      cmp.destroy();
 	    });
+	}
+
+	showCategory() {
+		if (!this._categoryDrawer) {
+			let config = {
+				cls: 'drawer__category',
+				direction: 'left',
+				hasTool: true,
+				contentInfo: {
+					cmpType: CategoryComponent
+				}
+			};
+			this._categoryDrawer = this.service.showDrawer(DrawerComponent, this.el, config).instance;
+		} else {
+			this._categoryDrawer.show();
+		}
 	}
 }

@@ -3,7 +3,6 @@ import './operators';
 import * as firebase from "firebase";
 import { SharedService } from './shared/shared.service'; 
 import { DrawerComponent } from './shared/component/index';
-import { CategoryComponent } from './category/category.component'; 
 
 @Component({
 	moduleId: module.id,
@@ -12,8 +11,6 @@ import { CategoryComponent } from './category/category.component';
 })
 
 export class AppComponent {
-
-	private _categoryDrawer: any;
 
 	constructor(
 		private _el: ViewContainerRef,
@@ -28,23 +25,7 @@ export class AppComponent {
 		}
 		firebase.initializeApp(firebaseConfig);
 		_service.sendmsg.subscribe((e: any) => this.onSendMsg(e));
-		this.showCategory();
-	}
-
-	showCategory() {
-		if (!this._categoryDrawer) {
-			let config = {
-				cls: 'drawer__category',
-				direction: 'left',
-				hasTool: true,
-				contentInfo: {
-					cmpType: CategoryComponent
-				}
-			};
-			this._categoryDrawer = this._service.showDrawer(DrawerComponent, this._el, config);
-		} else {
-			this._categoryDrawer.show();
-		}
+		
 	}
 
 	onSendMsg(e: any) {

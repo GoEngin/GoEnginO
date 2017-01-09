@@ -8,6 +8,7 @@
 </div>
 <mc-list idField="id" [items]="_data.items">
     <mc-categorylistitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" [editable]="editable" class="listitem__{{isEven ? 'even' : 'odd'}}"></mc-categorylistitem>
+    <template #children></template>
 </mc-list>
 <div *ngIf="editable" class="save-item">
 	<mc-button class="button__tool button__tool__save" label="Save"></mc-button>

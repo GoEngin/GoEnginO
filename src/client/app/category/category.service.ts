@@ -9,7 +9,7 @@ export class CategoryService extends BaseService {
 	private _categoryPath: any;
 	private _tempId: number = 0;
 	private _parentId: string = '';
-	items:Array<any> = [];
+	items: Array<any> = [];
 
 	@Output() additem: EventEmitter<any> = new EventEmitter();
 
@@ -27,7 +27,7 @@ export class CategoryService extends BaseService {
 		this._parentId = parentId;
 		return this._categoryRef.orderByChild('parentId').equalTo(parentId).once('value')
 			.then((snapshot: any) => {
-				this.items = snapshot.val();
+				this.items = this.da.snapshotToArray(snapshot);
 				return this.items;
 			})
 			.catch((error: any) => this.service.doSendMsg(error));
