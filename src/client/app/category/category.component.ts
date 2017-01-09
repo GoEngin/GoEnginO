@@ -56,7 +56,7 @@ export class CategoryComponent extends AppBaseComponent {
 		} else if (dom.hasCls(e.target,'button__tool__save')) {
 			this._categoryService.doSave();
 		} else {
-			let listItemEl = dom.findParent(e.target, 'mc-listitem',10);
+			let listItemEl = dom.findParent(e.target, 'mc-listitem');
 			if (listItemEl) {
 				this.nextList(listItemEl);
 			} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
@@ -135,6 +135,7 @@ export class CategoryComponent extends AppBaseComponent {
 				let data: any = {
 					items: items || []
 				};
+				this._data[idx] = data;
 				this.addCarouselItem(data,idx);
 			});
 	}

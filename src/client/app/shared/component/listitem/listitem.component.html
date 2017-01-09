@@ -8,4 +8,12 @@
 	</tr>
 </table>
 <div *ngIf="hasDetail" class="listitem__detail" style="height:0px;" #detail><ng-content select=".listitem__detail__tpl"></ng-content></div>
-<ng-content></ng-content>
+<div class="listitem__label__container">
+	<ng-content></ng-content>
+</div>
+<ng-content *ngIf="editable" select=".listitem__input__tpl"></ng-content>
+<div *ngIf="editable" class="listitem__tool">
+	<mc-button class="button__listitem__edit" label="Edit" (click)="toggleEditMode()"></mc-button>
+	<mc-button class="button__listitem__save" label="Save" (click)="toggleEditMode()"></mc-button>
+	<mc-button class="button__listitem__delete" label="Delete" (click)="toggleEditMode()"></mc-button>
+</div>

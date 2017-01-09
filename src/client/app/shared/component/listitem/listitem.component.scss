@@ -16,6 +16,19 @@
 			}
 		}
 	}
+	&.editable {
+		.listitem__input, .button__listitem__save, .button__listitem__delete {
+			display: none;
+		}
+	}
+	&.edit-mode {
+		.listitem__label__container, .button__listitem__edit {
+			display: none;
+		}
+		.listitem__input, .button__listitem__save, .button__listitem__delete {
+			display: inline-block !important;
+		}
+	}
 	&.listitem__tile {
 		width: 86px;
 		height: 86px;

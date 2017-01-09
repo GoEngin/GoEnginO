@@ -2,8 +2,7 @@ import { Component, Input, ViewContainerRef, ViewChild } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
-import { ListComponent } from '../shared/component/index';
-import { CategoryListItemComponent } from './categorylistitem.component';
+import { ListComponent, ListItemComponent } from '../shared/component/index';
 
 @Component({
 	moduleId: module.id,
@@ -37,7 +36,7 @@ export class CategoryListComponent extends AppBaseComponent {
 	}
 
 	onAddItem(item: any) {
-		this.service.addComponent(CategoryListItemComponent, {item:item}, this.listContainer);
+		this.service.addComponent(ListItemComponent, {item:item}, this.listContainer);
 	}
 
 	onPress(e: any) {

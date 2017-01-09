@@ -8,6 +8,7 @@ const IconType = {
     Toggle: "toggle"
 }
 
+//TODO: listitem edit event
 @Component({
     selector: 'mc-list',
     moduleId: module.id,

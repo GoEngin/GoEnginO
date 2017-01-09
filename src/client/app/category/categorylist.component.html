@@ -7,7 +7,12 @@
     </div>
 </div>
 <mc-list idField="id" [items]="_data.items">
-    <mc-categorylistitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" [editable]="editable" class="listitem__{{isEven ? 'even' : 'odd'}}"></mc-categorylistitem>
+    <mc-listitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" [editable]="editable" class="listitem__{{isEven ? 'even' : 'odd'}}">
+    	<span class="listitem__label">{{item['displayName']}}</span>
+    	<div class="listitem__input__tpl">
+	    	<span class="listitem__input listitem__label-edit"><input class="listitem__input__label" type="text" [value]="item['displayName']"></span>
+	    </div>
+    </mc-listitem>
     <template #children></template>
 </mc-list>
 <div *ngIf="editable" class="save-item">

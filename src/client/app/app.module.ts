@@ -17,7 +17,6 @@ import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoryListComponent } from './category/categorylist.component';
-import { CategoryListItemComponent } from './category/categorylistitem.component';
 import { ArticleListComponent } from './article/articlelist.component';
 import { ArticleDetailComponent } from './article/articledetail.component';
 // for loading components dynamically
@@ -49,7 +48,6 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     ArticleComponent,
     CategoryComponent,
     CategoryListComponent,
-    CategoryListItemComponent,
     ArticleListComponent,
     ArticleDetailComponent
   ],
@@ -61,7 +59,6 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     UserMenuComponent,
     CategoryComponent,
     CategoryListComponent,
-    CategoryListItemComponent,
     ArticleListComponent,
     ArticleDetailComponent,
     ListItemComponent,
