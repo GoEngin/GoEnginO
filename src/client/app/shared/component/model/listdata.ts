@@ -12,12 +12,14 @@ export class ListData {
     private _iconField: string;
     private _defaultValue: any;
     private _multiSelect: boolean;
-    private _selectedIndexes: any;
+    private _selectedIndexes: any = [];
+    private _changedIndexes: any = [];
     //value will be selected values. if not, selected items will be value.
     private _valueOnly: boolean;
     private _util: any;
 
     @Output() selectedItemChange: EventEmitter<any> = new EventEmitter<any>();
+    @Output() itemChange: EventEmitter<any> = new EventEmitter<any>();
 
 	constructor(public config: any, protected _service: SharedService) {
         this._util = this._service.getUtil();
@@ -34,7 +36,6 @@ export class ListData {
         this._defaultValue = config.defaultValue;
         this._multiSelect = config.multiSelect ? true : false;
         this._valueOnly = config.valueOnly ? true : false;
-        this._selectedIndexes = [];
 	}
 
     //for finding idx, for reducing loops.
@@ -175,5 +176,47 @@ export class ListData {
             }
         }
         return _selectedValues;
+    }
+
+    addItem(item: any) {
+        let items = this._items;
+        let idxes = this._indexes;
+        let vField = this._valueField;
+        //update index
+        let idx = items.length;
+        item.__idx__ = idx;
+        //temp id
+        item[vField] = '__modified__' + idx;
+        idxes[item[vField]] = idx;
+        if (item.selected) {
+            this._selectedIndexes[idx] = true;
+        }
+        item.__modified__ = {
+            isNew: true
+        }
+        this._changedIndexes[idx] = true;
+        this._items.push(item);
+        this._indexes = idx;
+    }
+
+    getModifiedItems() {
+        let vField = this._valueField;
+        let items: any = {
+            new: [],
+            updated: [],
+            deleted: []
+        }
+        let item: any;
+        for (let idx of this._changedIndexes) {
+            item = this._items[idx];
+            if (item.__modified__.isNew) {
+                items.new.push(item);
+            } else if (item.__modified__.isUpdated) {
+                items.updated.push(item);
+            } else if (item.__modified__.isDeleted) {
+                items.deleted.push(item);
+            }
+        }
+        return items;
     }
 }

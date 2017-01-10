@@ -9,15 +9,17 @@ export class BaseComponent {
     private _cls: string;
     protected el: HTMLElement;
     protected util: any;
+    protected dom: any;
 
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         this.el = this._el.nativeElement;
         this.util = this._service.getUtil();
+        this.dom = this.util.getDom();
     }
 
     @Input()
     set cls(value: string) {
-        let dom = this._service.getDom();
+        let dom = this.dom;
         if (this._cls) {
             dom.removeCls(this.el,value);
         }
@@ -30,6 +32,6 @@ export class BaseComponent {
 
     // add base cls, this is not removable.
     addBaseCls(cls: string) {
-        this._service.getDom().addCls(this.el,cls);
+        this.dom.addCls(this.el,cls);
     }
 }

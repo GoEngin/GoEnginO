@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewContainerRef, ViewChild } from '@angular/core';
 import { SharedService } from '../../shared.service';
 import { BaseComponent } from '../base.component'
-import { CarouselItemComponent } from '../carouselitem/carouselitem.component';
+import { CarouselItemComponent } from './carouselitem.component';
 
 @Component({
     selector: 'mc-carousel',

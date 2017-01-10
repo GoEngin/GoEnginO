@@ -8,12 +8,16 @@
 	</tr>
 </table>
 <div *ngIf="hasDetail" class="listitem__detail" style="height:0px;" #detail><ng-content select=".listitem__detail__tpl"></ng-content></div>
-<div class="listitem__label__container">
-	<ng-content></ng-content>
+<ng-content></ng-content>
+<!--Simple Edit: this is for the simple edit. if there are many items to edit, it is needed a popup for editing items.-->
+<div *ngIf="isSimpleEdit" class="listitem__simple__edit">
+	<div class="listitem__label__container">
+		<span class="listitem__label">{{item['displayName']}}</span>
+		<span class="listitem__input"><input class="listitem__input__label" type="text" [value]="item['displayName']"></span>
+	</div>
 </div>
-<ng-content *ngIf="editable" select=".listitem__input__tpl"></ng-content>
 <div *ngIf="editable" class="listitem__tool">
-	<mc-button class="button__listitem__edit" label="Edit" (click)="toggleEditMode()"></mc-button>
-	<mc-button class="button__listitem__save" label="Save" (click)="toggleEditMode()"></mc-button>
-	<mc-button class="button__listitem__delete" label="Delete" (click)="toggleEditMode()"></mc-button>
+	<mc-icon icon="edit" [attr.data-icontype]="edit" class="icon__listitem__edit"></mc-icon>
+	<mc-icon icon="save" [attr.data-icontype]="save" class="icon__listitem__save"></mc-icon>
+	<mc-icon icon="delete" [attr.data-icontype]="delete" class="icon__listitem__delete"></mc-icon>
 </div>

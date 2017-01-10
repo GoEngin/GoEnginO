@@ -1,29 +1,5 @@
 @import "../../css/vars";
 
 :host {
-	.add-item {
-		position: relative;
-	    height: 40px;
-	    padding: 7px;
-	    padding-right: 66px;
-	    background: $color__50;
-	    .add-item__container {
-	    	.add-item__label-edit {
-	    		.add-item__label__input {
-	    			line-height: 20px;
-    				width: 100%;
-	    		}
-	    	}
-	    }
-	    .add-item__tool {
-		    position: absolute;
-		    top: 0;
-		    right: 0;
-		    padding: 6px;
-		    padding-right: 7px;
-	    }
-	}
-	.save-item {
-		padding: 7px 80px;
-	}
+	
 }

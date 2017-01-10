@@ -1,11 +1,16 @@
-import { Component, Input, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef, Output, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
 import { SharedService } from '../../shared.service'; 
 import { BaseComponent } from '../base.component';
+import { ListData } from '../model/listdata';
+import { ListItemComponent } from './listitem.component';
 
 const IconType = {
     Expand: "expand",
     Select: "select",
-    Toggle: "toggle"
+    Toggle: "toggle",
+    Edit: "edit",
+    Save: "save",
+    Delete: "delete"
 }
 
 //TODO: listitem edit event
@@ -27,11 +32,17 @@ export class ListComponent extends BaseComponent {
     private _columns: any[];
     private _iconTypeInfo: any = {};
 
+    @ViewChild('children', {read: ViewContainerRef}) listContainer: ViewContainerRef;
+
     @Input() cls: string;
     @Input() items: any[];
     @Input() headerCls: string;
     @Input() itemsHeader: boolean = false;
     @Input() idField: string = 'id';
+    @Input() isSimpleEdit: boolean = false;
+    //ListData will have columns also.
+    @Input() listData: ListData;
+
     @Input()
     set columns(value: any) {
         this._columns = value;
@@ -48,27 +59,16 @@ export class ListComponent extends BaseComponent {
         return this._columns;
     }
 
+    @Output() changeitem: EventEmitter<any> = new EventEmitter();
+
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);
     }
 
     onPress(e: any) {
-        if (e.target.tagName.toLowerCase() === 'mc-icon') {
-            switch (e.target.dataset.icontype) {
-                case IconType.Select:
-                    this.updateState(e.target, IconType.Select);
-                    e.stopPropagation();
-                    break;
-                case IconType.Toggle:
-                    this.updateState(e.target, IconType.Toggle);
-                    e.stopPropagation();
-                    break;
-                case IconType.Expand:
-                    this.updateState(e.target, IconType.Expand);
-                    e.stopPropagation();
-                    break;
-               
-            }
+        if (e.target.tagName.toLowerCase() === 'mc-icon' && e.target.dataset) {
+            this.updateState(e.target, e.target.dataset.icontype);
+            e.stopPropagation();
         }
     }
 
@@ -95,7 +95,7 @@ export class ListComponent extends BaseComponent {
     }
 
     updateToggledItems(el: HTMLElement, item: any, iconEl: HTMLElement) {
-        let added = this.util.dom().toggleCls(el,'toggled');
+        let added = this.dom.toggleCls(el,'toggled');
         if (!added) {
             let items = this._toggledItems;
             let idx: number = -1;
@@ -117,17 +117,17 @@ export class ListComponent extends BaseComponent {
 
     updateSelectedItem(el: HTMLElement, item: any, iconEl: HTMLElement) {
         if (this._selectedListItem) {
-            this.util.dom().removeCls(this._selectedListItem.el, 'selected');
+            this.dom.removeCls(this._selectedListItem.el, 'selected');
         }
-        this.util.dom().addCls(el,'selected');
+        this.dom.addCls(el,'selected');
         this._selectedListItem = {el: el, item: item};
     }
 
     updateExpandedItem(el: HTMLElement, iconEl: HTMLElement) {
-        let added = this.util.dom().toggleCls(el, 'expanded');
+        let added = this.dom.toggleCls(el, 'expanded');
         let detailEl: any = el.getElementsByClassName('listitem__detail')[0];
         if (!this._detailHeight) {
-            let size = this.util.dom().getSize(detailEl);
+            let size = this.dom.getSize(detailEl);
             this._detailHeight = size.height;
         }
         this.updateIcon(IconType.Expand, iconEl, added);
@@ -142,12 +142,31 @@ export class ListComponent extends BaseComponent {
         if (icon.toggled) {
             let newCls = toggled ? icon.toggled : icon.icon;
             let oldCls = toggled ? icon.icon : icon.toggled;
-            this.util.dom().replaceCls(iconEl, 'icon-' + oldCls, 'icon-' + newCls);
+            this.dom.replaceCls(iconEl, 'icon-' + oldCls, 'icon-' + newCls);
         }
     }
 
+    addItem(config:any, cmpType:any = ListItemComponent) {
+        this.items.push(config.item);
+        this._service.addComponent(cmpType, config, this.listContainer);
+    }
+
+    onEditItem(el: HTMLElement, item: any) {
+        this.dom.addCls(el, 'edit-mode');
+    }
+
+    onSaveItem(el: HTMLElement, item: any) {
+        this.dom.removeCls(el, 'edit-mode');
+        this.changeitem.emit({target:this, listItemEl:el, update:true, item:item});
+    }
+
+    onDeleteItem(el: HTMLElement, item: any) {
+        el.parentNode.removeChild(el);
+        this.changeitem.emit({target:this, listItemEl:el, delete:true, item:item});
+    }
+
     updateState(iconEl: any, iconType: string) {
-        let el = this.util.dom().findParent(iconEl, 'mc-listitem',10);
+        let el = this.dom.findParent(iconEl, 'mc-listitem');
         let item = this.getItem(el);
         switch (iconType) {
             case IconType.Toggle:
@@ -158,6 +177,15 @@ export class ListComponent extends BaseComponent {
                 break;
             case IconType.Expand:
                 this.updateExpandedItem(el,iconEl);
+                break;
+            case IconType.Edit:
+                this.onEditItem(el,item);
+                break;
+            case IconType.Save:
+                this.onSaveItem(el,item);
+                break;
+            case IconType.Delete:
+                this.onDeleteItem(el,item);
                 break;
         }
     }

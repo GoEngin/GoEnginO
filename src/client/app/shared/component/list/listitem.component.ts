@@ -11,17 +11,12 @@ import { BaseComponent } from '../base.component';
     templateUrl: 'listitem.component.html',
     host: {
         '[attr.data-id]': 'item[idField]',
-        '[class.listitem__tile]': 'isTile',
-        '[class.editable]': 'editable',
-        '[class.edit-mode]': '_edit'
+        '[class.listitem__tile]': 'isTile'
     }
 })
 
 export class ListItemComponent extends BaseComponent {
 
-    private _edit: boolean = false;
-
-    @Input() cls: string;
     @Input() item: any;
     @Input() columns: any[];
     @Input() idField: string = 'id';
@@ -29,13 +24,34 @@ export class ListItemComponent extends BaseComponent {
     @Input() hasTable: boolean;
     @Input() isTile: boolean = false;
     @Input() editable: boolean = false;
+    @Input() isSimpleEdit: boolean = false;
+
+    @Input()
+    set config(config: any) {
+        if (config.item) {
+            this.item = config.item;
+        }
+        if (config.idField) {
+            this.idField = config.idField;
+        }
+        if (config.hasDetail) {
+            this.hasDetail = config.hasDetail;
+        }
+        if (config.hasTable) {
+            this.hasTable = config.hasTable;
+        }
+        if (config.isTile) {
+            this.isTile = config.isTile;
+        }
+        if (config.editable) {
+            this.editable = config.editable;
+        }
+        if (config.columns) {
+            this.isSimpleEdit = config.isSimpleEdit;
+        }
+    }
 
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);
     }
-
-    toggleEditMode() {
-        this._edit = !this._edit;
-    }
-
 }

@@ -6,6 +6,9 @@
 		overflow: hidden;
         transition: height 0.3s ease;
 	}
+	.listitem__input, .button__listitem__save, .button__listitem__delete {
+		display: none;
+	}
 	&.listitem__even {
 		background-color: #f5f9fc;
 	}
@@ -16,16 +19,11 @@
 			}
 		}
 	}
-	&.editable {
-		.listitem__input, .button__listitem__save, .button__listitem__delete {
-			display: none;
-		}
-	}
 	&.edit-mode {
-		.listitem__label__container, .button__listitem__edit {
+		.listitem__label__container, .icon__listitem__edit {
 			display: none;
 		}
-		.listitem__input, .button__listitem__save, .button__listitem__delete {
+		.listitem__input, .icon__listitem__save, .icon__listitem__delete {
 			display: inline-block !important;
 		}
 	}

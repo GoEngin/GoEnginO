@@ -1,20 +1,3 @@
-<div *ngIf="editable" class="add-item">
-	<div class="add-item__container">
-    	<span class="add-item__label-edit"><input class="add-item__label__input" type="text"></span>
-    </div>
-    <div class="add-item__tool">
-    	<mc-button class="button__tool button__tool__add" label="Add"></mc-button>
-    </div>
-</div>
-<mc-list idField="id" [items]="_data.items">
-    <mc-listitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" [editable]="editable" class="listitem__{{isEven ? 'even' : 'odd'}}">
-    	<span class="listitem__label">{{item['displayName']}}</span>
-    	<div class="listitem__input__tpl">
-	    	<span class="listitem__input listitem__label-edit"><input class="listitem__input__label" type="text" [value]="item['displayName']"></span>
-	    </div>
-    </mc-listitem>
-    <template #children></template>
+<mc-list idField="id" [items]="_data.items" [isSimpleEdit]="true">
+    <mc-listitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" [editable]="editable" [isSimpleEdit]="true" cls="listitem__{{isEven ? 'even' : 'odd'}}"></mc-listitem>
 </mc-list>
-<div *ngIf="editable" class="save-item">
-	<mc-button class="button__tool button__tool__save" label="Save"></mc-button>
-</div>

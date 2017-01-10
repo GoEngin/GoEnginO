@@ -6,4 +6,16 @@
 		</tr>
 	</table>
 </div>
+<div *ngIf="isSimpleEdit" class="list__additem">
+	<div class="list__additem__container">
+    	<span class="list__additem__label"><input class="list__additem__label__input" type="text"></span>
+    </div>
+    <div class="list__additem__tool">
+    	<mc-button class="button__tool button__tool__add" label="Add"></mc-button>
+    </div>
+</div>
 <ng-content></ng-content>
+<template #children></template>
+<div *ngIf="isSimpleEdit" class="list__saveitem">
+	<mc-button class="button__tool button__tool__save" label="Save"></mc-button>
+</div>

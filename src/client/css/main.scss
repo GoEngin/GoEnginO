@@ -77,14 +77,41 @@ mc-icon {
   &.icon-person:before {
     content: "l";
   }
-  &.icon-logo:before {
+  &.icon-search:before {
     content: "m";
   }
-  &.icon-search:before {
+  &.icon-close:before {
     content: "n";
   }
-  &.icon-close:before {
+  &.icon-edit:before {
     content: "o";
+  }
+  &.icon-delete:before {
+    content: "p";
+  }
+  &.icon-down:before {
+    content: "q";
+  }
+  &.icon-left:before {
+    content: "r";
+  }
+  &.icon-right:before {
+    content: "s";
+  }
+  &.icon-up:before {
+    content: "t";
+  }
+  &.icon-check:before {
+    content: "u";
+  }
+  &.icon-save:before {
+    content: "v";
+  }
+  &.icon-category:before {
+    content: "w";
+  }
+  &.icon-pin:before {
+    content: "x";
   }
   &.icon-google {
     background: url("../assets/images/google.png") center left no-repeat;
