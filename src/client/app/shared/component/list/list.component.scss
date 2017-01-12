@@ -1,3 +1,5 @@
+@import "../../../../css/vars";
+
 :host {
 	display: block;
 	position: relative;
@@ -29,7 +31,8 @@
 	    height: 40px;
 	    padding: 7px;
 	    padding-right: 66px;
-	    background: $color__50;
+	    background: $color__100;
+	    margin-bottom: 7px;
 	    .list__additem__container {
 	    	.list__additem__label {
 	    		.list__additem__label__input {
@@ -47,6 +50,10 @@
 	    }
 	}
 	.list__saveitem {
-		padding: 7px 80px;
+		padding: 7px 100px;
+	}
+
+	.list__listitems mc-listitem:nth-child(2n+1) {
+		background-color: $color__50;
 	}
 }

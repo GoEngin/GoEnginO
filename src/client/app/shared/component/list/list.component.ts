@@ -97,7 +97,7 @@ export class ListComponent extends BaseComponent {
 
     onPress(e: any) {
         if (e.target.tagName.toLowerCase() === 'mc-icon' && e.target.dataset) {
-            this.updateState(e.target, e.target.dataset.icontype);
+            this.updateState(e.target, e.target.getAttribute('icon'));
             e.stopPropagation();
         } else if (this.dom.findParent(e.target,'button__tool__add')) {
             this.onAddItem(e.target);
@@ -141,16 +141,32 @@ export class ListComponent extends BaseComponent {
 
     onEditItem(el: HTMLElement, item: any) {
         this.dom.addCls(el, 'edit-mode');
+        this.findLabelInput(el).focus();
+    }
+
+    findLabelInput(el: HTMLElement) {
+        return <HTMLInputElement> el.querySelector(".listitem__input__label");
     }
 
     onSaveItem(el: HTMLElement, item: any) {
+        if (this.isSimpleEdit) {
+            this.updateSimpleItem(el, item);
+        }
         this.dom.removeCls(el, 'edit-mode');
-
         this.changeitem.emit({target:this, listItemEl:el, cud: 'u', item:item});
+    }
+
+    updateSimpleItem(el: HTMLElement, item: any) {
+        let labelEl = el.querySelector(".listitem__label");
+        let displayName = this.findLabelInput(el).value;
+        labelEl.innerHTML = displayName;
+        item[this.displayField] = displayName;
+        this._listData.updateItem(item);
     }
 
     onDeleteItem(el: HTMLElement, item: any) {
         el.parentNode.removeChild(el);
+        this._listData.deleteItem(item);
         this.changeitem.emit({target:this, listItemEl:el, cud: 'd', item:item});
     }
 
@@ -185,6 +201,10 @@ export class ListComponent extends BaseComponent {
 
     getItemById(id: any) {
         return this._listData.getItem(id);
+    }
+
+    canRenderListItem(item: any) {
+        return (this.isSimpleEdit || this.isSimpleEdit) && !this._listData.isDeletedItem(item)
     }
 
     // getSelectedItem() {

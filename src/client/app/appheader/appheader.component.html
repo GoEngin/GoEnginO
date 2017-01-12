@@ -1,10 +1,10 @@
 <mc-header class="header__app">
 	<div class="header__left__tpl">
-		<mc-button icon="category" class="button__header__category"></mc-button> Q &amp; A Tree
+		<mc-button icon="category" class="button__header__category"></mc-button>Q&amp;A Tree
 	</div>
 	<mc-text class="text__search" placeHolderIcon="search" placeHolderText="Search"></mc-text>
 	<div class="header__right__tpl">
-		<mc-button icon="bars" class="button__header__category"></mc-button>
+		<!--mc-button icon="bars" class="button__header__menu"></mc-button-->
 		<mc-button *ngIf="!_isLoggedIn" icon="person" class="button__header__person"></mc-button>
 		<mc-button *ngIf="_isLoggedIn" src="{{_photoURL}}" class="button__header__gravatar"></mc-button>
 	</div>

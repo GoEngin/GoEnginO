@@ -14,10 +14,12 @@
     	<mc-button class="button__tool button__tool__add" label="Add"></mc-button>
     </div>
 </div>
-<div class="list__listitems">
-	<mc-listitem *ngIf="isSimpleList || isSimpleEdit" *ngFor=" let item of _items; let isEven = even " [item]="item" [editable]="isSimpleEdit" [isSimpleEdit]="true" [idField]="idField" [displayField]="displayField" [hidden]="_listData.isDeletedItem(item)" cls="listitem__{{isEven ? 'even' : 'odd'}}"></mc-listitem>
-	<ng-content></ng-content>
+<div *ngIf="isSimpleEdit || isSimpleList" class="list__listitems">
+	<mc-listitem *ngFor=" let item of _items" [item]="item" [editable]="isSimpleEdit" [isSimpleEdit]="true" [idField]="idField" [displayField]="displayField"></mc-listitem>
 	<template #children></template>
+</div>
+<div *ngIf="!(isSimpleEdit || isSimpleList)" class="list__listitems">
+	<ng-content></ng-content>
 </div>
 <div *ngIf="isSimpleEdit" class="list__saveitem">
 	<mc-button class="button__tool button__tool__save" label="Save"></mc-button>

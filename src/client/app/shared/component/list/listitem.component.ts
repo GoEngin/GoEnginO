@@ -12,12 +12,13 @@ import { BaseComponent } from '../base.component';
     host: {
         '[attr.data-id]': 'item[idField]',
         '[class.listitem__tile]': 'isTile',
-        '[class.__hidden__]': 'hidden'
+        '[class.editable]': 'editable'
     }
 })
 
 export class ListItemComponent extends BaseComponent {
 
+    @Input() cls: string;
     @Input() item: any;
     @Input() columns: any[];
     @Input() idField: string = 'id';
@@ -27,10 +28,12 @@ export class ListItemComponent extends BaseComponent {
     @Input() isTile: boolean = false;
     @Input() editable: boolean = false;
     @Input() isSimpleEdit: boolean = false;
-    @Input() hidden: boolean = false;
 
     @Input()
     set config(config: any) {
+        if (config.cls) {
+            this.cls = config.cls;
+        }
         if (config.item) {
             this.item = config.item;
         }

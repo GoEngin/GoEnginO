@@ -42,7 +42,7 @@ export class AppHeaderComponent extends AppBaseComponent {
 
 	onPress(e: any) {
 		let dom = this.util.dom();
-		if (dom.findParent(e.target,'.button__header__logo')) {
+		if (dom.findParent(e.target,'.button__header__category')) {
 			this._categoryDrawer.toggle();
 		} else if (dom.findParent(e.target,'.button__header__person')) {
 			this.showLoginForm();
@@ -87,7 +87,7 @@ export class AppHeaderComponent extends AppBaseComponent {
 			let config = {
 				cls: 'drawer__category',
 				direction: 'left',
-				hasTool: true,
+				// hasTool: true,
 				contentInfo: {
 					cmpType: CategoryComponent
 				}

@@ -14,7 +14,7 @@ export class BaseComponent {
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         this.el = this._el.nativeElement;
         this.util = this._service.getUtil();
-        this.dom = this.util.getDom();
+        this.dom = this._service.getDom();
     }
 
     @Input()

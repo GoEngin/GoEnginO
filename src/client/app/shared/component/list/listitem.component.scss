@@ -1,3 +1,5 @@
+@import "../../../../css/vars";
+
 :host {
 	display: block;
 	position: relative;
@@ -6,11 +8,36 @@
 		overflow: hidden;
         transition: height 0.3s ease;
 	}
-	.listitem__input, .button__listitem__save, .button__listitem__delete {
-		display: none;
-	}
-	&.listitem__even {
-		background-color: #f5f9fc;
+	&.editable {
+		line-height: 35px;
+		padding-right: 66px;
+		.listitem__label__container {
+			.listitem__input__label {
+				display: inline-block;
+				line-height: 18px;
+				width: 100%;
+			}
+		}
+		.listitem__input, .icon__listitem__save {
+			display: none;
+		}
+		.listitem__tool {
+			display: inline-block;
+			position: absolute;
+			top: 5px;
+			right:5px;
+		}
+		&.edit-mode {
+			.listitem__label, .icon__listitem__edit {
+				display: none;
+			}
+			.listitem__input {
+				display: block !important;
+			}
+			.icon__listitem__save, .icon__listitem__delete {
+				display: inline-block !important;
+			}
+		}
 	}
 	&.selected, &.toggled {
 		.listitem__icontype__select, .listitem__icontype__toggle {
@@ -19,14 +46,7 @@
 			}
 		}
 	}
-	&.edit-mode {
-		.listitem__label__container, .icon__listitem__edit {
-			display: none;
-		}
-		.listitem__input, .icon__listitem__save, .icon__listitem__delete {
-			display: inline-block !important;
-		}
-	}
+	
 	&.listitem__tile {
 		width: 86px;
 		height: 86px;
