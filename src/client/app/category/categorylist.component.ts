@@ -32,17 +32,30 @@ export class CategoryListComponent extends AppBaseComponent {
 		private _categoryService: CategoryService
 	) {
 		super(el,service);
-		_categoryService.additem.subscribe((e: any) => this.onAddItem(e.item, e.count));
+		this.listCmp.changeitem.subscribe((e:any) => this.onChangeItem(e.cud, e.displayName));
+		this.listCmp.clicksaveall.subscribe((e:any) => this.onSaveAll(e.modifiedItems));
 	}
 
-	onAddItem(item: any, count: number) {
-		let config = {
-			item: item,
-			editable: true,
-			isSimpleEdit: true,
-			cls: "listitem__" + (count/2 === 0 ? "even" : "odd")
-		};
-		this.listCmp.addItem(config);
+	onSaveAll(modifiedItems: any) {
+		this._categoryService.saveAll(modifiedItems)
+	}
+
+	onChangeItem(cud: string, displayName: string) {
+		let item: any;
+		switch (cud) {
+			case "c":
+				item = {
+					parentId: this._categoryService.getParentId(),
+					displayName: displayName
+				};
+				let config = {
+					item: item,
+					editable: true,
+					isSimpleEdit: true
+				};
+				this.listCmp.addItem(config);
+				break;
+		}
 	}
 
 	onPress(e: any) {

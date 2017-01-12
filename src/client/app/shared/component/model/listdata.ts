@@ -195,8 +195,17 @@ export class ListData {
             isNew: true
         }
         this._changedIndexes[idx] = true;
-        this._items.push(item);
+        let count = this._items.push(item);
         this._indexes = idx;
+        return count;
+    }
+
+    resetModifiedFlag() {
+        let item: any;
+        for (let idx of this._changedIndexes) {
+            delete this._items[idx].__modified__
+            this._changedIndexes = [];
+        }
     }
 
     getModifiedItems() {

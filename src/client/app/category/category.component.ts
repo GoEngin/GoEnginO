@@ -51,31 +51,18 @@ export class CategoryComponent extends AppBaseComponent {
 
 	onPress(e: any) {
 		let dom = this.dom;
-		if (dom.hasCls(e.target,'button__tool__add')) {
-			this.onAddItem(e.target);
-		} else if (dom.hasCls(e.target,'button__tool__save')) {
-			this._categoryService.doSave();
-		} else {
-			let listItemEl = dom.findParent(e.target, 'mc-listitem');
-			if (listItemEl) {
-				this.nextList(listItemEl);
-			} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
-				if (this.dom.findParent(e.target, '.header__card__content',6)) {
-					this.previousList();
-				}
-			} else if (this.dom.hasCls(e.target,'card__title__current')) {
-				if (this.dom.findParent(e.target, '.header__card__content',6)) {
-					this.toggleCardCollapsed();
-				}
+		let listItemEl = dom.findParent(e.target, 'mc-listitem');
+		if (listItemEl) {
+			this.nextList(listItemEl);
+		} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
+			if (this.dom.findParent(e.target, '.header__card__content')) {
+				this.previousList();
+			}
+		} else if (this.dom.hasCls(e.target,'card__title__current')) {
+			if (this.dom.findParent(e.target, '.header__card__content')) {
+				this.toggleCardCollapsed();
 			}
 		}
-	}
-
-	onAddItem(el:any) {
-		let inputEl = this.dom.findParent(el,'.add-item').querySelector('.add-item__label__input');
-		let parentId: string = this._parentId;
-		let displayName: string = inputEl.value;
-		this._categoryService.doAddItem(parentId, displayName);
 	}
 
 	toggleCardCollapsed() {

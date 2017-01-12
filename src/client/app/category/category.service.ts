@@ -1,7 +1,6 @@
 import { EventEmitter, Input, Output, Injectable } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { BaseService } from '../base.service';
-import { ListData } from '../shared/component/index';
 
 @Injectable()
 export class CategoryService extends BaseService {
@@ -10,9 +9,6 @@ export class CategoryService extends BaseService {
 	private _categoryPath: any;
 	private _tempId: number = 0;
 	private _parentId: string = '';
-
-	@Input() listData: ListData;
-	@Output() additem: EventEmitter<any> = new EventEmitter();
 
 	constructor(protected _service: SharedService) {
 		super(_service);
@@ -28,18 +24,14 @@ export class CategoryService extends BaseService {
 		this._parentId = parentId;
 		return this._categoryRef.orderByChild('parentId').equalTo(parentId).once('value')
 			.then((snapshot: any) => {
-				this.listData = new ListData({items:this.da.snapshotToArray(snapshot)},this._service);
-				return this.listData;
+				return this.da.snapshotToArray(snapshot);
 			})
 			.catch((error: any) => this.service.doSendMsg(error));
 	}
 
-	doAddItem(parentId: string, displayName: string) {
-		this.listData.addItem({parentId:parentId,displayName:displayName});
-	}
+	getParentId() {return this._parentId;}
 
-	doSave() {
-		let items = this.listData.getModifiedItems();
+	saveAll(items: any) {
 		items.new.forEach((item:any) => {
 			this.createCategory(item.parentId, item.displayName);
 		});
