@@ -102,6 +102,7 @@ export class CarouselComponent extends BaseComponent {
 
         let cmp: any = this._service.addComponent(CarouselItemComponent, {idx:idx, width:this._size.width}, this.container);
         this._children.push(cmp);
-        this._service.addComponent(cmpType, config, cmp.instance.container);
+        let contentCmp: any = this._service.addComponent(cmpType, config, cmp.instance.container);
+        return contentCmp;
     }
 }

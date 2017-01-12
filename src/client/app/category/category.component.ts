@@ -2,8 +2,7 @@ import { Component, ViewContainerRef, ViewChild, Input } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
-import { CarouselComponent, CardComponent } from '../shared/component/index';
-import { CategoryListComponent } from './categorylist.component';
+import { CarouselComponent, CardComponent, ListComponent } from '../shared/component/index';
 
 @Component({
 	moduleId: module.id,
@@ -23,7 +22,6 @@ export class CategoryComponent extends AppBaseComponent {
 	private _defaultTitle: string = 'Category';
 	private _headerLeftIcon: string = 'Category';
 	private _parentCmp: any;
-	private _parentId: string = '';
 
 	@ViewChild('maincard') cardCmp: CardComponent;
 	@ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
@@ -83,8 +81,8 @@ export class CategoryComponent extends AppBaseComponent {
 	}
 
 	previousList() {
-		let idx = this.carouselCmp.remove() - 1;
 		this._data.pop();
+		let idx = this.carouselCmp.remove() - 1;
 		this.updateHeader(idx - 1);
 	}
 
@@ -116,22 +114,31 @@ export class CategoryComponent extends AppBaseComponent {
 	}
 
 	loadData(id: string = '', idx: number = 0) {
-		this._parentId = id;
 		this._categoryService.getCategories(id)
 			.then((items: any) => {
-				let data: any = {
-					items: items || []
-				};
-				this._data[idx] = data;
-				this.addCarouselItem(data,idx);
+				this._data[idx] = {parentId:id};
+				this.addCarouselItem(items, idx);
 			});
 	}
 
-	addCarouselItem(data: any, idx: number) {
+	addCarouselItem(items: any, idx: number) {
 		let config = {
-			data: data,
-			editable: true
+			items: items,
+			isSimpleEdit: true,
+			options: {
+				listItem: {
+					item: {
+						parentId: this._data[idx].parentId
+					}
+				}
+			}
 		}
-		this.carouselCmp.addNew(CategoryListComponent, config, idx);
+		let listCmp = this.carouselCmp.addNew(ListComponent, config, idx).instance;
+		listCmp.clicksaveall.subscribe((e:any) => this.onSaveAll(e.modifiedItems));
+		this._data[idx].listCmp = listCmp;
+	}
+
+	onSaveAll(modifiedItems: any) {
+		this._categoryService.saveAll(modifiedItems)
 	}
 }

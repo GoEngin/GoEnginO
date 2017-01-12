@@ -1,3 +1,0 @@
-<mc-list idField="id" [items]="_data.items" [isSimpleEdit]="true">
-    <mc-listitem *ngFor=" let item of _data.items; let isEven = even " [item]="item" [editable]="editable" [isSimpleEdit]="true" cls="listitem__{{isEven ? 'even' : 'odd'}}"></mc-listitem>
-</mc-list>

@@ -39,14 +39,36 @@ export class ListComponent extends BaseComponent {
     @ViewChild('inputlabel') inputLabelEl: HTMLInputElement;
 
     @Input() cls: string;
+    @Input() itemsHeader: boolean = false;
+    @Input() isSimpleList: boolean = false;
+    @Input() isSimpleEdit: boolean = false;
+    @Input() idField: string = 'id';
+    @Input() displayField: string = 'displayName';
+    //for additional information like index, parentId etc.
+    @Input() options: any;
     @Input()
     set items(value:any) {
-        this._listData = new ListData({items:value},this._service);
+        this._listData = new ListData({items:value,valueField:this.idField,displayField:this.displayField},this._service);
     }
-    @Input() headerCls: string;
-    @Input() itemsHeader: boolean = false;
-    @Input() idField: string = 'id';
-    @Input() isSimpleEdit: boolean = false;
+    //TODO: Can they be the constructor's parameters?
+    @Input()
+    set config(config: any) {
+        if (config.cls) {
+            this.cls = config.cls;
+        }
+        if (config.itemsHeader) {
+            this.itemsHeader = true;
+        }
+        if (config.isSimpleList) {
+            this.isSimpleList = true;
+        }
+        if (config.isSimpleEdit) {
+            this.isSimpleEdit = true;
+        }
+        if (config.items) {
+            this.items = config.items;
+        }
+    }
 
     // @Input()
     // set columns(value: any) {
@@ -89,7 +111,20 @@ export class ListComponent extends BaseComponent {
 
     onAddItem(el: HTMLElement) {
         let displayName = this.inputLabelEl.value;
-        this.changeitem.emit({cud:'c',displayName:displayName});
+        if (this.isSimpleEdit) {
+            let item: any = {};
+            if (this.options) {
+                item = this.options.items || {};
+            }
+            item[this.displayField] = displayName;
+            let config = {
+                editable: true,
+                isSimpleEdit: true,
+                item: item
+            }
+            this.addItem(config);
+        }
+        this.changeitem.emit({target: this, cud: 'c',displayName:displayName});
     }
 
     addItem(config:any, cmpType:any = ListItemComponent) {
@@ -104,12 +139,12 @@ export class ListComponent extends BaseComponent {
 
     onSaveItem(el: HTMLElement, item: any) {
         this.dom.removeCls(el, 'edit-mode');
-        this.changeitem.emit({target:this, listItemEl:el, update:true, item:item});
+        this.changeitem.emit({target:this, listItemEl:el, cud: 'u', item:item});
     }
 
     onDeleteItem(el: HTMLElement, item: any) {
         el.parentNode.removeChild(el);
-        this.changeitem.emit({target:this, listItemEl:el, delete:true, item:item});
+        this.changeitem.emit({target:this, listItemEl:el, cud: 'd', item:item});
     }
 
     updateState(iconEl: any, iconType: string) {
@@ -139,15 +174,7 @@ export class ListComponent extends BaseComponent {
 
     getItem(el: any) {
         let id = el.dataset.id;
-        let items = this.items;
-        let idField = this.idField;
-        let item: any;
-        for ( let i=0; i < items.length; i++ ) {
-            if (items[i][idField] + '' === id) {
-                item = items[i];
-                break;
-            }
-        }
+        let item = '';
         return item;
     }
 

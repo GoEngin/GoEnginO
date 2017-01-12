@@ -12,8 +12,8 @@
 <!--Simple Edit: this is for the simple edit. if there are many items to edit, it is needed a popup for editing items.-->
 <div *ngIf="isSimpleEdit" class="listitem__simple__edit">
 	<div class="listitem__label__container">
-		<span class="listitem__label">{{item['displayName']}}</span>
-		<span class="listitem__input"><input class="listitem__input__label" type="text" [value]="item['displayName']"></span>
+		<span class="listitem__label">{{item[displayField]}}</span>
+		<span class="listitem__input"><input class="listitem__input__label" type="text" [value]="item[displayField]"></span>
 	</div>
 </div>
 <div *ngIf="editable" class="listitem__tool">

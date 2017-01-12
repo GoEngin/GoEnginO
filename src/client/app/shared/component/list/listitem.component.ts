@@ -20,6 +20,7 @@ export class ListItemComponent extends BaseComponent {
     @Input() item: any;
     @Input() columns: any[];
     @Input() idField: string = 'id';
+    @Input() displayField: string = 'displayName';
     @Input() hasDetail: boolean;
     @Input() hasTable: boolean;
     @Input() isTile: boolean = false;
@@ -33,6 +34,9 @@ export class ListItemComponent extends BaseComponent {
         }
         if (config.idField) {
             this.idField = config.idField;
+        }
+        if (config.displayField) {
+            this.displayField = config.displayField;
         }
         if (config.hasDetail) {
             this.hasDetail = config.hasDetail;
