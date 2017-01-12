@@ -59,12 +59,28 @@ export class ListData {
         }
     }
 
+    loadItems(items: any) {
+        this._selectedIndexes = [];
+        this._changedIndexes = [];
+        this._items = items;
+        this._indexing();
+    }
+
     getIdx(value: any) {
         let idx = this._indexes[value];
         if (this._util.isEmpty(idx)) {
             idx = -1;
         }
         return parseInt(idx);
+    }
+
+    getItem(id: any) {
+        let idx = this.getIdx(id);
+        let item = false;
+        if (idx > -1) {
+            item = this._items[idx];
+        }
+        return item;
     }
 
     getItems() {
@@ -200,12 +216,27 @@ export class ListData {
         return count;
     }
 
-    resetModifiedFlag() {
-        let item: any;
-        for (let idx of this._changedIndexes) {
-            delete this._items[idx].__modified__
-            this._changedIndexes = [];
+    updateItem(item: any) {
+        let idx = this.getIdx(item[this._valueField]);
+        item.__modified__ = item.__modified__ || {}
+        item.__modified__.isUpdated = true;
+        this._changedIndexes[idx] = true;
+        this._items[idx] = item;
+    }
+
+    deleteItem(item: any) {
+        let idx = this.getIdx(item[this._valueField]);
+        item.__modified__ = item.__modified__ || {}
+        item.__modified__.isDeleted = true;
+        this._changedIndexes[idx] = true;
+        this._items[idx] = item;
+    }
+
+    isDeletedItem(item: any) {
+        if (item.__modified__ && item.__modified__.isDeleted) {
+            return true;
         }
+        return false;
     }
 
     getModifiedItems() {
@@ -216,14 +247,20 @@ export class ListData {
             deleted: []
         }
         let item: any;
+        let modified: any;
         for (let idx of this._changedIndexes) {
             item = this._items[idx];
-            if (item.__modified__.isNew) {
-                items.new.push(item);
-            } else if (item.__modified__.isUpdated) {
+            modified = item.__modified__;
+            if (modified.isNew) {
+                if (!modified.isDeleted) {
+                    items.new.push(item);
+                }
+            } else if (modified.isUpdated && !modified.isDeleted) {
                 items.updated.push(item);
-            } else if (item.__modified__.isDeleted) {
-                items.deleted.push(item);
+            } else if (modified.isDeleted) {
+                if (!modified.isNew) {
+                    items.deleted.push(item);
+                }
             }
         }
         return items;

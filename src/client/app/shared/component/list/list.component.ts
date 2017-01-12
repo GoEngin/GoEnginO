@@ -34,6 +34,7 @@ export class ListComponent extends BaseComponent {
 
     //ListData will have columns also.
     private _listData: ListData;
+    private _items: any;
 
     @ViewChild('children', {read: ViewContainerRef}) listContainer: ViewContainerRef;
     @ViewChild('inputlabel') inputLabelEl: HTMLInputElement;
@@ -49,6 +50,7 @@ export class ListComponent extends BaseComponent {
     @Input()
     set items(value:any) {
         this._listData = new ListData({items:value,valueField:this.idField,displayField:this.displayField},this._service);
+        this._items = this._listData.getItems();
     }
     //TODO: Can they be the constructor's parameters?
     @Input()
@@ -112,19 +114,23 @@ export class ListComponent extends BaseComponent {
     onAddItem(el: HTMLElement) {
         let displayName = this.inputLabelEl.value;
         if (this.isSimpleEdit) {
-            let item: any = {};
-            if (this.options) {
-                item = this.options.items || {};
-            }
-            item[this.displayField] = displayName;
-            let config = {
-                editable: true,
-                isSimpleEdit: true,
-                item: item
-            }
-            this.addItem(config);
+            this.addSimpleItem(displayName);
         }
         this.changeitem.emit({target: this, cud: 'c',displayName:displayName});
+    }
+
+    addSimpleItem(displayName: string) {
+        let item: any = {};
+        if (this.options) {
+            item = this.options.itemTpl || {};
+        }
+        item[this.displayField] = displayName;
+        let config = {
+            editable: true,
+            isSimpleEdit: true,
+            item: item
+        }
+        this.addItem(config);
     }
 
     addItem(config:any, cmpType:any = ListItemComponent) {
@@ -139,6 +145,7 @@ export class ListComponent extends BaseComponent {
 
     onSaveItem(el: HTMLElement, item: any) {
         this.dom.removeCls(el, 'edit-mode');
+
         this.changeitem.emit({target:this, listItemEl:el, cud: 'u', item:item});
     }
 
@@ -173,9 +180,11 @@ export class ListComponent extends BaseComponent {
     }
 
     getItem(el: any) {
-        let id = el.dataset.id;
-        let item = '';
-        return item;
+        return this.getItemById(el.dataset.id);
+    }
+
+    getItemById(id: any) {
+        return this._listData.getItem(id);
     }
 
     // getSelectedItem() {

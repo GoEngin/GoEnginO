@@ -40,6 +40,10 @@ ol, ul {
   padding: 0;
 }
 
+.__hidden__ {
+  display: none !important;
+}
+
 mc-icon {
   &.icon-bars:before {
     content: "a";

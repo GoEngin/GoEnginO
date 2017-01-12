@@ -11,7 +11,8 @@ import { BaseComponent } from '../base.component';
     templateUrl: 'listitem.component.html',
     host: {
         '[attr.data-id]': 'item[idField]',
-        '[class.listitem__tile]': 'isTile'
+        '[class.listitem__tile]': 'isTile',
+        '[class.__hidden__]': 'hidden'
     }
 })
 
@@ -26,6 +27,7 @@ export class ListItemComponent extends BaseComponent {
     @Input() isTile: boolean = false;
     @Input() editable: boolean = false;
     @Input() isSimpleEdit: boolean = false;
+    @Input() hidden: boolean = false;
 
     @Input()
     set config(config: any) {

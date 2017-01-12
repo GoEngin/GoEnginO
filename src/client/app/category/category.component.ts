@@ -126,10 +126,8 @@ export class CategoryComponent extends AppBaseComponent {
 			items: items,
 			isSimpleEdit: true,
 			options: {
-				listItem: {
-					item: {
-						parentId: this._data[idx].parentId
-					}
+				itemTpl: {
+					parentId: this._data[idx].parentId
 				}
 			}
 		}

@@ -15,7 +15,7 @@
     </div>
 </div>
 <div class="list__listitems">
-	<mc-listitem *ngIf="isSimpleList || isSimpleEdit" *ngFor=" let item of _listData.getItems(); let isEven = even " [item]="item" [editable]="isSimpleEdit" [isSimpleEdit]="true" [idField]="idField" [displayField]="displayField" cls="listitem__{{isEven ? 'even' : 'odd'}}"></mc-listitem>
+	<mc-listitem *ngIf="isSimpleList || isSimpleEdit" *ngFor=" let item of _items; let isEven = even " [item]="item" [editable]="isSimpleEdit" [isSimpleEdit]="true" [idField]="idField" [displayField]="displayField" [hidden]="_listData.isDeletedItem(item)" cls="listitem__{{isEven ? 'even' : 'odd'}}"></mc-listitem>
 	<ng-content></ng-content>
 	<template #children></template>
 </div>
