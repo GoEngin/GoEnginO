@@ -2,6 +2,13 @@ import { Dom } from './dom';
 import { DataAccess } from './dataaccess';
 import { Validator } from './validator';
 
+const CONS: any = {
+  userGroup: {
+    admin: 'admin',
+    user: 'user'
+  }
+}
+
 export class Util {
 
   _dom: Dom;
@@ -54,9 +61,12 @@ export class Util {
     return !isLocal ? localStorage : sessionStorage;
   }
 
-  // Global Data 
+  isLoggedIn() {
+    return this._da.isLoggedIn();
+  }
+
   getUserId() {
-    return this.getItem('uid') || this.getItem('uid',false);
+    return this._da.getUserId();
   }
 
   getUserInfo() {
@@ -68,7 +78,21 @@ export class Util {
     return false;
   }
 
-  isLoggedIn() {
-    return this.getUserId() ? true : false;
+  isAdmin() {
+    let userGroup = this.getUserGroup();
+    if (userGroup) {
+      if (userGroup === CONS.userGroup.admin) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getUserGroup() {
+    let user = this.getUserInfo();
+    if (user) {
+      return user.userGroup;
+    }
+    return false;
   }
 }

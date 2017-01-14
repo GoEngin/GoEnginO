@@ -21,7 +21,7 @@ export class LoginService extends BaseService {
 		this.util.setItem(uid,userInfo,remember);
 	}
 
-	private _getUserInfo(uid: string = this.getUserId()) {
+	private _getUserInfo(uid: string = this.util.getUserId()) {
 		let userInfo: any = null;
 		if (uid) {
 			userInfo = this.util.getItem(uid) || this.util.getItem(uid,false);
@@ -30,7 +30,7 @@ export class LoginService extends BaseService {
 	}
 
 	private _removeUserInfo(reload: boolean = false) {
-		let uid = this.getUserId();
+		let uid = this.util.getUserId();
 		if (uid) {
 			this.util.removeItem('uid');
 			this.util.removeItem(uid);
@@ -55,12 +55,10 @@ export class LoginService extends BaseService {
 		let user = result.user || result;
 		this.da.getDataOnce(this.da.getPath('users') + '/' + user.uid).then((snapshot: any) => {
 			let userInfo: any = snapshot.val();
-			if (!userInfo || provider !== 'email') {
+			if (!userInfo) {
 				userInfo = this.createSNSUser(user);
 			}
-			if (!this.getUserId()) {
-				this._setUserInfo(userInfo.uid, userInfo, remember);
-			}
+			this._setUserInfo(userInfo.uid, userInfo, remember);
 			this.loggedin.emit({target:this,userInfo:userInfo});
 		}).catch((error: any) => this.service.doSendMsg(error));
 	}
@@ -80,10 +78,6 @@ export class LoginService extends BaseService {
 		}).catch((error: any) => this.service.doSendMsg(error));
 	}
 
-	getUserId() {
-		return this.util.getUserId();
-	}
-
 	updateUserInfo(userInfo: any) {
 		this.da.setData(this.da.getPath('users') + '/' + userInfo.uid, userInfo);
 	}
@@ -93,7 +87,8 @@ export class LoginService extends BaseService {
 			uid: user.uid,
 			username: user.displayName,
 			email: user.email,
-			photoURL: user.photoURL
+			photoURL: user.photoURL,
+			userGroup: 'useruser'
 		}
 		this.updateUserInfo(userInfo);
 		return userInfo;
@@ -106,7 +101,8 @@ export class LoginService extends BaseService {
 				uid: result.uid,
 				username: result.displayName || displayName,
 				email: result.email,
-				photoURL: result.photoURL || 'http://www.gravatar.com/avatar/' + md5(result.email)
+				photoURL: result.photoURL || 'http://www.gravatar.com/avatar/' + md5(result.email),
+				userGroup: 'user'
 			}
 			this.updateUserInfo(userInfo);
 			this.createduser.emit({target:this,userInfo:userInfo});

@@ -124,7 +124,7 @@ export class CategoryComponent extends AppBaseComponent {
 	addCarouselItem(items: any, idx: number) {
 		let config = {
 			items: items,
-			isSimpleEdit: true,
+			isSimpleEdit: this.util.isAdmin(),
 			options: {
 				itemTpl: {
 					parentId: this._data[idx].parentId

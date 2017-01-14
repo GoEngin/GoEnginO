@@ -47,10 +47,6 @@ export class SharedService {
     return this._util.isLoggedIn();
   }
 
-  getUserId() {
-    return this._util.getUserId();
-  }
-
   getValidator() {
     return this._util.validator();
   }

@@ -87,6 +87,18 @@ export class DataAccess {
 		}
 	}
 
+	isLoggedIn() {
+		return firebase.auth().currentUser;
+	}
+
+	getUserId() {
+		let user = this.isLoggedIn();
+		if (user) {
+			return user.uid;
+		}
+		return null;
+	}
+
 	logout() {
 		return firebase.auth().signOut().then((result:any) => {return result;});
 	}

@@ -12,8 +12,8 @@ export class ListData {
     private _iconField: string;
     private _defaultValue: any;
     private _multiSelect: boolean;
-    private _selectedIndexes: any = [];
-    private _changedIndexes: any = [];
+    private _selectedIds: any = {};
+    private _deletedItems: any = [];
     //value will be selected values. if not, selected items will be value.
     private _valueOnly: boolean;
     private _util: any;
@@ -24,7 +24,7 @@ export class ListData {
 	constructor(public config: any, protected _service: SharedService) {
         this._util = this._service.getUtil();
         this._initConfig(config);
-        this._indexing();
+        this._buildIndexes();
         this._selectDefaultValue();
 	}
 
@@ -39,17 +39,25 @@ export class ListData {
 	}
 
     //for finding idx, for reducing loops.
-    private _indexing() {
+    private _buildIndexes() {
         let items = this._items;
         let idxes: any = {};
         let vField = this._valueField;
-        for (let idx in items) {
-            items[idx].__idx__ = idx;
-            idxes[items[idx][vField]] = idx;
-            if (items[idx].selected) {
-                this._selectedIndexes[idx] = true;
+        let idx: any;
+        let count: number = items.length;
+        let item: any;
+        let id: any;
+        for (idx in items) {
+            item = items[idx];
+            id = item[vField];
+            item.__idx__ = idx;
+            idxes[id] = idx;
+            if (item.selected) {
+                this._selectedIds[id] = true;
             }
+            items[idx] = item;
         }
+        this._items = items;
         this._indexes = idxes;
     }
 
@@ -60,10 +68,10 @@ export class ListData {
     }
 
     loadItems(items: any) {
-        this._selectedIndexes = [];
-        this._changedIndexes = [];
+        this._selectedIds = {};
+        this._deletedItems = [];
         this._items = items;
-        this._indexing();
+        this._buildIndexes();
     }
 
     getIdx(value: any) {
@@ -105,16 +113,22 @@ export class ListData {
 
     selectItemByIndex(idx: number) {
         if (idx < 0) return;
-        this._items[idx].selected = true;
-        this._selectedIndexes[idx] = true;
-        this.selectedItemChange.emit({selectedIndexes:this._selectedIndexes,lastSelectedIndexes:[idx]});
+        let item = this._items[idx];
+        let id = item[this._valueField];
+        item.selected = true;
+        this._selectedIds[id] = true;
+        this._items[idx] = item;
+        this.selectedItemChange.emit({selectedIds:this._selectedIds,lastSelectedIds:[id]});
     }
 
     unselectItemByIndex(idx: number) {
         if (idx < 0) return;
-        this._items[idx].selected = false;
-        this._selectedIndexes[idx] = null;
-        this.selectedItemChange.emit({selectedIndexes:this._selectedIndexes,lastUnselectedIndexes:[idx]});
+        let item = this._items[idx];
+        let id = item[this._valueField];
+        item.selected = false;
+        this._selectedIds[id] = false;
+        this._items[idx] = item;
+        this.selectedItemChange.emit({selectedIds:this._selectedIds,lastSelectedIds:[id]});
     }
 
     selectItem(value: any) {
@@ -128,8 +142,11 @@ export class ListData {
         }
         let valueOnly = this._valueOnly;
         let vField = this._valueField;
-        let lastSelectedIndexes: any = [];
-        for (let value of values) {
+        let lastSelectedIds: any = [];
+        let item: any;
+        let id: any;
+        let value: any;
+        for (value of values) {
             if (!valueOnly) {
                 value = value[vField];
             }
@@ -139,30 +156,36 @@ export class ListData {
                     this.unselectAll();
                     unselected = true;
                 }
-                this._items[idx].selected = true;
-                this._selectedIndexes[idx] = true;
-                lastSelectedIndexes.push(idx);
+                item = this._items[idx];
+                item.selected = true;
+                id = item[this._valueField];
+                this._selectedIds[id] = true;
+                lastSelectedIds.push(id);
+                this._items[idx] = item;
             }
         }
-        this.selectedItemChange.emit({selectedIndexes:this._selectedIndexes,lastSelectedIndexes:lastSelectedIndexes});
-        return lastSelectedIndexes;
+        this.selectedItemChange.emit({selectedIds:this._selectedIds,lastSelectedIds:lastSelectedIds});
+        return lastSelectedIds;
     }
 
     unselectAll() {
         let items = this._items;
-        let selectedIndexes = this._selectedIndexes;
-        let unselectedIndexes: any = [];
-        let lastUnselectedIndexes: any = [];
-        for (let idx in selectedIndexes) {
-            if (selectedIndexes[idx]) {
+        let selectedIds = this._selectedIds;
+        let unselectedIds: any = [];
+        let lastUnselectedIds: any = [];
+        let id: any;
+        let idx: number;
+        for (id in selectedIds) {
+            if (selectedIds[id]) {
+                idx = this._indexes[id];
                 items[idx].selected = false;
-                unselectedIndexes.push(idx);
-                selectedIndexes[idx] = null;
-                lastUnselectedIndexes.push(idx);
+                unselectedIds.push(id);
+                selectedIds[id] = null;
+                lastUnselectedIds.push(id);
             }
         }
-        this.selectedItemChange.emit({selectedIndexes:this._selectedIndexes,lastUnselectedIndexes:lastUnselectedIndexes});
-        return lastUnselectedIndexes;
+        this.selectedItemChange.emit({selectedIds:this._selectedIds,lastUnselectedIds:lastUnselectedIds});
+        return lastUnselectedIds;
     }
 
     getSelectedItems() {
@@ -172,10 +195,12 @@ export class ListData {
     _getSelectedItems() {
         let _selectedItems: any = [];
         let items = this._items;
-        let selectedIndexes = this._selectedIndexes;
-        for (let idx in selectedIndexes) {
-            if (selectedIndexes[idx]) {
-                _selectedItems.push(items[idx]);
+        let selectedIds = this._selectedIds;
+        let indexes = this._indexes;
+        let id: any;
+        for (id in selectedIds) {
+            if (selectedIds[id]) {
+                _selectedItems.push(items[indexes[id]]);
             }
         }
         return _selectedItems;
@@ -183,12 +208,11 @@ export class ListData {
 
     _getSelectedValues() {
         let _selectedValues: any = [];
-        let valueField = this._valueField;
-        let items = this._items;
-        let selectedIndexes = this._selectedIndexes;
-        for (let idx in selectedIndexes) {
-            if (selectedIndexes[idx]) {
-                _selectedValues.push(items[valueField]);
+        let selectedIds = this._selectedIds;
+        let id: any;
+        for (id in selectedIds) {
+            if (selectedIds[id]) {
+                _selectedValues.push(id);
             }
         }
         return _selectedValues;
@@ -205,12 +229,11 @@ export class ListData {
         item[vField] = '__modified__' + idx;
         idxes[item[vField]] = idx;
         if (item.selected) {
-            this._selectedIndexes[idx] = true;
+            this._selectedIds[item[vField]] = true;
         }
         item.__modified__ = {
             isNew: true
         }
-        this._changedIndexes[idx] = true;
         let count = this._items.push(item);
         this._indexes = idx;
         return count;
@@ -220,49 +243,37 @@ export class ListData {
         let idx = this.getIdx(item[this._valueField]);
         item.__modified__ = item.__modified__ || {}
         item.__modified__.isUpdated = true;
-        this._changedIndexes[idx] = true;
         this._items[idx] = item;
     }
 
     deleteItem(item: any) {
         let idx = this.getIdx(item[this._valueField]);
-        item.__modified__ = item.__modified__ || {}
-        item.__modified__.isDeleted = true;
-        this._changedIndexes[idx] = true;
-        this._items[idx] = item;
-    }
-
-    isDeletedItem(item: any) {
-        if (item.__modified__ && item.__modified__.isDeleted) {
-            return true;
+        item = this._items.splice(idx,1)[0];
+        if (!(item.__modified && item.__modified.isNew)) {
+            this._deletedItems.push(item);
         }
-        return false;
+        this._buildIndexes();
     }
 
     getModifiedItems() {
         let vField = this._valueField;
-        let items: any = {
+        let changes: any = {
             new: [],
             updated: [],
             deleted: []
         }
         let item: any;
         let modified: any;
-        for (let idx of this._changedIndexes) {
-            item = this._items[idx];
+        let items = this._items;
+        for (item of items) {
             modified = item.__modified__;
             if (modified.isNew) {
-                if (!modified.isDeleted) {
-                    items.new.push(item);
-                }
-            } else if (modified.isUpdated && !modified.isDeleted) {
-                items.updated.push(item);
-            } else if (modified.isDeleted) {
-                if (!modified.isNew) {
-                    items.deleted.push(item);
-                }
+                changes.new.push(item);
+            } else if (modified.isUpdated) {
+                changes.updated.push(item);
             }
         }
-        return items;
+        changes.deleted = this._deletedItems;
+        return changes;
     }
 }

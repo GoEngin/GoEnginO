@@ -20,7 +20,8 @@ const IconType = {
     styleUrls: ['list.component.css'],
     templateUrl: 'list.component.html',
     host: {
-        '(click)' : 'onPress($event)'
+        '(click)' : 'onPress($event)',
+        '[class.editing]' : '_isEditing'
     }
 })
 
@@ -35,6 +36,7 @@ export class ListComponent extends BaseComponent {
     //ListData will have columns also.
     private _listData: ListData;
     private _items: any;
+    private _isEditing: boolean = false;
 
     @ViewChild('children', {read: ViewContainerRef}) listContainer: ViewContainerRef;
     @ViewChild('inputlabel') inputLabelEl: HTMLInputElement;
@@ -99,9 +101,9 @@ export class ListComponent extends BaseComponent {
         if (e.target.tagName.toLowerCase() === 'mc-icon' && e.target.dataset) {
             this.updateState(e.target, e.target.getAttribute('icon'));
             e.stopPropagation();
-        } else if (this.dom.findParent(e.target,'button__tool__add')) {
+        } else if (this.dom.findParent(e.target,'.button__tool__add')) {
             this.onAddItem(e.target);
-        } else if (this.dom.findParent(e.target,'button__tool__save')) {
+        } else if (this.dom.findParent(e.target,'.button__tool__save')) {
             this.onSaveAll();
         }
     }
@@ -142,6 +144,7 @@ export class ListComponent extends BaseComponent {
     onEditItem(el: HTMLElement, item: any) {
         this.dom.addCls(el, 'edit-mode');
         this.findLabelInput(el).focus();
+        this._isEditing = true;
     }
 
     findLabelInput(el: HTMLElement) {
@@ -153,6 +156,7 @@ export class ListComponent extends BaseComponent {
             this.updateSimpleItem(el, item);
         }
         this.dom.removeCls(el, 'edit-mode');
+        this._isEditing = false;
         this.changeitem.emit({target:this, listItemEl:el, cud: 'u', item:item});
     }
 
@@ -201,10 +205,6 @@ export class ListComponent extends BaseComponent {
 
     getItemById(id: any) {
         return this._listData.getItem(id);
-    }
-
-    canRenderListItem(item: any) {
-        return (this.isSimpleEdit || this.isSimpleEdit) && !this._listData.isDeletedItem(item)
     }
 
     // getSelectedItem() {

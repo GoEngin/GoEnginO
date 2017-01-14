@@ -18,7 +18,6 @@ import { CategoryComponent } from '../category/category.component';
 export class AppHeaderComponent extends AppBaseComponent {
 
 	private _photoURL: string;
-	private _isLoggedIn: boolean;
 	private _userInfo: any;
 	private _categoryDrawer: any;
 
@@ -32,12 +31,11 @@ export class AppHeaderComponent extends AppBaseComponent {
 	}
 
 	checkLoggedIn() {
-		this._isLoggedIn = this.util.isLoggedIn();
-		if (this._isLoggedIn) {
-			this._userInfo = this.util.getUserInfo();
+		this._userInfo = this.util.isLoggedIn();
+		if (this._userInfo) {
 			this._photoURL = this._userInfo.photoURL;
 		}
-		return this._isLoggedIn;
+		return this._userInfo;
 	}
 
 	onPress(e: any) {
