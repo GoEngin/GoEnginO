@@ -2,7 +2,6 @@ import { Component, Input, ElementRef, Output, EventEmitter, ViewChild, ViewCont
 import { SharedService } from '../../shared.service'; 
 import { BaseComponent } from '../base.component';
 import { ListData } from '../model/listdata';
-import { ListItemComponent } from './listitem.component';
 
 const IconType = {
     // Expand: "expand",
@@ -73,6 +72,9 @@ export class ListComponent extends BaseComponent {
         if (config.items) {
             this.items = config.items;
         }
+        if (config.options) {
+            this.options = config.options;
+        }
     }
 
     // @Input()
@@ -140,14 +142,12 @@ export class ListComponent extends BaseComponent {
         }
         item[this.displayField] = displayName;
         let config = {
-            editable: true,
-            isSimpleEdit: true,
             item: item
         }
         this.addItem(config);
     }
 
-    addItem(config:any, cmpType:any = ListItemComponent) {
+    addItem(config:any) {
         let count = this._listData.addItem(config.item);
     }
 

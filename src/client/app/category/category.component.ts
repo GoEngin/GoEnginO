@@ -4,6 +4,10 @@ import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
 import { CarouselComponent, CardComponent, ListComponent } from '../shared/component/index';
 
+const CONS = {
+	MAX_CATEGORY_DEPTH: 2
+}
+
 @Component({
 	moduleId: module.id,
 	selector: 'mc-category',
@@ -49,7 +53,7 @@ export class CategoryComponent extends AppBaseComponent {
 
 	onPress(e: any) {
 		let dom = this.dom;
-		let listItemEl = dom.findParent(e.target, 'mc-listitem');
+		let listItemEl = dom.hasCls(e.target, 'listitem__input__label') ? false : dom.findParent(e.target, 'mc-listitem');
 		if (listItemEl) {
 			this.nextList(listItemEl);
 		} else if (this.dom.findParent(e.target,'.header__category__left')) {
@@ -61,13 +65,15 @@ export class CategoryComponent extends AppBaseComponent {
 		let id = el.dataset.id;
 		let cItem = this.dom.findParent(el, 'mc-carouselitem');
 		let idx = parseInt(cItem.dataset.idx);
-		let item = this.getItem(id, idx);
-		//current list
-		let data = this._data[idx];
-		data.selectedItem = item;
-		data.title = item.displayName;
-		this.updateHeader(idx);
-		this.loadData(el.dataset.id,++idx);
+		if (idx < CONS.MAX_CATEGORY_DEPTH) {
+			let item = this.getItem(id, idx);
+			//current list
+			let data = this._data[idx];
+			data.selectedItem = item;
+			data.title = item.displayName;
+			this.updateHeader(idx);
+			this.loadData(el.dataset.id,++idx);
+		}
 	}
 
 	previousList() {

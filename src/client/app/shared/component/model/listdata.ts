@@ -236,7 +236,7 @@ export class ListData {
             isNew: true
         }
         let count = this._items.push(item);
-        this._indexes = idx;
+        this._indexes = idxes;
         this._hasDirty = true;
         this.itemChange.emit({target: this, added: true, item: item, hasDirty: this._hasDirty});
         return count;
@@ -275,13 +275,15 @@ export class ListData {
         let items = this._items;
         for (item of items) {
             modified = item.__modified__;
-            if (removeDirty) {
-                delete item.__modified__;
-            }
-            if (modified.isNew) {
-                changes.new.push(item);
-            } else if (modified.isUpdated) {
-                changes.updated.push(item);
+            if (modified) {
+                if (modified.isNew) {
+                    changes.new.push(item);
+                } else if (modified.isUpdated) {
+                    changes.updated.push(item);
+                }
+                if (removeDirty) {
+                    delete item.__modified__;
+                }
             }
         }
         changes.deleted = this._deletedItems;

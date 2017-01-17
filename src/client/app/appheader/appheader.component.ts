@@ -26,10 +26,15 @@ export class AppHeaderComponent extends AppBaseComponent {
 		protected service: SharedService
 	) {
 		super(el,service);
+		setTimeout(() => {
+			this.checkLoggedIn();
+		},500);
 		this.checkLoggedIn();
 		this.showCategory();
 	}
 
+	//TODO: firebase get the user information lately. http://stackoverflow.com/questions/37883981/cant-get-currentuser-on-load
+	// Need to use promise. var unsubscribe = auth1.onAuthStateChanged(function(user) { // do init stuff and then unsubscribe; unsubscribe();}); 
 	checkLoggedIn() {
 		this._userInfo = this.util.isLoggedIn();
 		if (this._userInfo) {

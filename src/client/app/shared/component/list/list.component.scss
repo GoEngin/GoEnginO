@@ -53,9 +53,9 @@
 		padding: 7px 100px;
 	}
 
-	// .list__listitems mc-listitem:nth-child(2n+1) {
-	// 	background-color: $color__50;
-	// }
+	.list__listitems mc-listitem:nth-child(2n+1) {
+		background-color: $color__50;
+	}
 	&.editing {
 		.button__tool {
 			@include readonly;
