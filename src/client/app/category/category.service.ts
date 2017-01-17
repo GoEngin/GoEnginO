@@ -31,6 +31,7 @@ export class CategoryService extends BaseService {
 
 	getParentId() {return this._parentId;}
 
+	//TODO: promise all
 	saveAll(items: any) {
 		items.new.forEach((item:any) => {
 			this.createCategory(item.parentId, item.displayName);

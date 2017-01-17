@@ -39,9 +39,7 @@ export class ListComponent extends BaseComponent {
     private _items: any;
     private _isEditing: boolean = false;
     private _hasDirty: boolean = false;
-
-    @ViewChild('children', {read: ViewContainerRef}) listContainer: ViewContainerRef;
-    @ViewChild('inputlabel') inputLabelEl: HTMLInputElement;
+    private _inputEl: any;
 
     @Input() cls: string;
     @Input() itemsHeader: boolean = false;
@@ -117,15 +115,18 @@ export class ListComponent extends BaseComponent {
     }
 
     onItemChange(e: any) {
-        if (e.hasDirty) {
+        this._hasDirty = e.hasDirty;
+    }
 
-        } else {
-
+    getInputEl() {
+        if (!this._inputEl) {
+            this._inputEl = this._el.nativeElement.querySelector('.list__additem__label__input');
         }
+        return this._inputEl;
     }
 
     onAddItem(el: HTMLElement) {
-        let displayName = this.inputLabelEl.value;
+        let displayName = this.getInputEl().value;
         if (this.isSimpleEdit) {
             this.addSimpleItem(displayName);
         }
@@ -148,8 +149,6 @@ export class ListComponent extends BaseComponent {
 
     addItem(config:any, cmpType:any = ListItemComponent) {
         let count = this._listData.addItem(config.item);
-        config.cls = "listitem__" + (count/2 === 0 ? "even" : "odd");
-        this._service.addComponent(cmpType, config, this.listContainer);
     }
 
     onEditItem(el: HTMLElement, item: any) {
