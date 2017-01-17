@@ -41,7 +41,6 @@ export class CategoryService extends BaseService {
 		items.deleted.forEach((item:any) => {
 			this.deleteCategory(item.id);
 		});
-		this.getCategories(this._parentId);
 	}
 
 	createCategory(parentId: string = '', displayName: string) {

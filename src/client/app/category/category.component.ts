@@ -52,23 +52,13 @@ export class CategoryComponent extends AppBaseComponent {
 		let listItemEl = dom.findParent(e.target, 'mc-listitem');
 		if (listItemEl) {
 			this.nextList(listItemEl);
-		} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
-			if (this.dom.findParent(e.target, '.header__card__content')) {
-				this.previousList();
-			}
-		} else if (this.dom.hasCls(e.target,'card__title__current')) {
-			if (this.dom.findParent(e.target, '.header__card__content')) {
-				this.toggleCardCollapsed();
-			}
+		} else if (this.dom.findParent(e.target,'.header__category__left')) {
+			this.previousList();
 		}
 	}
 
-	toggleCardCollapsed() {
-		this.cardCmp.collapsed = !this.cardCmp.collapsed;
-	}
-
 	nextList(el: any) {
-		let id = parseInt(el.dataset.id);
+		let id = el.dataset.id;
 		let cItem = this.dom.findParent(el, 'mc-carouselitem');
 		let idx = parseInt(cItem.dataset.idx);
 		let item = this.getItem(id, idx);
@@ -82,7 +72,7 @@ export class CategoryComponent extends AppBaseComponent {
 
 	previousList() {
 		this._data.pop();
-		let idx = this.carouselCmp.remove() - 1;
+		let idx = this.carouselCmp.previous();
 		this.updateHeader(idx - 1);
 	}
 
@@ -125,6 +115,7 @@ export class CategoryComponent extends AppBaseComponent {
 		let config = {
 			items: items,
 			isSimpleEdit: this.util.isAdmin(),
+			isSimpleList: true,
 			options: {
 				itemTpl: {
 					parentId: this._data[idx].parentId
@@ -133,10 +124,11 @@ export class CategoryComponent extends AppBaseComponent {
 		}
 		let listCmp = this.carouselCmp.addNew(ListComponent, config, idx).instance;
 		listCmp.clicksaveall.subscribe((e:any) => this.onSaveAll(e.modifiedItems));
+		this._data[idx].items = items;
 		this._data[idx].listCmp = listCmp;
 	}
 
 	onSaveAll(modifiedItems: any) {
-		this._categoryService.saveAll(modifiedItems)
+		this._categoryService.saveAll(modifiedItems);
 	}
 }

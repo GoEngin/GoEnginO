@@ -55,6 +55,13 @@
     }
 
     &.header__category {
+        .header__left {
+            top: 0;
+            transform: none;
+            font-size: 12px;
+            padding: 3px;
+            cursor: pointer;
+        }
         .header__center {
             @include title0;
             text-align: center;

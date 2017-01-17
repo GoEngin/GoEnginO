@@ -46,6 +46,10 @@ export class CarouselComponent extends BaseComponent {
         }
     }
 
+    previous() {
+        return this.remove() - 1;
+    }
+
     remove(idx?: number, anim: boolean = true) {
         let lastIdx = this._children.length - 1;
         idx = idx >= 0 ? idx : lastIdx;

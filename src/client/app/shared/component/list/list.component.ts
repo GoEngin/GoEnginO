@@ -21,7 +21,8 @@ const IconType = {
     templateUrl: 'list.component.html',
     host: {
         '(click)' : 'onPress($event)',
-        '[class.editing]' : '_isEditing'
+        '[class.editing]' : '_isEditing',
+        '[class.readonly]' : '!_hasDirty'
     }
 })
 
@@ -37,6 +38,7 @@ export class ListComponent extends BaseComponent {
     private _listData: ListData;
     private _items: any;
     private _isEditing: boolean = false;
+    private _hasDirty: boolean = false;
 
     @ViewChild('children', {read: ViewContainerRef}) listContainer: ViewContainerRef;
     @ViewChild('inputlabel') inputLabelEl: HTMLInputElement;
@@ -53,6 +55,7 @@ export class ListComponent extends BaseComponent {
     set items(value:any) {
         this._listData = new ListData({items:value,valueField:this.idField,displayField:this.displayField},this._service);
         this._items = this._listData.getItems();
+        this._listData.itemChange.subscribe((e:any) => this.onItemChange(e));
     }
     //TODO: Can they be the constructor's parameters?
     @Input()
@@ -111,6 +114,14 @@ export class ListComponent extends BaseComponent {
     onSaveAll() {
         let modifiedItems = this._listData.getModifiedItems();
         this.clicksaveall.emit({modifiedItems:modifiedItems});
+    }
+
+    onItemChange(e: any) {
+        if (e.hasDirty) {
+
+        } else {
+
+        }
     }
 
     onAddItem(el: HTMLElement) {

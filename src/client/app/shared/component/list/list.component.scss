@@ -61,4 +61,10 @@
 			@include readonly;
 		}
 	}
+
+	&.readonly {
+		.button__tool__save {
+			@include readonly;
+		}
+	}
 }

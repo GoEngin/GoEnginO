@@ -17,6 +17,7 @@ export class ListData {
     //value will be selected values. if not, selected items will be value.
     private _valueOnly: boolean;
     private _util: any;
+    private _hasDirty: boolean = false;
 
     @Output() selectedItemChange: EventEmitter<any> = new EventEmitter<any>();
     @Output() itemChange: EventEmitter<any> = new EventEmitter<any>();
@@ -236,6 +237,8 @@ export class ListData {
         }
         let count = this._items.push(item);
         this._indexes = idx;
+        this._hasDirty = true;
+        this.itemChange.emit({target: this, added: true, item: item, hasDirty: this._hasDirty});
         return count;
     }
 
@@ -244,6 +247,9 @@ export class ListData {
         item.__modified__ = item.__modified__ || {}
         item.__modified__.isUpdated = true;
         this._items[idx] = item;
+        this._hasDirty = true;
+        this.itemChange.emit({target: this, updated: true, item: item, hasDirty: this._hasDirty});
+        return item;
     }
 
     deleteItem(item: any) {
@@ -253,9 +259,11 @@ export class ListData {
             this._deletedItems.push(item);
         }
         this._buildIndexes();
+        this._hasDirty = true;
+        this.itemChange.emit({target: this, deleted: true, item: item, hasDirty: this._hasDirty});
     }
 
-    getModifiedItems() {
+    getModifiedItems(removeDirty: boolean = true) {
         let vField = this._valueField;
         let changes: any = {
             new: [],
@@ -267,6 +275,9 @@ export class ListData {
         let items = this._items;
         for (item of items) {
             modified = item.__modified__;
+            if (removeDirty) {
+                delete item.__modified__;
+            }
             if (modified.isNew) {
                 changes.new.push(item);
             } else if (modified.isUpdated) {
@@ -274,6 +285,11 @@ export class ListData {
             }
         }
         changes.deleted = this._deletedItems;
+        if (removeDirty) {
+            this._deletedItems = [];
+            this._hasDirty = false;
+        }
+        this.itemChange.emit({target: this, hasDirty: this._hasDirty});
         return changes;
     }
 }

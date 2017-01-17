@@ -27,7 +27,7 @@ export class ListItemComponent extends BaseComponent {
     @Input() hasTable: boolean;
     @Input() isTile: boolean = false;
     @Input() editable: boolean = false;
-    @Input() isSimpleEdit: boolean = false;
+    @Input() isSimpleList: boolean = false;
 
     @Input()
     set config(config: any) {
@@ -56,7 +56,7 @@ export class ListItemComponent extends BaseComponent {
             this.editable = config.editable;
         }
         if (config.columns) {
-            this.isSimpleEdit = config.isSimpleEdit;
+            this.isSimpleList = config.isSimpleList;
         }
     }
 

@@ -10,10 +10,10 @@
 <div *ngIf="hasDetail" class="listitem__detail" style="height:0px;" #detail><ng-content select=".listitem__detail__tpl"></ng-content></div>
 <ng-content></ng-content>
 <!--Simple Edit: this is for the simple edit. if there are many items to edit, it is needed a popup for editing items.-->
-<div *ngIf="isSimpleEdit" class="listitem__simple__edit">
+<div *ngIf="isSimpleList" class="listitem__simple__list">
 	<div class="listitem__label__container">
 		<div class="listitem__label">{{item[displayField]}}</div>
-		<div class="listitem__input"><input class="listitem__input__label" type="text" [value]="item[displayField]"></div>
+		<div *ngIf="editable" class="listitem__input"><input class="listitem__input__label" type="text" [value]="item[displayField]"></div>
 	</div>
 </div>
 <div *ngIf="editable" class="listitem__tool">
