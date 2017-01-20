@@ -5,26 +5,25 @@ import { BaseComponent } from '../base.component';
 //TODO: Does this create too much instances that can be caused the poor performance or wasting memory? 
 // -> Material2 Also use list-item component.
 @Component({
-    selector: 'mc-listitem',
+    selector: 'mc-listcolumnitem',
     moduleId: module.id,
-    styleUrls: ['listitem.component.css'],
-    templateUrl: 'listitem.component.html',
+    styleUrls: ['listcolumnitem.component.css'],
+    templateUrl: 'listcolumnitem.component.html',
     host: {
         '[attr.data-id]': 'item[idField]',
-        '[class.listitem__tile]': 'isTile',
         '[class.editable]': 'editable'
     }
 })
 
-export class ListItemComponent extends BaseComponent {
+export class ListColumnItemComponent extends BaseComponent {
 
     @Input() cls: string;
     @Input() item: any;
+    @Input() columns: any[];
     @Input() idField: string = 'id';
     @Input() displayField: string = 'displayName';
     @Input() hasDetail: boolean;
     @Input() hasTable: boolean;
-    @Input() isTile: boolean = false;
     @Input() editable: boolean = false;
 
     @Input()
@@ -47,11 +46,11 @@ export class ListItemComponent extends BaseComponent {
         if (config.hasTable) {
             this.hasTable = config.hasTable;
         }
-        if (config.isTile) {
-            this.isTile = config.isTile;
-        }
         if (config.editable) {
             this.editable = config.editable;
+        }
+        if (config.columns) {
+            this.columns = config.columns;
         }
     }
 

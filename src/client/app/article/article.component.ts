@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Input } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { ArticleService } from './article.service';
@@ -29,11 +29,24 @@ export class ArticleComponent extends AppBaseComponent {
 	private _data: any[] = [];
 	private _title: string;
 	private _prevTitle: string;
-	private _defaultTitle: string = "Categories";
-	private _headerLeftIcon: string;
+	private _defaultTitle: string = 'Category';
+	private _headerLeftIcon: string = 'Category';
+	private _parentCmp: any;
+	private _categoryId: string;
 
 	@ViewChild('maincard') cardCmp: CardComponent;
 	@ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
+
+	@Input()
+    set config(config: any) {
+        if (config.parentCmp) {
+            this._parentCmp = config.parentCmp;
+            this.updateToolTitle();
+        }
+        if (config.categoryId) {
+        	this._categoryId = config.categoryId;
+        }
+    }
 
 	constructor(
 		protected el: ViewContainerRef,
@@ -49,40 +62,33 @@ export class ArticleComponent extends AppBaseComponent {
 	}
 
 	onPress(e: any) {
-		let listItemEl = this.dom.findParent(e.target, 'mc-listitem',10);
+		let dom = this.dom;
+		let listItemEl = dom.hasCls(e.target, 'listitem__input__label') ? false : dom.findParent(e.target, 'mc-listitem');
 		if (listItemEl) {
 			this.nextList(listItemEl);
-		} else if (this.dom.hasCls(e.target,'icon-left') || this.dom.hasCls(e.target,'card__title__previous')) {
-			if (this.dom.findParent(e.target, '.header__card__content',6)) {
-				this.previousList();
-			}
-		} else if (this.dom.hasCls(e.target,'card__title__current')) {
-			if (this.dom.findParent(e.target, '.header__card__content',6)) {
-				this.toggleCardCollapsed();
-			}
+		} else if (this.dom.findParent(e.target,'.header__category__left')) {
+			this.previousList();
 		}
 	}
 
-	toggleCardCollapsed() {
-		this.cardCmp.collapsed = !this.cardCmp.collapsed;
-	}
-
 	nextList(el: any) {
-		let id = parseInt(el.dataset.id);
+		let id = el.dataset.id;
 		let cItem = this.dom.findParent(el, 'mc-carouselitem');
 		let idx = parseInt(cItem.dataset.idx);
-		let item = this.getItem(id, idx);
-		//current list
-		let data = this._data[idx];
-		data.selectedItem = item;
-		data.title = item.region;
-		this.updateHeader(idx);
-		this.loadData(el.dataset.id,++idx);
+		if (idx < CONS.MAX_CATEGORY_DEPTH) {
+			let item = this.getItem(id, idx);
+			//current list
+			let data = this._data[idx];
+			data.selectedItem = item;
+			data.title = item.displayName;
+			this.updateHeader(idx);
+			this.loadData(el.dataset.id,++idx);
+		}
 	}
 
 	previousList() {
-		let idx = this.carouselCmp.remove() - 1;
 		this._data.pop();
+		let idx = this.carouselCmp.previous();
 		this.updateHeader(idx - 1);
 	}
 
@@ -91,6 +97,13 @@ export class ArticleComponent extends AppBaseComponent {
 		this._title = idx >= 0 ? this._data[idx].title : this._defaultTitle;
 		this._prevTitle = idx > 0 ? this._data[idx-1].title : idx === 0 ? this._defaultTitle : '';
 		this._headerLeftIcon = idx >= 0 ? 'left' : '';
+		this.updateToolTitle();
+	}
+
+	updateToolTitle() {
+		if (this._parentCmp) {
+			this._parentCmp.toolTitle = this._title || this._defaultTitle;
+		}
 	}
 
 	getItem(id: number, idx?: number) {
@@ -107,35 +120,31 @@ export class ArticleComponent extends AppBaseComponent {
 	}
 
 	loadData(id: string = '', idx: number = 0) {
-		//Category
-		// if (idx < 3) {
-		// 	this._articleService.getCategories(id)
-		// 		.then((data: any) => {
-		// 			this.addCarouselItem(data,idx);
-		// 		});
-		// } else if (idx === 3) {
-		// 	let articles = this._articleService.getArticles(id);
-		// } else if (idx === 4) {
-		// 	let article = this._articleService.getArticle(id);
-		// }
+		this._categoryService.getCategories(id)
+			.then((items: any) => {
+				this._data[idx] = {parentId:id};
+				this.addCarouselItem(items, idx);
+			});
 	}
 
-	addCarouselItem(data: any, idx: number) {
+	addCarouselItem(items: any, idx: number) {
 		let config = {
-			data: data
+			items: items,
+			isSimpleEdit: this.util.isAdmin(),
+			isSimpleList: true,
+			options: {
+				itemTpl: {
+					parentId: this._data[idx].parentId
+				}
+			}
 		}
-		// switch (idx) {
-		// 	case 0:
-		// 	case 1:
-		// 	case 2:
-		// 		this.carouselCmp.addNew(CategoryListComponent, config, idx);
-		// 		break;
-		// 	case 3:
-		// 		this.carouselCmp.addNew(ArticleListComponent, config, idx);
-		// 		break;
-		// 	case 4:
-		// 		this.carouselCmp.addNew(ArticleDetailComponent, config, idx);
-		// 		break;
-		// }
+		let listCmp = this.carouselCmp.addNew(ListComponent, config, idx).instance;
+		listCmp.clicksaveall.subscribe((e:any) => this.onSaveAll(e.modifiedItems));
+		this._data[idx].items = items;
+		this._data[idx].listCmp = listCmp;
+	}
+
+	onSaveAll(modifiedItems: any) {
+		this._categoryService.saveAll(modifiedItems);
 	}
 }

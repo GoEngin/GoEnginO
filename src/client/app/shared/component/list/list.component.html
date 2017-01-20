@@ -15,7 +15,7 @@
     </div>
 </div>
 <div *ngIf="isSimpleEdit || isSimpleList" class="list__listitems">
-	<mc-listitem *ngFor=" let item of _items" [item]="item" [editable]="isSimpleEdit" [isSimpleList]="true" [idField]="idField" [displayField]="displayField"></mc-listitem>
+	<mc-listitem *ngFor=" let item of _items" [item]="item" [editable]="isSimpleEdit" [idField]="idField" [displayField]="displayField"></mc-listitem>
 </div>
 <div *ngIf="!(isSimpleEdit || isSimpleList)" class="list__listitems">
 	<ng-content></ng-content>

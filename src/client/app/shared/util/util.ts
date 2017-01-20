@@ -61,6 +61,10 @@ export class Util {
     return !isLocal ? localStorage : sessionStorage;
   }
 
+  checkLoggedIn() {
+    return this._da.checkLoggedIn();
+  }
+
   isLoggedIn() {
     return this._da.isLoggedIn();
   }

@@ -6,19 +6,18 @@ import { BaseService } from '../base.service';
 export class CategoryService extends BaseService {
 
 	private _categoryRef: any;
-	private _categoryPath: any;
+	private _categoryPath: string = 'categories';
 	private _tempId: number = 0;
 	private _parentId: string = '';
 
 	constructor(protected _service: SharedService) {
 		super(_service);
-		this._categoryPath = this.da.getPath('categories');
 		this._categoryRef = this.da.getData(this._categoryPath);
 	}
 
 	/*
 	3 depth catetory
-	Job > Interview > Coding Interview
+	Job > Interview > Coding Interview > tags
 	*/
 	getCategories(parentId: string = '') {
 		this._parentId = parentId;

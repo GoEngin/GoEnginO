@@ -3,7 +3,8 @@ import * as firebase from "firebase";
 const CONS = {
 	path: {
 		users: 'users',
-		categories: 'categories'
+		categories: 'categories',
+		article: 'article'
 	}
 };
 
@@ -63,6 +64,8 @@ Therefore, in practice, it's best to keep your data structure as flat as possibl
 */
 export class DataAccess {
 
+	private _userInfo: any;
+
 	//Firebase User
 	createUser(email: string, password: string) {
 		return firebase.auth().createUserWithEmailAndPassword(email, password).then((result: any) => {return result;});
@@ -87,12 +90,33 @@ export class DataAccess {
 		}
 	}
 
+	checkLoggedIn() {
+		return new Promise(resolve => {
+			let unsubscribe = firebase.auth().onAuthStateChanged(function(user: any) {
+				if (user) {
+					this._userInfo = user;
+					resolve(user);
+				} else {
+					resolve(null);
+				}
+				unsubscribe();
+			});
+		});
+	}
+
+	getUserInfo() {
+		if (!this._userInfo) {
+			this._userInfo = firebase.auth().currentUser;
+		}
+		return this._userInfo;
+	}
+
 	isLoggedIn() {
-		return firebase.auth().currentUser;
+		return this.getUserInfo();
 	}
 
 	getUserId() {
-		let user = this.isLoggedIn();
+		let user = this.getUserInfo();
 		if (user) {
 			return user.uid;
 		}
