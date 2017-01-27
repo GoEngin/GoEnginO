@@ -27,19 +27,6 @@ const IconType = {
 
 export class ListComponent extends BaseComponent {
 
-    // private _toggledItems: any[] = [];
-    // private _selectedListItem: any;
-    // private _detailHeight: number;
-    // private _columns: any[];
-    // private _iconTypeInfo: any = {};
-
-    //ListData will have columns also.
-    private _listData: ListData;
-    private _items: any;
-    private _isEditing: boolean = false;
-    private _hasDirty: boolean = false;
-    private _inputEl: any;
-
     @Input() cls: string;
     @Input() itemsHeader: boolean = false;
     @Input() isSimpleList: boolean = false;
@@ -96,6 +83,19 @@ export class ListComponent extends BaseComponent {
     @Output() changeitem: EventEmitter<any> = new EventEmitter();
     @Output() clicksaveall: EventEmitter<any> = new EventEmitter();
 
+    // private _toggledItems: any[] = [];
+    // private _selectedListItem: any;
+    // private _detailHeight: number;
+    // private _columns: any[];
+    // private _iconTypeInfo: any = {};
+
+    //ListData will have columns also.
+    private _listData: ListData;
+    private _items: any;
+    private _isEditing: boolean = false;
+    private _hasDirty: boolean = false;
+    private _inputEl: any;
+
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);
     }
@@ -109,6 +109,10 @@ export class ListComponent extends BaseComponent {
         } else if (this.dom.findParent(e.target,'.button__tool__save')) {
             this.onSaveAll();
         }
+    }
+
+    onItemSelect(el: any) {
+        let id = el.dataset.id;
     }
 
     onSaveAll() {
@@ -158,7 +162,7 @@ export class ListComponent extends BaseComponent {
     }
 
     findLabelInput(el: HTMLElement) {
-        return <HTMLInputElement> el.querySelector(".listitem__input__label");
+        return <HTMLInputElement> el.querySelector('.listitem__input__label');
     }
 
     onSaveItem(el: HTMLElement, item: any) {
@@ -171,7 +175,7 @@ export class ListComponent extends BaseComponent {
     }
 
     updateSimpleItem(el: HTMLElement, item: any) {
-        let labelEl = el.querySelector(".listitem__label");
+        let labelEl = el.querySelector('.listitem__label');
         let displayName = this.findLabelInput(el).value;
         labelEl.innerHTML = displayName;
         item[this.displayField] = displayName;

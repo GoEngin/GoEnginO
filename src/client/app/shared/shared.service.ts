@@ -31,7 +31,7 @@ export class SharedService {
     return cmp;
   }
 
-  addComponent(cmpType: any, config: any = {}, parentEl: ViewContainerRef, idx: number = 0) {
+  addComponent(cmpType: any, config: any = {}, parentEl: ViewContainerRef) {
     //http://stackoverflow.com/questions/39297219/angular2-rc6-dynamically-load-component-from-module
     let factory = this._resolver.resolveComponentFactory(cmpType);
     let cmp: any = parentEl.createComponent(factory);

@@ -1,14 +1,18 @@
 import { Output, EventEmitter } from '@angular/core';
 import { SharedService } from '../../shared.service'; 
-//If you want to pass data by a templete property, you need to define a model for the data. Unless you get "[Object Object]" instead of the data
+//If you want to pass data by a templete property, you need to define a model for the data. 
+//Unless you get "[Object Object]" instead of the data
 //The property is a string type except the model object.
 //A boolean value is from a property is string type. Need to convert it to boolean value.
 export class ListData {
 
-	private _indexes: any;
-	private _items: any;
-	private _valueField: any;
-	private _displayField: string;
+    @Output() selectedItemChange: EventEmitter<any> = new EventEmitter<any>();
+    @Output() itemChange: EventEmitter<any> = new EventEmitter<any>();
+
+    private _indexes: any;
+    private _items: any;
+    private _valueField: any;
+    private _displayField: string;
     private _iconField: string;
     private _defaultValue: any;
     private _multiSelect: boolean;
@@ -19,53 +23,11 @@ export class ListData {
     private _util: any;
     private _hasDirty: boolean = false;
 
-    @Output() selectedItemChange: EventEmitter<any> = new EventEmitter<any>();
-    @Output() itemChange: EventEmitter<any> = new EventEmitter<any>();
-
-	constructor(public config: any, protected _service: SharedService) {
+    constructor(public config: any, protected _service: SharedService) {
         this._util = this._service.getUtil();
         this._initConfig(config);
         this._buildIndexes();
         this._selectDefaultValue();
-	}
-
-	private _initConfig(config: any) {
-		this._items = config.items ? config.items : [];
-		this._valueField = config.valueField ? config.valueField : 'id';
-		this._displayField = config.displayField ? config.displayField : 'displayName';
-        this._iconField = config.iconField ? config.iconField : '';
-        this._defaultValue = config.defaultValue;
-        this._multiSelect = config.multiSelect ? true : false;
-        this._valueOnly = config.valueOnly ? true : false;
-	}
-
-    //for finding idx, for reducing loops.
-    private _buildIndexes() {
-        let items = this._items;
-        let idxes: any = {};
-        let vField = this._valueField;
-        let idx: any;
-        let count: number = items.length;
-        let item: any;
-        let id: any;
-        for (idx in items) {
-            item = items[idx];
-            id = item[vField];
-            item.__idx__ = idx;
-            idxes[id] = idx;
-            if (item.selected) {
-                this._selectedIds[id] = true;
-            }
-            items[idx] = item;
-        }
-        this._items = items;
-        this._indexes = idxes;
-    }
-
-    private _selectDefaultValue() {
-        if (!this._util.isEmpty(this._defaultValue)) {
-            this.selectItem(this._defaultValue);
-        }
     }
 
     loadItems(items: any) {
@@ -293,5 +255,44 @@ export class ListData {
         }
         this.itemChange.emit({target: this, hasDirty: this._hasDirty});
         return changes;
+    }
+
+    private _initConfig(config: any) {
+        this._items = config.items ? config.items : [];
+        this._valueField = config.valueField ? config.valueField : 'id';
+        this._displayField = config.displayField ? config.displayField : 'displayName';
+        this._iconField = config.iconField ? config.iconField : '';
+        this._defaultValue = config.defaultValue;
+        this._multiSelect = config.multiSelect ? true : false;
+        this._valueOnly = config.valueOnly ? true : false;
+    }
+
+    //for finding idx, for reducing loops.
+    private _buildIndexes() {
+        let items = this._items;
+        let idxes: any = {};
+        let vField = this._valueField;
+        let idx: any;
+        let count: number = items.length;
+        let item: any;
+        let id: any;
+        for (idx in items) {
+            item = items[idx];
+            id = item[vField];
+            item.__idx__ = idx;
+            idxes[id] = idx;
+            if (item.selected) {
+                this._selectedIds[id] = true;
+            }
+            items[idx] = item;
+        }
+        this._items = items;
+        this._indexes = idxes;
+    }
+
+    private _selectDefaultValue() {
+        if (!this._util.isEmpty(this._defaultValue)) {
+            this.selectItem(this._defaultValue);
+        }
     }
 }
