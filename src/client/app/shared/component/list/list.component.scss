@@ -3,68 +3,8 @@
 :host {
 	display: block;
 	position: relative;
-	table {
-		width: 100%;
-		border: 0;
-		td {
-			text-align: left;
-			border: 0;
-			font-size: 14px;
-			height: 32px;
-			vertical-align: middle;
-			&.listitem__align__right {
-				text-align: right;
-			}
-			&.listitem__align__center {
-				text-align: center;
-			}
-		}
-	}
-	.list__header {
-	}
-	.list__items__header {
-		padding: 0 14px;
-		.list__items__header__table {}
-	}
-	.list__additem {
-		position: relative;
-	    height: 40px;
-	    padding: 7px;
-	    padding-right: 66px;
-	    background: $color__100;
-	    margin-bottom: 7px;
-	    .list__additem__container {
-	    	.list__additem__label {
-	    		.list__additem__label__input {
-	    			line-height: 20px;
-    				width: 100%;
-	    		}
-	    	}
-	    }
-	    .list__additem__tool {
-		    position: absolute;
-		    top: 0;
-		    right: 0;
-		    padding: 6px;
-		    padding-right: 7px;
-	    }
-	}
-	.list__saveitem {
-		padding: 7px 100px;
-	}
 
-	.list__listitems mc-listitem:nth-child(2n+1) {
+	mc-listitem:nth-child(2n+1) {
 		background-color: $color__50;
-	}
-	&.editing {
-		.button__tool {
-			@include readonly;
-		}
-	}
-
-	&.readonly {
-		.button__tool__save {
-			@include readonly;
-		}
 	}
 }

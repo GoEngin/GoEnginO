@@ -10,12 +10,14 @@ import { LoginService } from './login/login.service';
 import { ArticleService } from './article/article.service';
 import { CategoryService } from './category/category.service';
 
+// tslint:disable-next-line:max-line-length
 import { HeaderComponent, IconComponent, FormComponent, ButtonComponent, InputComponent, TextComponent, DrawerComponent, ToggleComponent, CardComponent, CarouselComponent, CarouselItemComponent, ListComponent, ListItemComponent } from './shared/component/index';
 import { AppHeaderComponent } from './appheader/appheader.component';
 
 import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { CategoryComponent } from './category/category.component';
+import { CategoryListComponent } from './category/categorylist.component';
 import { ArticleListComponent } from './article/articlelist.component';
 import { ArticleDetailComponent } from './article/articledetail.component';
 // for loading components dynamically
@@ -23,17 +25,17 @@ import { LoginComponent } from './login/login.component';
 import { UserMenuComponent } from './usermenu/usermenu.component';
 
 @NgModule({
-  imports: [ 
+  imports: [
     BrowserModule
   ],
-  declarations: [ 
-    AppComponent, 
-    HeaderComponent, 
-    AppHeaderComponent, 
-    IconComponent, 
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    AppHeaderComponent,
+    IconComponent,
     FormComponent,
-    ButtonComponent, 
-    InputComponent, 
+    ButtonComponent,
+    InputComponent,
     TextComponent,
     ToggleComponent,
     LoginComponent,
@@ -46,6 +48,7 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     ListItemComponent,
     ArticleComponent,
     CategoryComponent,
+    CategoryListComponent,
     ArticleListComponent,
     ArticleDetailComponent
   ],
@@ -56,6 +59,7 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     LoginComponent,
     UserMenuComponent,
     CategoryComponent,
+    CategoryListComponent,
     ArticleListComponent,
     ArticleDetailComponent,
     ListComponent,
@@ -76,6 +80,4 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
 
 })
 
-export class AppModule { 
-
-}
+export class AppModule {}

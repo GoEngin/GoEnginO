@@ -1,0 +1,26 @@
+<div class="category-list__additem">
+	<div class="category-list__additem__container">
+    	<span class="category-list__additem__label"><input class="category-list__additem__label__input" type="text"></span>
+    </div>
+    <div class="category-list__additem__tool">
+    	<mc-button class="button__tool button__tool__add" label="Add"></mc-button>
+    </div>
+</div>
+<mc-list>
+    <mc-listitem *ngFor="let item of _items" [attr.data-id]="item.id">
+        <div class="listitem__simple__list">
+            <div class="listitem__label__container">
+                <div class="listitem__label">{{item.displayName}}</div>
+                <div class="listitem__input"><input class="listitem__input__label" type="text" [value]="item.displayName"></div>
+            </div>
+        </div>
+        <div class="listitem__tool">
+            <mc-icon icon="edit" [attr.data-icontype]="edit" class="icon__listitem__edit"></mc-icon>
+            <mc-icon icon="save" [attr.data-icontype]="save" class="icon__listitem__save"></mc-icon>
+            <mc-icon icon="delete" [attr.data-icontype]="delete" class="icon__listitem__delete"></mc-icon>
+        </div>
+    </mc-listitem>
+</mc-list>
+<div class="category-list__saveitem">
+	<mc-button class="button__tool button__tool__save" label="Save"></mc-button>
+</div>

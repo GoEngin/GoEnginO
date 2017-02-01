@@ -23,9 +23,6 @@ const CONS = {
 
 export class ArticleComponent extends AppBaseComponent {
 
-    @ViewChild('maincard') cardCmp: CardComponent;
-    @ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
-
     private _list:any = [];
     private _article: any;
     private _title: string;
@@ -34,6 +31,17 @@ export class ArticleComponent extends AppBaseComponent {
     private _listItem: any;
     private _category: any;
 
+    @ViewChild('maincard') cardCmp: CardComponent;
+    @ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
+
+    @Input()
+    set config(config: any) {
+        if (config.category) {
+            this._category = config.category;
+            this.loadList(this._category);
+        }
+    }
+
     @HostListener('click',['$event'])
     onPress(e: any) {
         let dom = this.dom;
@@ -41,14 +49,6 @@ export class ArticleComponent extends AppBaseComponent {
         if (listItemEl) {
             this.loadArticle(listItemEl);
         } else if (this.dom.findParent(e.target,'.header__article-list__left')) {
-            this.loadList(this._category);
-        }
-    }
-
-    @Input()
-    set config(config: any) {
-        if (config.category) {
-            this._category = config.category;
             this.loadList(this._category);
         }
     }
@@ -89,14 +89,10 @@ export class ArticleComponent extends AppBaseComponent {
             config = {
                 items: data
             };
-            cmp = ListComponent;
+             this._listCmp = this.carouselCmp.addNew(ListComponent, config, idx).instance;
         } else {
             config = {};
-            cmp = ArticleDetailComponent;
-        }
-        let childCmp = this.carouselCmp.addNew(cmp, config, idx).instance;
-        if (idx === 0) {
-            this._listCmp = childCmp;
+            this.carouselCmp.addNew(ArticleDetailComponent, config, idx).instance;
         }
     }
 }

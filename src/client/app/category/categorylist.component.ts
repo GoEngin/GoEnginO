@@ -3,17 +3,30 @@ import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { ListData } from '../shared/component/index';
 
+const CONS = {
+    ICON_TYPE: {
+        edit: 'edit',
+        save: 'save',
+        delete: 'delete'
+    }
+};
+
 @Component({
     moduleId: module.id,
-    selector: 'mc-articlelist',
-    styleUrls: ['articlelist.component.css'],
-    templateUrl: 'articlelist.component.html'
+    selector: 'mc-categorylist',
+    styleUrls: ['categorylist.component.css'],
+    templateUrl: 'categorylist.component.html'
 })
-export class ArticleListComponent extends AppBaseComponent {
+
+export class CategoryListComponent extends AppBaseComponent {
 
     private _listData: ListData;
     private _items: any;
+    private _isEditing: boolean = false;
+    private _hasDirty: boolean = false;
+    private _inputEl: any;
 
+    //TODO: Can they be the constructor's parameters?
     @Input()
     set config(config: any) {
         if (config.items) {
@@ -142,3 +155,4 @@ export class ArticleListComponent extends AppBaseComponent {
         return this._listData.getItem(id);
     }
 }
+

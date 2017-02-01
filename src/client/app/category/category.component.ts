@@ -2,8 +2,9 @@ import { Component, ViewContainerRef, ViewChild, Input, HostListener } from '@an
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { CategoryService } from './category.service';
-import { CarouselComponent, CardComponent, ListComponent } from '../shared/component/index';
+import { CarouselComponent, CardComponent } from '../shared/component/index';
 import { ArticleComponent } from '../article/article.component';
+import { CategoryListComponent } from './categorylist.component';
 
 const CONS = {
     MAX_CATEGORY_DEPTH: 2
@@ -74,7 +75,7 @@ export class CategoryComponent extends AppBaseComponent {
             this.updateHeader(idx);
             this.loadData(el.dataset.id,++idx);
             if (this._articleCmp) {
-                this._articleCmp.hide = true;
+                this._articleCmp.hidden = true;
             }
         } else {
             this.showArticleList(item);
@@ -124,16 +125,9 @@ export class CategoryComponent extends AppBaseComponent {
 
     addCarouselItem(items: any, idx: number) {
         let config = {
-            items: items,
-            isSimpleEdit: this.util.isAdmin(),
-            isSimpleList: true,
-            options: {
-                itemTpl: {
-                    parentId: this._data[idx].parentId
-                }
-            }
-        }
-        let listCmp = this.carouselCmp.addNew(ListComponent, config, idx).instance;
+            items: items
+        };
+        let listCmp = this.carouselCmp.addNew(CategoryListComponent, config, idx).instance;
         listCmp.clicksaveall.subscribe((e:any) => this.onSaveAll(e.modifiedItems));
         this._data[idx].items = items;
         this._data[idx].listCmp = listCmp;

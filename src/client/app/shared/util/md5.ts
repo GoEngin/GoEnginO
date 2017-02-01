@@ -227,3 +227,4 @@ export let md5 = (string: any) => {
 
     return temp.toLowerCase();
   };
+  

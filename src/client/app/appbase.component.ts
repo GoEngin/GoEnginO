@@ -1,5 +1,5 @@
 import { ViewContainerRef, Input } from '@angular/core';
-import { SharedService } from './shared/shared.service'; 
+import { SharedService } from './shared/shared.service';
 
 export class AppBaseComponent {
 
@@ -15,7 +15,7 @@ export class AppBaseComponent {
     }
 
     @Input()
-    set hide(value: boolean) {
+    set hidden(value: boolean) {
         if (value) {
             this.dom.addCls(this.el.element.nativeElement, '__hidden__');
         } else {
