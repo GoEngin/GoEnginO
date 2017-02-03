@@ -2,7 +2,7 @@ import { Component, ViewContainerRef, ViewChild, Input, HostListener } from '@an
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { ArticleService } from './article.service';
-import { CarouselComponent, CardComponent, ListComponent } from '../shared/component/index';
+import { CarouselComponent, CardComponent } from '../shared/component/index';
 import { ArticleListComponent } from './articlelist.component';
 import { ArticleDetailComponent } from './articledetail.component';
 
@@ -23,7 +23,7 @@ const CONS = {
 
 export class ArticleComponent extends AppBaseComponent {
 
-    private _list:any = [];
+    // private _list:any = [];
     private _article: any;
     private _title: string;
     private _prevTitle: string;
@@ -76,9 +76,10 @@ export class ArticleComponent extends AppBaseComponent {
         this._title = this._category.displayName;
         this._prevTitle = '';
         this._articleService.getArticleList(category.id)
-            .then((items: any) => {
-                this._list = items;
-                this.addCarouselItem(items, 0);
+            .then((data: any) => {
+                // this._list = data;
+                data.parentId = category.id;
+                this.addCarouselItem(data, 0);
             });
     }
 
@@ -86,10 +87,8 @@ export class ArticleComponent extends AppBaseComponent {
         let cmp: any;
         let config: any;
         if (idx === 0) {
-            config = {
-                items: data
-            };
-             this._listCmp = this.carouselCmp.addNew(ListComponent, config, idx).instance;
+            config = data;
+             this._listCmp = this.carouselCmp.addNew(ArticleListComponent, config, idx).instance;
         } else {
             config = {};
             this.carouselCmp.addNew(ArticleDetailComponent, config, idx).instance;

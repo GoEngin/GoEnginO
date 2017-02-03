@@ -136,6 +136,10 @@ export class DataAccess {
         return ref.once('value').then((snapshot: any) => {return snapshot;});
     }
 
+    getDataOnceWithArrayAndIndex(path: string) {
+        return firebase.database().ref(path).once('value').then((snapshot: any) => {return this.snapshotToArrayAndIndex(snapshot);});
+    }
+
     getPath(pathName: string) {
         let path: any = CONS.path;
         return path[pathName];
@@ -201,5 +205,39 @@ export class DataAccess {
             items.push(item);
         });
         return items;
+    }
+
+    snapshotToArrayAndIndex(s: any) {
+        let item: any;
+        let items: Array<any> = [];
+        let idxes: any = {};
+        let idx: number = 0;
+        s.forEach((sc:any) => {
+            item = sc.val();
+            item.id = sc.key;
+            item.__idx__ = idx;
+            idxes[item.id] = idx;
+            items.push(item);
+        });
+        return {items:items,indexes:idxes};
+    }
+
+    buildIndex(items: any, idField: string = 'id') {
+        let idxes: any = {};
+        let idx: any;
+        let item: any;
+        let id: any;
+        let selectedIds: any = {};
+        for (idx in items) {
+            item = items[idx];
+            id = item[idField];
+            item.__idx__ = idx;
+            idxes[id] = idx;
+            if (item.selected) {
+                selectedIds[id] = true;
+            }
+            items[idx] = item;
+        }
+        return {items:items,indexes:idxes,selectedIds:selectedIds};
     }
 }

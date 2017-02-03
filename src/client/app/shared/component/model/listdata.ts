@@ -9,6 +9,7 @@ export class ListData {
     @Output() selectedItemChange: EventEmitter<any> = new EventEmitter<any>();
     @Output() itemChange: EventEmitter<any> = new EventEmitter<any>();
 
+    private _da: any;
     private _indexes: any;
     private _items: any;
     private _valueField: any;
@@ -25,16 +26,44 @@ export class ListData {
 
     constructor(public config: any, protected _service: SharedService) {
         this._util = this._service.getUtil();
+        this._da = this._service.getDataAccess();
         this._initConfig(config);
-        this._buildIndexes();
         this._selectDefaultValue();
     }
 
+    private _initConfig(config: any) {
+        this._items = config.items ? config.items : [];
+        this._valueField = config.valueField ? config.valueField : 'id';
+        if (!config.indexes) {
+            this._buildIndexes(this._items,this._valueField);
+        } else {
+            this._indexes = config.indexes;
+            this._selectedIds = config.selectedIds ? config.selectedIds : {};
+        }
+        this._displayField = config.displayField ? config.displayField : 'displayName';
+        this._iconField = config.iconField ? config.iconField : '';
+        this._defaultValue = config.defaultValue;
+        this._multiSelect = config.multiSelect ? true : false;
+        this._valueOnly = config.valueOnly ? true : false;
+    }
+
+    private _selectDefaultValue() {
+        if (!this._util.isEmpty(this._defaultValue)) {
+            this.selectItem(this._defaultValue);
+        }
+    }
+
+    private _buildIndexes(items: any, idField: string) {
+        let data = this._da.buildIndex(items,idField);
+        this._items = data.items;
+        this._indexes = data.indexes;
+        this._selectedIds = data.selectedIds;
+        data = null;
+    }
+
     loadItems(items: any) {
-        this._selectedIds = {};
         this._deletedItems = [];
-        this._items = items;
-        this._buildIndexes();
+        this._buildIndexes(items,this._valueField);
     }
 
     getIdx(value: any) {
@@ -220,7 +249,7 @@ export class ListData {
         if (!(item.__modified && item.__modified.isNew)) {
             this._deletedItems.push(item);
         }
-        this._buildIndexes();
+        this._buildIndexes(this._items,this._valueField);
         this._hasDirty = true;
         this.itemChange.emit({target: this, deleted: true, item: item, hasDirty: this._hasDirty});
     }
@@ -255,44 +284,5 @@ export class ListData {
         }
         this.itemChange.emit({target: this, hasDirty: this._hasDirty});
         return changes;
-    }
-
-    private _initConfig(config: any) {
-        this._items = config.items ? config.items : [];
-        this._valueField = config.valueField ? config.valueField : 'id';
-        this._displayField = config.displayField ? config.displayField : 'displayName';
-        this._iconField = config.iconField ? config.iconField : '';
-        this._defaultValue = config.defaultValue;
-        this._multiSelect = config.multiSelect ? true : false;
-        this._valueOnly = config.valueOnly ? true : false;
-    }
-
-    //for finding idx, for reducing loops.
-    private _buildIndexes() {
-        let items = this._items;
-        let idxes: any = {};
-        let vField = this._valueField;
-        let idx: any;
-        let count: number = items.length;
-        let item: any;
-        let id: any;
-        for (idx in items) {
-            item = items[idx];
-            id = item[vField];
-            item.__idx__ = idx;
-            idxes[id] = idx;
-            if (item.selected) {
-                this._selectedIds[id] = true;
-            }
-            items[idx] = item;
-        }
-        this._items = items;
-        this._indexes = idxes;
-    }
-
-    private _selectDefaultValue() {
-        if (!this._util.isEmpty(this._defaultValue)) {
-            this.selectItem(this._defaultValue);
-        }
     }
 }

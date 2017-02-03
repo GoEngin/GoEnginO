@@ -23,7 +23,7 @@ export class CategoryService extends BaseService {
         this._parentId = parentId;
         return this._categoryRef.orderByChild('parentId').equalTo(parentId).once('value')
             .then((snapshot: any) => {
-                return this.da.snapshotToArray(snapshot);
+                return this.da.snapshotToArrayAndIndex(snapshot);
             })
             .catch((error: any) => this.service.doSendMsg(error));
     }
@@ -48,7 +48,7 @@ export class CategoryService extends BaseService {
             parentId: parentId,
             displayName: displayName
         };
-        this._categoryRef.push(item)
+        this._categoryRef.push(item);
     }
 
     updateCategory(key: string, parentId: string, displayName: string) {

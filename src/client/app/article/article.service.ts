@@ -18,7 +18,7 @@ export class ArticleService extends BaseService {
     }
 
     getArticleList(categoryId: string) {
-        return this.da.getData('article/list/' + categoryId);
+        return this.da.getDataOnceWithArrayAndIndex('article/list/' + categoryId);
     }
 
     getArticle(categoryId: string, articleId: string) {

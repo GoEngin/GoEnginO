@@ -117,20 +117,22 @@ export class CategoryComponent extends AppBaseComponent {
 
     loadData(id: string = '', idx: number = 0) {
         this._categoryService.getCategories(id)
-            .then((items: any) => {
-                this._data[idx] = {parentId:id};
-                this.addCarouselItem(items, idx);
+            .then((data: any) => {
+                let _data = {
+                    parentId: id,
+                    items: data.items,
+                    indexes: data.indexes
+                };
+                this.addCarouselItem(_data, idx);
             });
     }
 
-    addCarouselItem(items: any, idx: number) {
-        let config = {
-            items: items
-        };
+    addCarouselItem(data: any, idx: number) {
+        let config = data;
         let listCmp = this.carouselCmp.addNew(CategoryListComponent, config, idx).instance;
         listCmp.clicksaveall.subscribe((e:any) => this.onSaveAll(e.modifiedItems));
-        this._data[idx].items = items;
-        this._data[idx].listCmp = listCmp;
+        this._data[idx] = data;
+        data = null;
     }
 
     showArticleList(category: any) {

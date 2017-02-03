@@ -29,18 +29,14 @@ export class CategoryListComponent extends AppBaseComponent {
     //TODO: Can they be the constructor's parameters?
     @Input()
     set config(config: any) {
-        if (config.items) {
-            this.items = config.items;
+        if (config.items && config.indexes) {
+            this._listData = new ListData({items: config.items, indexes: config.indexes},this.service);
+            this._items = this._listData.getItems();
+            this._listData.itemChange.subscribe((e:any) => this.onItemChange(e));
         }
         if (config.parentId) {
             this.parentId = config.parentId;
         }
-    }
-    @Input()
-    set items(value:any) {
-        this._listData = new ListData({items:value},this.service);
-        this._items = this._listData.getItems();
-        this._listData.itemChange.subscribe((e:any) => this.onItemChange(e));
     }
     @Input() parentId: string;
 
@@ -112,12 +108,12 @@ export class CategoryListComponent extends AppBaseComponent {
     }
 
     onSaveItem(el: HTMLElement, item: any) {
-        this.updateSimpleItem(el, item);
+        this.updateItem(el, item);
         this.dom.removeCls(el, 'edit-mode');
         this._isEditing = false;
     }
 
-    updateSimpleItem(el: HTMLElement, item: any) {
+    updateItem(el: HTMLElement, item: any) {
         let labelEl = el.querySelector('.listitem__label');
         let displayName = this.findLabelInput(el).value;
         labelEl.innerHTML = displayName;
