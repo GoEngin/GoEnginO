@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewContainerRef, ViewChild, HostListener } from '@angular/core';
 import { SharedService } from '../../shared.service';
 import { BaseComponent } from '../base.component'
 import { CarouselItemComponent } from './carouselitem.component';
@@ -7,11 +7,7 @@ import { CarouselItemComponent } from './carouselitem.component';
     selector: 'mc-carousel',
     moduleId: module.id,
     styleUrls: ['carousel.component.css'],
-    templateUrl: 'carousel.component.html',
-    host: {
-        '(click)': 'onPress($event)',
-        '(window:resize)' : 'onResize($event)'
-    }
+    templateUrl: 'carousel.component.html'
 })
 
 export class CarouselComponent extends BaseComponent {
@@ -24,14 +20,7 @@ export class CarouselComponent extends BaseComponent {
 
     @ViewChild('children', {read: ViewContainerRef}) container: ViewContainerRef;
 
-    constructor(protected _el: ElementRef, protected _service: SharedService ) { 
-        super(_el, _service);
-    }
-
-    onPress(e: any) {
-
-    }
-
+    @HostListener('window:resize',['$event'])
     onResize(e: any) {
         if (!this._timer) {
             this._timer = setTimeout(() => {
@@ -44,6 +33,14 @@ export class CarouselComponent extends BaseComponent {
                 this._timer = null;
             },500);
         }
+    }
+    @HostListener('click',['$event'])
+    onPress(e: any) {
+        return false;
+    }
+
+    constructor(protected _el: ElementRef, protected _service: SharedService ) { 
+        super(_el, _service);
     }
 
     previous() {

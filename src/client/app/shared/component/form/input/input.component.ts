@@ -1,7 +1,7 @@
 //TODO: autofill is destroying UI design -_-; 
 //This component covers all of the form fields
 //The real input field comes from seperated components. This compoment is a container for that.
-import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, OnInit, HostBinding } from '@angular/core';
 import { SharedService } from '../../../shared.service'; 
 import { BaseComponent } from '../../base.component';
 import { TextComponent } from '../text/text.component';
@@ -25,17 +25,7 @@ const CONS: any = {
     selector: 'mc-input',
     moduleId: module.id,
     styleUrls: ['./input.component.css'],
-    templateUrl: './input.component.html',
-    host: {
-        '[class.focused]': '_focused',
-        '[class.icon__label]': 'iconLabel',
-        '[class.has-label]': 'label',
-        '[class.invalid]': '!_valid',
-        '[class.changed]': '_changed',
-        '[class.has-value]': '_value',
-        '[class.hidden]': 'hidden',
-        '[class.disabled]': 'disabled'
-    }
+    templateUrl: './input.component.html'
 })
 
 export class InputComponent extends BaseComponent implements OnInit {
@@ -94,6 +84,15 @@ export class InputComponent extends BaseComponent implements OnInit {
 
     @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
+    @HostBinding('class.focused') hb_focused = '_focused';
+    @HostBinding('class.icon__label') hb_icon__label = '_iconLabel';
+    @HostBinding('class.has-label') hb_hasLabel = 'label';
+    @HostBinding('class.invalid') hb_invalid = '!_valid';
+    @HostBinding('class.changed') hb_changed = '_changed';
+    @HostBinding('class.has-value') hb_hasValue = '_value';
+    @HostBinding('class.hidden') hb_hidden = 'hidden';
+    @HostBinding('class.disabled') hb_disabled = 'disabled';
+
     constructor( protected _el: ElementRef, protected _service: SharedService) {
         super(_el, _service);
     }
@@ -104,7 +103,7 @@ export class InputComponent extends BaseComponent implements OnInit {
 
     private _initData() {
         switch (this.type) {
-            case "boolean":
+            case 'boolean':
                 this.listData = new ListData(CONS.dataConfig.YN, this._service);
                 break;
         }
@@ -113,8 +112,8 @@ export class InputComponent extends BaseComponent implements OnInit {
     private _getCmpName() {
         let cmpName = 'text';
         switch (this.type) {
-            case "boolean":
-            case "toggle":
+            case 'boolean':
+            case 'toggle':
                 cmpName = 'toggle';
                 break;
         }
@@ -125,10 +124,10 @@ export class InputComponent extends BaseComponent implements OnInit {
         if (!this._fieldCmp) { 
             let cmp: any;
             switch (this._getCmpName()) {
-                case "text":
+                case 'text':
                     cmp = this.fieldTextCmp;
                     break;
-                case "toggle":
+                case 'toggle':
                     cmp = this.fieldToggleCmp;
                     break;
             }

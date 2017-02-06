@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, HostListener } from '@angular/core';
 import { SharedService } from '../shared/shared.service'; 
 import { AppBaseComponent } from '../appbase.component';
 import { LoginComponent } from '../login/login.component';
@@ -10,16 +10,25 @@ import { CategoryComponent } from '../category/category.component';
     moduleId: module.id,
     selector: 'mc-appheader',
     styleUrls: ['appheader.component.css'],
-    templateUrl: 'appheader.component.html',
-    host: {
-        '(click)':'onPress($event)'
-    }
+    templateUrl: 'appheader.component.html'
 })
 export class AppHeaderComponent extends AppBaseComponent {
 
     private _photoURL: string;
     private _userInfo: any;
     private _categoryDrawer: any;
+
+    @HostListener('click',['$event'])
+    onPress(e: any) {
+        let dom = this.util.dom();
+        if (dom.findParent(e.target,'.button__header__category')) {
+            this._categoryDrawer.toggle();
+        } else if (dom.findParent(e.target,'.button__header__person')) {
+            this.showLoginForm();
+        } else if (dom.findParent(e.target,'.button__header__gravatar')) {
+            this.showUserMenu();
+        }
+    }
 
     constructor(
         protected el: ViewContainerRef,
@@ -38,17 +47,6 @@ export class AppHeaderComponent extends AppBaseComponent {
                     this._photoURL = this._userInfo.photoURL;
                 }
             });
-    }
-
-    onPress(e: any) {
-        let dom = this.util.dom();
-        if (dom.findParent(e.target,'.button__header__category')) {
-            this._categoryDrawer.toggle();
-        } else if (dom.findParent(e.target,'.button__header__person')) {
-            this.showLoginForm();
-        } else if (dom.findParent(e.target,'.button__header__gravatar')) {
-            this.showUserMenu();
-        }
     }
 
     showLoginForm() {

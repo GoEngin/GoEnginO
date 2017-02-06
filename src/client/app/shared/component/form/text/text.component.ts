@@ -1,13 +1,10 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Renderer, Inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Renderer, Inject, HostListener } from '@angular/core';
 
 @Component({
     selector: 'mc-text',
     moduleId: module.id,
     styleUrls: ['./text.component.css'],
-    templateUrl: './text.component.html',
-    host: {
-        '(click)':'onPress($event)'
-    }
+    templateUrl: './text.component.html'
 })
 export class TextComponent {
 
@@ -22,7 +19,7 @@ export class TextComponent {
 
     private _type: string = 'text';
 
-    @Input() 
+    @Input()
     set type(value: string) {
         this._type = value;
     }
@@ -31,7 +28,10 @@ export class TextComponent {
         return this._type;
     }
 
-    onPress(e: any) {}
+    @HostListener('click',['$event'])
+    onPress(e: any) {
+        return false;
+    }
 
     onKeyUp(e: KeyboardEvent) {
         //recommend strong typing, weak -> e.event.target
@@ -39,7 +39,7 @@ export class TextComponent {
         if (value !== this.value) {
             e.stopPropagation();
             this.value = value;
-            this.valueChange.emit(this.value); 
+            this.valueChange.emit(this.value);
         }
     }
 

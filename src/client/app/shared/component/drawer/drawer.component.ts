@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, ViewContainerRef, HostBinding } from '@angular/core';
 import { SharedService } from '../../shared.service';
 import { BaseComponent } from '../base.component';
 
@@ -13,16 +13,7 @@ const Direction = {
     selector: 'mc-drawer',
     moduleId: module.id,
     styleUrls: ['drawer.component.css'],
-    templateUrl: 'drawer.component.html',
-    host: {
-        '[style.z-index]': '_zIndex',
-        '[class.shown]': '_shown',
-        '[class.opened]': '_opened',
-        '[class.is-bottom]': 'direction === "bottom"',
-        '[class.is-top]': 'direction === "top"',
-        '[class.is-left]': 'direction === "left"',
-        '[class.is-right]': 'direction === "right"'
-    }
+    templateUrl: 'drawer.component.html'
 })
 
 export class DrawerComponent extends BaseComponent {
@@ -68,7 +59,15 @@ export class DrawerComponent extends BaseComponent {
 
     @Output() hided: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+    @HostBinding('style.z-index') hb_zIndex = '_zIndex';
+    @HostBinding('class.shown') hb_shown = '_shown';
+    @HostBinding('class.opened') hb_opened = '_opened';
+    @HostBinding('class.is-bottom') hb_isBottom = 'direction === "bottom"';
+    @HostBinding('class.is-top') hb_isTop = 'direction === "top"';
+    @HostBinding('class.is-left') hb_isLeft = 'direction === "left"';
+    @HostBinding('class.is-right') hb_isRight = 'direction === "right"';
+
+    constructor(protected _el: ElementRef, protected _service: SharedService) {
         super(_el, _service);
     }
 
@@ -111,7 +110,7 @@ export class DrawerComponent extends BaseComponent {
         setTimeout(() => {
             this._shown = false;
             this.hided.emit({target:this});
-        }, 300)
+        }, 300);
     }
 
     opened() {

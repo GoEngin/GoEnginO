@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Inject, ViewChild, AfterViewInit, HostBinding } from '@angular/core';
 import { SharedService } from '../../shared.service'; 
 import { BaseComponent } from '../base.component';
 
@@ -6,10 +6,7 @@ import { BaseComponent } from '../base.component';
     selector: 'mc-card',
     moduleId: module.id,
     styleUrls: ['card.component.css'],
-    templateUrl: 'card.component.html',
-    host: {
-        '[class.collapsed]': '_collapsed'
-    }
+    templateUrl: 'card.component.html'
 })
 
 export class CardComponent extends BaseComponent implements AfterViewInit {
@@ -34,6 +31,8 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
     @Input() cls: string;
     @Input() headerCls: string = 'header__card';
 
+    @HostBinding('class.collapsed') hb_editing = '_collapsed';
+
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);
     }
@@ -45,7 +44,7 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
 
     initSize() {
         if (this.collapsed) {
-            this.bodyEl.nativeElement.style.height = "0px";
+            this.bodyEl.nativeElement.style.height = '0px';
         }
     }
 
@@ -57,7 +56,7 @@ export class CardComponent extends BaseComponent implements AfterViewInit {
         }
         //for animation, that is needed a delay.
         if (!el.style.height) {
-            el.style.height = !expanded ? this._bodyHeight + 'px' : '0px'
+            el.style.height = !expanded ? this._bodyHeight + 'px' : '0px';
         }
         setTimeout(() => el.style.height = expanded ? this._bodyHeight + 'px' : '0px',100);
     }

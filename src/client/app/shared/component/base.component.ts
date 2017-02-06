@@ -3,7 +3,7 @@
 //ElementRef and Renderer are injected from a child, so that they aren't needed, 
 //but the typescript lint doesn't konw that so I added them for the lint.
 import { Input, ElementRef } from '@angular/core';
-import { SharedService } from '../shared.service'; 
+import { SharedService } from '../shared.service';
 
 export class BaseComponent {
 
@@ -26,7 +26,7 @@ export class BaseComponent {
         return this._cls;
     }
 
-    constructor(protected _el: ElementRef, protected _service: SharedService) { 
+    constructor(protected _el: ElementRef, protected _service: SharedService) {
         this.el = this._el.nativeElement;
         this.util = this._service.getUtil();
         this.dom = this._service.getDom();

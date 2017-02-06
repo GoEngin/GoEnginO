@@ -1,4 +1,4 @@
-import { Component, Input, Output, Inject, ViewChild, ViewContainerRef, ElementRef } from '@angular/core';
+import { Component, Input, Output, Inject, ViewChild, ViewContainerRef, ElementRef, HostBinding } from '@angular/core';
 import { SharedService } from '../../shared.service'; 
 import { BaseComponent } from '../base.component';
 
@@ -6,11 +6,7 @@ import { BaseComponent } from '../base.component';
     moduleId: module.id,
     selector: 'mc-carouselitem',
     styleUrls: ['carouselitem.component.css'],
-    templateUrl: 'carouselitem.component.html',
-    host: {
-        '[attr.data-idx]': 'idx',
-        '[style.width]' : '_width'
-    }
+    templateUrl: 'carouselitem.component.html'
 })
 
 export class CarouselItemComponent extends BaseComponent {
@@ -18,7 +14,7 @@ export class CarouselItemComponent extends BaseComponent {
     private _width: string;
 
     @ViewChild('children', {read: ViewContainerRef}) container: ViewContainerRef;
-    
+
     @Input() idx: number = 0;
     @Input() 
     set width(value: number) {
@@ -36,6 +32,9 @@ export class CarouselItemComponent extends BaseComponent {
             this.width = config.width;
         }
     }
+
+    @HostBinding('attr.data-idx') hb_idx = 'idx';
+    @HostBinding('style.width') hb_width = '_width';
 
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);

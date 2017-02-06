@@ -1,4 +1,4 @@
-import { Component, Input, ViewContainerRef } from '@angular/core';
+import { Component, Input, ViewContainerRef, HostListener } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 
@@ -6,10 +6,7 @@ import { AppBaseComponent } from '../appbase.component';
     moduleId: module.id,
     selector: 'mc-articledetail',
     styleUrls: ['articledetail.component.css'],
-    templateUrl: 'articledetail.component.html',
-    host: {
-        '(click)':'onPress($event)'
-    }
+    templateUrl: 'articledetail.component.html'
 })
 export class ArticleDetailComponent extends AppBaseComponent {
 
@@ -22,13 +19,15 @@ export class ArticleDetailComponent extends AppBaseComponent {
         this._data = config.data;
     }
 
+    @HostListener('click',['$event'])
+    onPress(e: any) {
+        return false;
+    }
+
     constructor(
         protected el: ViewContainerRef,
         protected service: SharedService
     ) {
         super(el,service);
-    }
-
-    onPress(e: any) {
     }
 }

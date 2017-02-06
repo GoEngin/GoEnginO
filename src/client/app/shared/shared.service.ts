@@ -8,7 +8,7 @@ export class SharedService {
 
   @Output() sendmsg: EventEmitter<any> = new EventEmitter();
 
-  constructor(private _resolver: ComponentFactoryResolver) { 
+  constructor(private _resolver: ComponentFactoryResolver) {
     this._util = new Util();
   }
 
