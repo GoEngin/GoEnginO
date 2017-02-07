@@ -14,7 +14,6 @@ export class ArticleListComponent extends AppBaseComponent {
     private _listData: ListData;
     private _items: any;
 
-    //TODO: Can they be the constructor's parameters?
     @Input()
     set config(config: any) {
         if (config.items && config.indexes) {

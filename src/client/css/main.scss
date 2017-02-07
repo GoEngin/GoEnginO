@@ -117,6 +117,12 @@ mc-icon {
   &.icon-pin:before {
     content: "x";
   }
+  &.icon-comment:before {
+    content: "y";
+  }
+  &.icon-eyer:before {
+    content: "z";
+  }
   &.icon-google {
     background: url("../assets/images/google.png") center left no-repeat;
     background-size: 24px;

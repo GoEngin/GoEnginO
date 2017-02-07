@@ -1,5 +1,10 @@
 <mc-list>
-    <mc-listitem *ngFor="let item of _items" [attr.data-id]="item.id">
-        <span></span>
+    <mc-listitem class="article-listitem" *ngFor="let item of _items" [attr.data-id]="item.id">
+        <span class="article__user-id">{{item.userName}}</span>
+        <span class="article__title">{{item.title}}</span>
+        <span class="article__score"><mc-icon icon="thumbup0"></mc-icon>{{item.score}}</span>
+        <span class="article__answer-count"><mc-icon icon="comment"></mc-icon>{{item.answerCount}}</span>
+        <span class="article__view-count"><mc-icon icon="eye"></mc-icon>{{item.viewCount}}</span>
+        <span class="article__modified">{{item.updatedDate}}</span>
     </mc-listitem>
 </mc-list>
