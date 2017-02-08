@@ -1,0 +1,16 @@
+<div class="grid__fixed__container">
+    <div class="grid__column__header__container">
+        <div class="grid__column__header">
+            <table>
+                <tr *ngFor="let row of _fixedRows; let rowIdx=index" [attr.data-rowidx]="rowIdx">
+                    <td *ngFor="let cell of row; let cellIdx=index"><span class="grid__cell">{{cell.displayName}}</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="grid__body__container"></div>
+</div>
+<div class="grid__container">
+    <div class="grid__column__header__container"></div>
+    <div class="grid__body__container"></div>
+</div>
