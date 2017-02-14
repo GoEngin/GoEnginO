@@ -1,16 +1,40 @@
-<div class="grid__fixed__container">
-    <div class="grid__column__header__container">
+<div class="grid__fixed__container" *ngIf="_fixedColumnHeaders.length > 0">
+    <div class="grid__column__header__container" *ngIf="hasColumnHeader">
         <div class="grid__column__header">
             <table>
-                <tr *ngFor="let row of _fixedRows; let rowIdx=index" [attr.data-rowidx]="rowIdx">
-                    <td *ngFor="let cell of row; let cellIdx=index"><span class="grid__cell">{{cell.displayName}}</span></td>
+                <tr *ngFor="let row of _fixedColumnHeaders; let rowIdx=index" [attr.data-rowidx]="rowIdx" class="grid__row algrid__column__header__row">
+                    <td *ngFor="let cell of row; let cellIdx=index" [attr.colspan]="cell.colspan || 1" [attr.rowspan]="cell.rowspan || 1" class="grid__cell"><span class="grid__cell__content" [attr.data-cellidx]="cellIdx">{{cell.displayName}}</span></td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="grid__body__container"></div>
+    <div class="grid__body__container">
+        <div class="grid__body">
+            <table>
+                <tr *ngFor="let row of _fixedRows; let rowIdx=index" [attr.data-rowidx]="rowIdx" class="grid__row">
+                    <td *ngFor="let cell of row; let cellIdx=index" [attr.colspan]="cell.colspan || 1" [attr.rowspan]="cell.rowspan || 1" class="grid__cell" [class.row-header]="cell.isRowHeader"><span class="grid__cell__content" [attr.data-cellidx]="cellIdx">{{cell.displayName}}</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 <div class="grid__container">
-    <div class="grid__column__header__container"></div>
-    <div class="grid__body__container"></div>
+    <div class="grid__column__header__container" *ngIf="hasColumnHeader">
+        <div class="grid__column__header">
+            <table>
+                <tr *ngFor="let row of _columnHeaders; let rowIdx=index" [attr.data-rowidx]="rowIdx" class="grid__row grid__row grid__column__header__row">
+                    <td *ngFor="let cell of row; let cellIdx=index" [attr.colspan]="cell.colspan || 1" [attr.rowspan]="cell.rowspan || 1" class="grid__cell"><span class="grid__cell__content" [attr.data-cellidx]="cellIdx">{{cell.displayName}}</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="grid__body__container">
+        <div class="grid__body">
+            <table>
+                <tr *ngFor="let row of _rows; let rowIdx=index" [attr.data-rowidx]="rowIdx" class="grid__row">
+                    <td *ngFor="let cell of row; let cellIdx=index" [attr.colspan]="cell.colspan || 1" [attr.rowspan]="cell.rowspan || 1" class="grid__cell" [class.row-header]="cell.isRowHeader"><span class="grid__cell__content" [attr.data-cellidx]="cellIdx">{{cell.displayName}}</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>

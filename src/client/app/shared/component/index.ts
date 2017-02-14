@@ -11,4 +11,5 @@ export * from './drawer/drawer.component';
 export * from './carousel/carousel.component';
 export * from './carousel/carouselitem.component';
 export * from './card/card.component';
+export * from './grid/grid.component';
 export * from './model/listdata';

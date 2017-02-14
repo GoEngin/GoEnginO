@@ -11,7 +11,7 @@ import { ArticleService } from './article/article.service';
 import { CategoryService } from './category/category.service';
 
 // tslint:disable-next-line:max-line-length
-import { HeaderComponent, IconComponent, FormComponent, ButtonComponent, InputComponent, TextComponent, DrawerComponent, ToggleComponent, CardComponent, CarouselComponent, CarouselItemComponent, ListComponent, ListItemComponent } from './shared/component/index';
+import { HeaderComponent, IconComponent, FormComponent, ButtonComponent, InputComponent, TextComponent, DrawerComponent, ToggleComponent, CardComponent, CarouselComponent, CarouselItemComponent, ListComponent, ListItemComponent, GridComponent } from './shared/component/index';
 import { AppHeaderComponent } from './appheader/appheader.component';
 
 import { AppComponent } from './app.component';
@@ -50,7 +50,8 @@ import { UserMenuComponent } from './usermenu/usermenu.component';
     CategoryComponent,
     CategoryListComponent,
     ArticleListComponent,
-    ArticleDetailComponent
+    ArticleDetailComponent,
+    GridComponent
   ],
   //Component list that are loaded dynamically
   //https://angular.io/docs/ts/latest/cookbook/ngmodule-faq.html#!#q-entry-component-defined

@@ -1,0 +1,12 @@
+<mc-card cls="card__content" headerCls="header__card__content" #maincard>
+	<div class="card__header__tpl">
+		<mc-header class="header__example">
+			<span class="title__current">{{_title}}</span>
+		</mc-header>
+	</div>
+	<mc-list>
+		<mc-listitem *ngFor="let item of _items" [attr.data-id]="item.id">
+			{{item.title}}
+		</mc-listitem>
+	</mc-list>
+</mc-card>

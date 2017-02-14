@@ -8,7 +8,7 @@ import { CategoryListComponent } from './categorylist.component';
 
 const CONS = {
     MAX_CATEGORY_DEPTH: 2
-}
+};
 
 @Component({
     moduleId: module.id,
@@ -51,7 +51,7 @@ export class CategoryComponent extends AppBaseComponent {
 
     constructor(
         protected el: ViewContainerRef,
-        protected service: SharedService, 
+        protected service: SharedService,
         private _categoryService: CategoryService
     ) {
         super(el,service);
