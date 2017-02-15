@@ -1,8 +1,9 @@
 import { Component, ViewContainerRef, ViewChild, Input, HostListener } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
+import { CarouselComponent } from '../shared/component/index';
 import { ExampleService } from './example.service';
-import { ExampleGridComponent } from './examplegrid.component';
+import { ExampleListComponent } from './examplelist.component';
 
 const CONS = {
     MAX_CATEGORY_DEPTH: 2
@@ -17,15 +18,24 @@ const CONS = {
 
 export class ExampleComponent extends AppBaseComponent {
 
-    private _egCmp: any;
-    private _items: any[];
+    private _data: any[] = [];
+    private _title: string;
+    private _prevTitle: string;
+    private _defaultTitle: string = 'Examples';
+    private _headerLeftIcon: string = '';
+    private _parentCmp: any;
+    private _articleCmp: any;
+
+    @ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
 
     @HostListener('click',['$event'])
     onPress(e: any) {
         let dom = this.dom;
         let listItemEl = dom.findParent(e.target, 'mc-listitem');
         if (listItemEl) {
-            this.showExample(listItemEl);
+            this.nextList(listItemEl);
+        } else if (this.dom.findParent(e.target,'.header__example__left')) {
+            this.previousList();
         }
     }
 
@@ -35,30 +45,60 @@ export class ExampleComponent extends AppBaseComponent {
         private _exampleService: ExampleService
     ) {
         super(el,service);
-        this.initData();
+        this.addCarouselItem({items:this._exampleService.getExampleList()}, 0);
     }
 
-    initData() {
-        this.loadData();
-    }
-
-    loadData() {
-        this._items = this._exampleService.getExampleList();
-    }
-
-    showExample(el: any) {
+    nextList(el: any) {
         let id = el.dataset.id;
-        let cmpType: any;
-        let config: any;
-        switch(id) {
-            case 0:
-                cmpType = ExampleGridComponent;
-                config = {};
+        let cItem = this.dom.findParent(el, 'mc-carouselitem');
+        let idx = parseInt(cItem.dataset.idx);
+        let item = this.getItem(id, idx);
+        if (item.children) {
+            let data = this._data[idx];
+            data.selectedItem = item;
+            data.title = item.displayName;
+            this.updateHeader(idx);
+            this.addCarouselItem({items:item.children}, ++idx);
+        } else {
+            this.showExample(item.displayName);
+        }
+    }
+
+    previousList() {
+        this._data.pop();
+        let idx = this.carouselCmp.previous();
+        this.updateHeader(idx - 1);
+    }
+
+    updateHeader(idx: number) {
+        //children list header
+        this._title = idx >= 0 ? this._data[idx].title : this._defaultTitle;
+        this._prevTitle = idx > 0 ? this._data[idx-1].title : idx === 0 ? this._defaultTitle : '';
+        this._headerLeftIcon = idx >= 0 ? 'left' : '';
+    }
+
+    getItem(id: number, idx?: number) {
+        idx = idx >= 0 ? idx : this._data.length - 1;
+        let items = this._data[idx].items;
+        let item: any;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].id === id) {
+                item = items[i];
                 break;
+            }
         }
-        if (this._egCmp) {
-            this._egCmp.destroy();
-        }
-        this._egCmp = this.service.addComponent(cmpType, config, this.el);
+        return item;
+    }
+
+    addCarouselItem(data: any, idx: number) {
+        let config = data;
+        let listCmp = this.carouselCmp.addNew(ExampleListComponent, config, idx).instance;
+        this._data[idx] = data;
+        data = null;
+    }
+
+    showExample(displayName: string) {
+        //load example
+        return false;
     }
 }

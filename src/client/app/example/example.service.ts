@@ -2,6 +2,27 @@ import { EventEmitter, Input, Output, Injectable } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { BaseService } from '../base.service';
 
+const CT: any = {
+    DATA: {
+        examples: [
+            {
+                id: 0,
+                displayName: 'Grid Examples',
+                children: [
+                    {
+                        id: 0,
+                        displayName: 'Nested Column Header'
+                    },
+                    {
+                        id: 10,
+                        displayName: 'Nested Row Header'
+                    }
+                ]
+            }
+        ]
+    }
+};
+
 @Injectable()
 export class ExampleService extends BaseService {
 
@@ -10,13 +31,7 @@ export class ExampleService extends BaseService {
     }
 
     getExampleList() {
-        let list: any[];
-        return list = [
-            {
-                id: 0,
-                title: 'Grid Example'
-            }
-        ];
+        return CT.DATA.examples;
     }
 
     getGridData() {

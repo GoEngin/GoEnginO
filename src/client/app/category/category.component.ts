@@ -19,7 +19,14 @@ const CONS = {
 
 export class CategoryComponent extends AppBaseComponent {
 
-    @ViewChild('maincard') cardCmp: CardComponent;
+    private _data: any[] = [];
+    private _title: string;
+    private _prevTitle: string;
+    private _defaultTitle: string = 'Category';
+    private _headerLeftIcon: string = '';
+    private _parentCmp: any;
+    private _articleCmp: any;
+
     @ViewChild(CarouselComponent) carouselCmp: CarouselComponent;
 
     @Input()
@@ -29,14 +36,6 @@ export class CategoryComponent extends AppBaseComponent {
             this.updateToolTitle();
         }
     }
-
-    private _data: any[] = [];
-    private _title: string;
-    private _prevTitle: string;
-    private _defaultTitle: string = 'Category';
-    private _headerLeftIcon: string = '';
-    private _parentCmp: any;
-    private _articleCmp: any;
 
     @HostListener('click',['$event'])
     onPress(e: any) {
