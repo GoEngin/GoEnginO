@@ -1,14 +1,12 @@
-import { Component, ViewContainerRef, ViewChild, Input, HostListener } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Input, HostListener, OnInit } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { CarouselComponent } from '../shared/component/index';
 import { ExampleService } from './example.service';
 import { ExampleListComponent } from './examplelist.component';
+import { ExampleViewerComponent } from './exampleviewer.component';
 
-const CONS = {
-    MAX_CATEGORY_DEPTH: 2
-}
-
+//TODO: Need Example Module. This should not be in the application module.
 @Component({
     moduleId: module.id,
     selector: 'mc-example',
@@ -16,7 +14,7 @@ const CONS = {
     templateUrl: 'example.component.html'
 })
 
-export class ExampleComponent extends AppBaseComponent {
+export class ExampleComponent extends AppBaseComponent implements OnInit {
 
     private _data: any[] = [];
     private _title: string;
@@ -45,6 +43,9 @@ export class ExampleComponent extends AppBaseComponent {
         private _exampleService: ExampleService
     ) {
         super(el,service);
+    }
+
+    ngOnInit() {
         this.addCarouselItem({items:this._exampleService.getExampleList()}, 0);
     }
 
@@ -98,7 +99,6 @@ export class ExampleComponent extends AppBaseComponent {
     }
 
     showExample(displayName: string) {
-        //load example
-        return false;
+        this.service.addComponent(ExampleViewerComponent, {exampleName: displayName}, this.el);
     }
 }

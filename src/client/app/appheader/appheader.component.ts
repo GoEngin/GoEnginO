@@ -4,7 +4,8 @@ import { AppBaseComponent } from '../appbase.component';
 import { LoginComponent } from '../login/login.component';
 import { UserMenuComponent } from '../usermenu/usermenu.component';
 import { DrawerComponent } from '../shared/component/index';
-import { CategoryComponent } from '../category/category.component'; 
+import { CategoryComponent } from '../category/category.component';
+import { ExampleComponent } from '../example/example.component';
 
 @Component({
     moduleId: module.id,
@@ -17,6 +18,7 @@ export class AppHeaderComponent extends AppBaseComponent {
     private _photoURL: string;
     private _userInfo: any;
     private _categoryDrawer: any;
+    private _exampleDrawer: any;
 
     @HostListener('click',['$event'])
     onPress(e: any) {
@@ -78,6 +80,11 @@ export class AppHeaderComponent extends AppBaseComponent {
         cmp.instance.hided.subscribe((e: any) => {
           cmp.destroy();
         });
+        cmp.instance.selectmenu.subscribe((e: any) => {
+            if (e.menu === 'example') {
+                this.showExample();
+            }
+        });
     }
 
     showCategory() {
@@ -93,6 +100,25 @@ export class AppHeaderComponent extends AppBaseComponent {
             this._categoryDrawer = this.service.showDrawer(DrawerComponent, this.el, config).instance;
         } else {
             this._categoryDrawer.show();
+        }
+    }
+
+    showExample() {
+        //TODO: Need Example Module
+        if (this._categoryDrawer) {
+            this._categoryDrawer.hide();
+        }
+        if (!this._exampleDrawer) {
+            let config = {
+                cls: 'drawer__example',
+                direction: 'left',
+                contentInfo: {
+                    cmpType: ExampleComponent
+                }
+            };
+            this._exampleDrawer = this.service.showDrawer(DrawerComponent, this.el, config).instance;
+        } else {
+            this._exampleDrawer.show();
         }
     }
 }

@@ -1,10 +1,12 @@
-import { Injectable, ViewContainerRef, ComponentFactoryResolver, Output, EventEmitter } from '@angular/core';
+import { Injectable, ViewContainerRef, ComponentFactoryResolver, Input, Output, EventEmitter } from '@angular/core';
 import { Util } from './util/util';
 
 @Injectable()
 export class SharedService {
 
-  _util: Util;
+  private _util: Util;
+
+  @Input() appEl: ViewContainerRef;
 
   @Output() sendmsg: EventEmitter<any> = new EventEmitter();
 

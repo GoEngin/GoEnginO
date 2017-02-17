@@ -1,4 +1,3 @@
-//Base Component - Deprecated
 //example Component Inheritance: http://wijmo.com/blog/using-class-inheritance-to-create-a-custom-component-in-angular-2/
 //ElementRef and Renderer are injected from a child, so that they aren't needed, 
 //but the typescript lint doesn't konw that so I added them for the lint.

@@ -1,0 +1,73 @@
+** Template **
+eg) use # for id
+    <input #newHero
+      (keyup.enter)="addHero(newHero.value)"
+      (blur)="addHero(newHero.value); newHero.value='' ">
+    <button (click)="addHero(newHero.value)">Add</button>
+    <ul><li *ngFor="let hero of heroes">{{hero}}</li></ul>
+
+** Form ** ====> We Need custom form and field components. Because we need more validation rules. Angular Form supports only native validation rules for the form validity status.
+eg) [(ngModel)]
+----
+<input type="text" class="form-control" id="name"
+       required
+       [(ngModel)]="model.name" name="name">
+TODO: remove this: {{model.name}}
+----
+eg) special Angular CSS classes
+ng-touched vs ng-untouched / ng-dirty vs ng-pristine / ng-valid vs ng-invalid
+---
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+---
+<input type="text" class="form-control" id="name"
+  required
+  [(ngModel)]="model.name" name="name"
+  #spy>
+<br>TODO: remove this: {{spy.className}}
+---
+<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+<button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+---
+FormsModule is required to use ngModel
+
+** Template **
+*ngFor with trackBy 
+eg) 
+When the id is changed, the DOM will be re-rendered.
+---
+trackByHeroes(index: number, hero: Hero): number { return hero.id; }
+<div *ngFor="let hero of heroes; trackBy: trackByHeroes">
+  ({{hero.id}}) {{hero.name}}
+</div>
+---
+eg: NgSwitch)
+---
+<div [ngSwitch]="currentHero.emotion">
+  <happy-hero    *ngSwitchCase="'happy'"    [hero]="currentHero"></happy-hero>
+  <sad-hero      *ngSwitchCase="'sad'"      [hero]="currentHero"></sad-hero>
+  <confused-hero *ngSwitchCase="'confused'" [hero]="currentHero"></confused-hero>
+  <unknown-hero  *ngSwitchDefault           [hero]="currentHero"></unknown-hero>
+</div>
+---
+eg: pipe)
+---
+<!-- pipe with configuration argument => "February 25, 1970" -->
+<div>Birthdate: {{currentHero?.birthdate | date:'longDate'}}</div>
+<div>{{currentHero | json}}</div> //for debugging
+---
+eg: The safe navigation operator ( ?. ) and null property paths)
+---
+The current hero's name is {{currentHero?.name}}
+---
+
+** Style Guide **
+spelling const variables in lower camel case.
+---
+export const mockHeroes   = ['Sam', 'Jill']; // prefer
+export const heroesUrl    = 'api/heroes';    // prefer
+---

@@ -24,6 +24,7 @@ export class AppComponent {
             messagingSenderId: '487579082978'
         }
         firebase.initializeApp(firebaseConfig);
+        _service.appEl = this._el;
         _service.sendmsg.subscribe((e: any) => this.onSendMsg(e));
     }
 
