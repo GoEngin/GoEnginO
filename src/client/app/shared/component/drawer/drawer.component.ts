@@ -18,12 +18,17 @@ const Direction = {
 
 export class DrawerComponent extends BaseComponent {
 
-    private _zIndex: number = 99;
-    private _shown: boolean = false;
-    private _opened: boolean = false;
     private _contentCmp: any;
 
     @ViewChild('children', {read: ViewContainerRef}) container: ViewContainerRef;
+
+    @HostBinding('style.z-index') private _zIndex: number = 99;
+    @HostBinding('class.shown') private _shown: boolean = false;
+    @HostBinding('class.opened') private _opened: boolean = false;
+    @HostBinding('class.is-bottom') get is_bottom() { return this.direction === 'bottom'; }
+    @HostBinding('class.is-top') get is_top() { return this.direction === 'top'; }
+    @HostBinding('class.is-left') get is_left() { return this.direction === 'left'; }
+    @HostBinding('class.is-right') get is_right() { return this.direction === 'right'; }
 
     @Input() direction: string = Direction.Bottom;
     @Input() cls: string;
@@ -58,14 +63,6 @@ export class DrawerComponent extends BaseComponent {
     }
 
     @Output() hided: EventEmitter<any> = new EventEmitter();
-
-    @HostBinding('style.z-index') hb_zIndex = '_zIndex';
-    @HostBinding('class.shown') hb_shown = '_shown';
-    @HostBinding('class.opened') hb_opened = '_opened';
-    @HostBinding('class.is-bottom') hb_isBottom = 'direction === "bottom"';
-    @HostBinding('class.is-top') hb_isTop = 'direction === "top"';
-    @HostBinding('class.is-left') hb_isLeft = 'direction === "left"';
-    @HostBinding('class.is-right') hb_isRight = 'direction === "right"';
 
     constructor(protected _el: ElementRef, protected _service: SharedService) {
         super(_el, _service);
@@ -102,7 +99,7 @@ export class DrawerComponent extends BaseComponent {
 
         setTimeout(() => {
             this._opened = true;
-        }, 100)
+        }, 100);
     }
 
     hide() {

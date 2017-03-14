@@ -11,8 +11,6 @@ import { BaseComponent } from '../base.component';
 
 export class HeaderComponent extends BaseComponent {
 
-    @HostBinding('class.has-close') hb_hasClose = 'hasClose';
-
     constructor(protected _el: ElementRef, protected _service: SharedService) {
         super(_el, _service);
     }

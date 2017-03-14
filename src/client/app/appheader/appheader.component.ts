@@ -1,5 +1,5 @@
 import { Component, ViewContainerRef, HostListener } from '@angular/core';
-import { SharedService } from '../shared/shared.service'; 
+import { SharedService } from '../shared/shared.service';
 import { AppBaseComponent } from '../appbase.component';
 import { LoginComponent } from '../login/login.component';
 import { UserMenuComponent } from '../usermenu/usermenu.component';
@@ -80,11 +80,11 @@ export class AppHeaderComponent extends AppBaseComponent {
         cmp.instance.hided.subscribe((e: any) => {
           cmp.destroy();
         });
-        cmp.instance.selectmenu.subscribe((e: any) => {
-            if (e.menu === 'example') {
-                this.showExample();
-            }
-        });
+        // cmp.instance.selectmenu.subscribe((e: any) => {
+        //     if (e.menu === 'example') {
+        //         this.showExample();
+        //     }
+        // });
     }
 
     showCategory() {

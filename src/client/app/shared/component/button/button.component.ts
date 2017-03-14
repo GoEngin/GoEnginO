@@ -10,13 +10,9 @@ import { IconComponent } from '../icon/icon.component';
 
 export class ButtonComponent {
     @Input() icon: string;
-    @Input() src: string;
-    @Input() label: string;
-    @Input() disabled: boolean;
-    @Input() hidden: boolean;
 
-    @HostBinding('class.disabled') hb_disabled = 'disabled';
-    @HostBinding('class.hidden') hb_hidden = 'hidden';
-    @HostBinding('class.hasLabel') hb_hasLabel = 'label';
-    @HostBinding('class.hasImage') hb_hasImage = 'src';
+    @HostBinding('class.disabled') @Input() disabled: boolean;
+    @HostBinding('class.hidden') @Input() hidden: boolean;
+    @HostBinding('class.hasLabel') @Input() label: string;
+    @HostBinding('class.hasImage') @Input() src: string;
 }

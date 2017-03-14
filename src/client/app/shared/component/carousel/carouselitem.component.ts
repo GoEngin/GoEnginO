@@ -11,12 +11,12 @@ import { BaseComponent } from '../base.component';
 
 export class CarouselItemComponent extends BaseComponent {
 
-    private _width: string;
-
     @ViewChild('children', {read: ViewContainerRef}) container: ViewContainerRef;
 
-    @Input() idx: number = 0;
-    @Input() 
+    @HostBinding('attr.data-idx') @Input() idx: number = 0;
+    @HostBinding('style.width') private _width: string;
+
+    @Input()
     set width(value: number) {
         this._width = value + 'px';
     }
@@ -32,9 +32,6 @@ export class CarouselItemComponent extends BaseComponent {
             this.width = config.width;
         }
     }
-
-    @HostBinding('attr.data-idx') hb_idx = 'idx';
-    @HostBinding('style.width') hb_width = '_width';
 
     constructor(protected _el: ElementRef, protected _service: SharedService) { 
         super(_el, _service);

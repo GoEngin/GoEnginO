@@ -1,10 +1,12 @@
 <div class="drawer__mask" (click)="onPressMask($event)"></div>
 <div class="drawer__container">
-	<div class="drawer__content">
-		<div *ngIf="hasTool" class="drawer__tool"><div class="drawer__tool__title"><span class="drawer__tool__title__text" (click)="toggle()">{{toolTitle}}</span></div></div>
-		<mc-button *ngIf="hasClose" icon="close" class="button__drawer__close" (click)="onClose($event)"></mc-button>
-		<span *ngIf="message" class="drawer__message">{{message}}</span>
-		<template #children></template>
-		<ng-content></ng-content>
-	</div>
+    <div class="drawer__content">
+        <div *ngIf="hasTool" class="drawer__tool">
+            <div class="drawer__tool__title"><span class="drawer__tool__title__text" (click)="toggle()">{{toolTitle}}</span></div>
+        </div>
+        <mc-button *ngIf="hasClose" icon="close" class="button__drawer__close" (click)="onClose($event)"></mc-button>
+        <span *ngIf="message" class="drawer__message">{{message}}</span>
+        <ng-template #children></ng-template>
+        <ng-content></ng-content>
+    </div>
 </div>

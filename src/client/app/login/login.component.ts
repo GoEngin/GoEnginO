@@ -62,11 +62,7 @@ export class LoginComponent extends AppBaseComponent {
     mode: string = CONS.mode.login; // login, signup
     validator: any;
 
-    @ViewChild('frmLogin') frm: FormComponent;
-
-    @Output() hide: EventEmitter<any> = new EventEmitter();
-
-    @HostBinding('class.mode__signup') hb_mode = 'mode === "signup"';
+    @HostBinding('class.mode__signup') get mode__signup() { return this.mode === 'signup'; }
 
     @HostListener('click',['$event'])
     onPress(e: any) {
@@ -89,6 +85,10 @@ export class LoginComponent extends AppBaseComponent {
             this.onPressPasswordReset();
         }
     }
+
+    @ViewChild('frmLogin') frm: FormComponent;
+
+    @Output() hide: EventEmitter<any> = new EventEmitter();
 
     constructor(
         protected el: ViewContainerRef,

@@ -1,42 +1,41 @@
-@import "../../../../css/vars";
-
+@import "../../css/vars";
 :host {
-	display: block;
-	position: relative;
-	.category-list__additem {
-		position: relative;
-	    height: 40px;
-	    padding: 7px;
-	    padding-right: 66px;
-	    background: $color__100;
-	    margin-bottom: 7px;
-	    .category-list__additem__container {
-	    	.category-list__additem__label {
-	    		.category-list__additem__label__input {
-	    			line-height: 20px;
-    				width: 100%;
-	    		}
-	    	}
-	    }
-	    .category-list__additem__tool {
-		    position: absolute;
-		    top: 0;
-		    right: 0;
-		    padding: 6px;
-		    padding-right: 7px;
-	    }
-	}
-	.category-list__saveitem {
-		padding: 7px 100px;
-	}
-	&.editing {
-		.button__tool {
-			@include readonly;
-		}
-	}
-	&.readonly {
-		.button__tool__save {
-			@include readonly;
-		}
-	}
+    display: block;
+    position: relative;
+    .category-list__additem {
+        position: relative;
+        height: 40px;
+        padding: 7px;
+        padding-right: 66px;
+        background: $color__100;
+        margin-bottom: 7px;
+        .category-list__additem__container {
+            .category-list__additem__label {
+                .category-list__additem__label__input {
+                    line-height: 20px;
+                    width: 100%;
+                }
+            }
+        }
+        .category-list__additem__tool {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 6px;
+            padding-right: 7px;
+        }
+    }
+    .category-list__saveitem {
+        padding: 7px 100px;
+    }
+    &.editing {
+        .button__tool {
+            @include readonly;
+        }
+    }
+    &.readonly {
+        .button__tool__save {
+            @include readonly;
+        }
+    }
 }

@@ -34,26 +34,29 @@ export class InputComponent extends BaseComponent implements OnInit {
     @ViewChild(ToggleComponent) fieldToggleCmp: ToggleComponent;
 
     //form field base
-    private _focused: boolean = false;
-    private _value: any;
     private _valid: boolean = true;
-    private _changed: boolean = false;
     private _fieldCmp: any;
     private _rendered: boolean = false;
     private _isToggle: boolean = false;
+
+    @HostBinding('class.focused') private _focused: boolean = false;
+    @HostBinding('class.icon__label') private _iconLabel: string;
+    @HostBinding('class.has-label') @Input() label: string = '';
+    @HostBinding('class.invalid') private get invalid() { return !this._valid; }
+    @HostBinding('class.changed') private _changed: boolean = false;
+    @HostBinding('class.has-value') private _value: any;
+    @HostBinding('class.hidden') @Input() hidden: boolean = false;
+    @HostBinding('class.disabled') @Input() disabled: boolean = false; //readonly
 
     @Input() frm: any;
     @Input() type: string = 'text';
     @Input() name: string;
     @Input() validators: any;
-    @Input() label: string;
     @Input() iconLabel: string;
     @Input() placeholder: string;
     @Input() errorMessage: string;
     @Input() help: boolean = false;
     @Input() iconHelp: string = 'question';
-    @Input() hidden: boolean = false;
-    @Input() disabled: boolean = false; //readonly
     @Input() listData: ListData;
 
     @Input() 
@@ -83,15 +86,6 @@ export class InputComponent extends BaseComponent implements OnInit {
     }
 
     @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
-
-    @HostBinding('class.focused') hb_focused = '_focused';
-    @HostBinding('class.icon__label') hb_icon__label = '_iconLabel';
-    @HostBinding('class.has-label') hb_hasLabel = 'label';
-    @HostBinding('class.invalid') hb_invalid = '!_valid';
-    @HostBinding('class.changed') hb_changed = '_changed';
-    @HostBinding('class.has-value') hb_hasValue = '_value';
-    @HostBinding('class.hidden') hb_hidden = 'hidden';
-    @HostBinding('class.disabled') hb_disabled = 'disabled';
 
     constructor( protected _el: ElementRef, protected _service: SharedService) {
         super(_el, _service);

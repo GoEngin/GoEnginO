@@ -22,9 +22,22 @@ export class CategoryListComponent extends AppBaseComponent {
 
     private _listData: ListData;
     private _items: any;
-    private _isEditing: boolean = false;
-    private _hasDirty: boolean = false;
     private _inputEl: any;
+
+    @HostBinding('class.editing') private _isEditing: boolean = false;
+    @HostBinding('class.readonly') private _hasDirty: boolean = false;
+
+    @HostListener('click',['$event'])
+    onPress(e: any) {
+        if (e.target.tagName.toLowerCase() === 'mc-icon' && e.target.dataset) {
+            this.updateState(e.target, e.target.getAttribute('icon'));
+            e.stopPropagation();
+        } else if (this.dom.findParent(e.target,'.button__tool__add')) {
+            this.onAddItem(e.target);
+        } else if (this.dom.findParent(e.target,'.button__tool__save')) {
+            this.onSaveAll();
+        }
+    }
 
     //TODO: Can they be the constructor's parameters?
     @Input()
@@ -41,21 +54,6 @@ export class CategoryListComponent extends AppBaseComponent {
     @Input() parentId: string;
 
     @Output() clicksaveall: EventEmitter<any> = new EventEmitter();
-
-    @HostBinding('class.editing') hb_editing = '_isEditing';
-    @HostBinding('class.readonly') hb_readonly = '_hasDirty';
-
-    @HostListener('click',['$event'])
-    onPress(e: any) {
-        if (e.target.tagName.toLowerCase() === 'mc-icon' && e.target.dataset) {
-            this.updateState(e.target, e.target.getAttribute('icon'));
-            e.stopPropagation();
-        } else if (this.dom.findParent(e.target,'.button__tool__add')) {
-            this.onAddItem(e.target);
-        } else if (this.dom.findParent(e.target,'.button__tool__save')) {
-            this.onSaveAll();
-        }
-    }
 
     constructor(
         protected el: ViewContainerRef,

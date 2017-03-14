@@ -76,9 +76,10 @@ export class CategoryComponent extends AppBaseComponent {
             if (this._articleCmp) {
                 this._articleCmp.hidden = true;
             }
-        } else {
-            this.showArticleList(item);
         }
+        // else {
+        //     this.showArticleList(item);
+        // }
     }
 
     previousList() {

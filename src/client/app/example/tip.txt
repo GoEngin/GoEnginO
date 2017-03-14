@@ -66,8 +66,40 @@ The current hero's name is {{currentHero?.name}}
 ---
 
 ** Style Guide **
+
 spelling const variables in lower camel case.
 ---
 export const mockHeroes   = ['Sam', 'Jill']; // prefer
 export const heroesUrl    = 'api/heroes';    // prefer
 ---
+
+Avoid prefixing private properties and methods with an underscore.
+--not good--
+private _toastCount: number; //X
+private _log() { //X
+    console.log(this.message);
+  }
+---
+
+Symbols and file names
+---
+hero-detail.component.ts
+user-profile.service.ts
+---
+
+Unit test file names, End-to-End
+---
+hero-list.component.spec.ts
+app.e2e-spec.ts
+---
+
+Import line spacing
+---
+import { Injectable } from '@angular/core';
+import { Http }       from '@angular/http';
+/*** space here ***/
+import { Hero } from './hero.model';
+import { ExceptionService, SpinnerService, ToastService } from '../../core';
+---
+
+Use directives to enhance an element: you have presentation logic without a template.

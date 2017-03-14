@@ -12,7 +12,8 @@ import { BaseComponent } from '../../base.component';
 export class ToggleComponent extends BaseComponent implements OnInit {
 
     private _indexes: any = {};
-    private _focused: boolean = false;
+
+    @HostBinding('class.focused') private _focused: boolean = false;
 
     @Input() name: string;
     @Input() type: string;
@@ -27,8 +28,6 @@ export class ToggleComponent extends BaseComponent implements OnInit {
     }
 
     @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
-
-    @HostBinding('class.focused') hb_focused = '_focused';
 
     @HostListener('click',['$event'])
     onPress(e: any) {
